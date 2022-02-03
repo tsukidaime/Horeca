@@ -43,7 +43,7 @@ public class HorecaDomainSharedModule : AbpModule
         Configure<AbpLocalizationOptions>(options =>
         {
             options.Resources
-                .Add<HorecaResource>("en")
+                .Add<HorecaResource>("ru")
                 .AddBaseTypes(typeof(AbpValidationResource))
                 .AddVirtualJson("/Localization/Horeca");
 

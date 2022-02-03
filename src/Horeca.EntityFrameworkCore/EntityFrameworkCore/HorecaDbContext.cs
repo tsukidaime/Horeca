@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Horeca.Models;
+using Microsoft.EntityFrameworkCore;
 using Volo.Abp.AuditLogging.EntityFrameworkCore;
 using Volo.Abp.BackgroundJobs.EntityFrameworkCore;
 using Volo.Abp.Data;
@@ -24,7 +25,10 @@ public class HorecaDbContext :
     ITenantManagementDbContext
 {
     /* Add DbSet properties for your Aggregate Roots / Entities here. */
-
+    public DbSet<Product> Products { get; set; }
+    public DbSet<ProductBid> Bids { get; set; }
+    public DbSet<Category> Categories { get; set; }
+    public DbSet<Address> Addresses { get; set; }
     #region Entities from the modules
 
     /* Notice: We only implemented IIdentityDbContext and ITenantManagementDbContext
@@ -73,13 +77,30 @@ public class HorecaDbContext :
         builder.ConfigureFeatureManagement();
         builder.ConfigureTenantManagement();
 
-        /* Configure your own tables/entities inside here */
+        builder.Entity<ProductBid>()
+            .HasOne<IdentityUser>()
+            .WithMany()
+            .HasForeignKey(x => x.UserId);
 
-        //builder.Entity<YourEntity>(b =>
-        //{
-        //    b.ToTable(HorecaConsts.DbTablePrefix + "YourEntities", HorecaConsts.DbSchema);
-        //    b.ConfigureByConvention(); //auto configure for the base class props
-        //    //...
-        //});
+        builder.Entity<Address>()
+            .HasOne<IdentityUser>()
+            .WithMany()
+            .HasForeignKey(x => x.UserId);
+
+        builder.Entity<Category>()
+            .HasOne<Category>(x=>x.Parent)
+            .WithMany(x=>x.SubCategories)
+            .HasForeignKey(x => x.ParentId);
+
+        builder.Entity<Product>()
+            .HasOne<Category>()
+            .WithMany()
+            .HasForeignKey(x => x.CategoryId);
+
+        builder.Entity<Product>()
+            .HasMany<ProductBid>(x=>x.ProductBids)
+            .WithOne(x=>x.Product)
+            .HasForeignKey(x=>x.ProductId);
+
     }
 }

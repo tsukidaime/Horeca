@@ -3,6 +3,21 @@
   "texts": {
     "Menu:Home": "Главная",
     "Welcome": "Добро пожаловать",
-    "LongWelcomeMessage": "Добро пожаловать в приложение. Этот запущенный проект основан на фреймворке ABP. Для получения дополнительной информации посетите сайт abp.io."
-  }
+    "LongWelcomeMessage": "Добро пожаловать в приложение. Этот запущенный проект основан на фреймворке ABP. Для получения дополнительной информации посетите сайт abp.io.",
+    "Permission:Product": "Продукт",
+    "Permission:ProductBid": "Предложение",
+    "Permission:Category": "Категория",
+    "Permission:ProductCreate": "Создание нового продукта",
+    "Permission:ProductEdit": "Изменение продукта",
+    "Permission:ProductDelete": "Удаление продукта",
+    "Permission:ProductRead": "Чтение информации продукта",
+    "Permission:ProductBidCreate": "Создание нового предложения по продукту",
+    "Permission:ProductBidEdit": "Изменение предложения по продукту",
+    "Permission:ProductBidDelete": "Удаление предложения по продукту",
+    "Permission:ProductBidRead": "Чтение предложение по продукту",
+    "Permission:CategoryCreate": "Создание новой категории",
+    "Permission:CategoryEdit": "Изменение категории",
+    "Permission:CategoryDelete": "Удаление категории",
+    "Permission:CategoryRead": "Чтение категории"
+  },
 }
