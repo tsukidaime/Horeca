@@ -1,4 +1,4 @@
-/* Global styles for the Horeca application */
+﻿/* Global styles for the Horeca application */
 .spinner {
     width: 40px;
     height: 40px;
@@ -46,4 +46,235 @@
         transform: scale(1.0);
         -webkit-transform: scale(1.0);
     }
+}
+
+@font-face {
+    font-family: "Century Gothic";
+    src: url("./fonts/GOTHIC");
+}
+
+@font-face {
+    font-family: "Century Gothic";
+    src: url("./fonts/GOTHICB0");
+}
+/* Обнуление */
+*,
+*::after,
+*::before {
+    padding: 0;
+    margin: 0;
+    border: 0;
+    box-sizing: border-box;
+}
+
+a {
+    text-decoration: none;
+    color: #000;
+}
+
+ul,
+ol,
+li {
+    list-style: none;
+}
+
+img {
+    vertical-align: top;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    font-size: inherit;
+    font-weight: inherit;
+}
+
+html,
+body {
+    height: 100%;
+    line-height: 1;
+}
+
+body {
+    font-family: "Century Gothic";
+    font-size: 14px;
+}
+
+.wrapper {
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    min-height: 100%;
+}
+
+[class*="__container"] {
+    max-width: 1240px;
+    margin: 0 auto;
+}
+
+.header {
+    position: absolute;
+    width: 100%;
+    top: 0;
+    left: 0;
+    z-index: 50;
+    /* background-color: #ff8a00; */
+}
+
+.header__container {
+    display: flex;
+    min-height: 90px;
+    align-items: center;
+}
+
+.header__menu {
+    flex: 1 1 auto;
+}
+
+.header__button {
+    padding-right: 58px;
+}
+
+.header__icons {
+    display: flex;
+    gap: 28px;
+}
+
+.menu {
+    display: flex;
+    justify-content: flex-start;
+    padding-left: 90px;
+}
+
+.menu__list {
+    display: flex;
+    gap: 21px;
+}
+
+.menu__link {
+    font-family: "Century Gothic";
+    text-transform: uppercase;
+    font-weight: 700;
+    line-height: 1.2;
+    color: white;
+}
+
+.menu__active {
+    border-bottom: 2px solid #ffffff;
+    padding-bottom: 2px;
+}
+
+.button {
+    display: inline-block;
+    font-family: "Century Gothic";
+    text-transform: uppercase;
+    font-weight: 700;
+    line-height: 1.2;
+    color: #ff8a00;
+    padding: 8px 17px;
+    border-radius: 50px;
+    background-color: #fdfefe;
+    transform: all 0.3s ease;
+}
+
+    .button:hover {
+        background-color: #fde8d8;
+    }
+
+.button_empty {
+    background: none;
+    border: 2px solid #ffffff;
+    color: #ffffff;
+}
+
+    .button_empty:hover {
+        background-color: #fcaa63;
+    }
+
+main {
+    flex: 1 1 auto;
+}
+
+#welcome {
+    background: linear-gradient( 277.75deg, #ff8a00 52.46%, #f0ac55 91.84%, #f5edd7 99.59% );
+}
+
+.welcome__container {
+    padding: 166px 0;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 90px;
+}
+
+.details__text {
+    color: white;
+}
+
+    .details__text h1 {
+        font-size: 4.5rem;
+        line-height: 1.4;
+        font-weight: 700;
+    }
+
+    .details__text p {
+        font-size: 18px;
+        line-height: 22px;
+        margin-top: 35px;
+        margin-bottom: 45px;
+    }
+
+.details__buttons {
+    display: flex;
+    gap: 14px;
+}
+
+.welcome__img {
+    padding-right: 130px;
+}
+
+.footer {
+    background-color: #ff8a00;
+}
+
+.footer__container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 60px 0;
+    gap: 43px;
+    min-height: 315px;
+}
+
+.footer__contacts {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 22px;
+}
+
+.contacts__social {
+    gap: 16px;
+}
+
+.social__item {
+    margin-right: 16px;
+}
+
+    .social__item:last-child {
+        margin-right: 0;
+    }
+
+.contacts__text {
+    color: white;
+    font-size: 16px;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 22px;
 }

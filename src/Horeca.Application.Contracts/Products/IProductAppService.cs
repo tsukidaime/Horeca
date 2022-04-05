@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading.Tasks;
 using Volo.Abp.Application.Dtos;
 using Volo.Abp.Application.Services;
 
@@ -11,5 +12,7 @@ namespace Horeca.Products
             PagedAndSortedResultRequestDto, //Used for paging/sorting
             CreateUpdateProductDto> //Used to create/update a category
     {
+        Task<ProductDto> UpdateApprovalStateAsync(Guid id, ApprovalState state);
+        Task<PagedResultDto<ProductDto>> GetPagedListAsync(GetProductListDto input);
     }
 }

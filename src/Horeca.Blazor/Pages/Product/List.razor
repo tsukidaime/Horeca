@@ -1,0 +1,80 @@
+﻿@page "/products"
+@using Horeca.Products
+@using Horeca.Localization
+@using Volo.Abp.AspNetCore.Components.Web
+@inherits HorecaComponentBase
+@inject IProductAppService ProductAppService
+@inject AbpBlazorMessageLocalizerHelper<HorecaResource> LH
+<Card>
+    <CardHeader>
+        <Row>
+            <Column ColumnSize="ColumnSize.Is6">
+                <h2>@L["Products"]</h2>
+            </Column>
+            <Column ColumnSize="ColumnSize.Is6">
+                <Paragraph Alignment="TextAlignment.Right">
+                    @if (CanCreateProduct)
+                    {
+                        <Button Color="Color.Primary"
+                                Clicked="NavigateToCreate">
+                            @L["New"] @L["product"] 
+                        </Button>
+                    }
+                </Paragraph>
+            </Column>
+        </Row>
+    </CardHeader>
+    <CardBody>
+        <DataGrid TItem="ProductDto"
+                  Data="ProductList"
+                  ReadData="OnDataGridReadAsync"
+                  TotalItems="TotalCount"
+                  ShowPager="true"
+                  PageSize="PageSize">
+            <DataGridColumns>
+                <DataGridColumn Width="150px"
+                                TItem="ProductDto"
+                                Field="@nameof(ProductDto.Id)"
+                                Sortable="false"
+                                Caption="@L["Actions"]">
+                    <DisplayTemplate>
+                        <Dropdown>
+                            <DropdownToggle Color="Color.Primary">
+                                @L["Actions"]
+                            </DropdownToggle>
+                            <DropdownMenu>
+                                @if (CanEditProduct)
+                                {
+                                    <DropdownItem>
+                                        @L["Edit"]
+                                    </DropdownItem>
+                                }
+                                @if (CanDeleteProduct)
+                                {
+                                    <DropdownItem>
+                                        @L["Delete"]
+                                    </DropdownItem>
+                                }
+                                @if (CanApproveProduct)
+                                {
+                                    <DropdownItem>
+                                        @L["Approve"]
+                                    </DropdownItem>
+                                }
+                            </DropdownMenu>
+                        </Dropdown>
+                    </DisplayTemplate>
+                </DataGridColumn>
+                <DataGridColumn TItem="ProductDto"
+                                Field="@nameof(ProductDto.Name)"
+                                Caption="@L["Name"]"></DataGridColumn>
+                <DataGridColumn TItem="ProductDto"
+                                Field="@nameof(ProductDto.Manufacturer)"
+                                Caption="@L["Manufacturer"]"></DataGridColumn>
+                <DataGridColumn TItem="ProductDto"
+                                Field="@nameof(ProductDto.CategoryName)"
+                                Caption="@L["Category"]"></DataGridColumn>
+            </DataGridColumns>
+        </DataGrid>
+    </CardBody>
+</Card>

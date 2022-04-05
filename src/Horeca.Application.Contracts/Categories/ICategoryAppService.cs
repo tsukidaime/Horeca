@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 using Volo.Abp.Application.Dtos;
 using Volo.Abp.Application.Services;
 
@@ -11,6 +13,8 @@ namespace Horeca.Categories
             PagedAndSortedResultRequestDto, //Used for paging/sorting
             CreateUpdateCategoryDto> //Used to create/update a category
     {
-
+        Task<List<CategoryDto>> GetRootCategories();
+        Task<bool> HasChild(Guid id);
+        Task<List<CategoryDto>> GetChildren(Guid id);
     }
 }

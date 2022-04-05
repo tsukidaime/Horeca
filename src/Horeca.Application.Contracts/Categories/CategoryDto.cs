@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using Volo.Abp.Application.Dtos;
 
 namespace Horeca.Categories
@@ -8,5 +9,6 @@ namespace Horeca.Categories
         public string Name { get; set; }
 
         public string ParentName { get; set; }
+        public IEnumerable<CategoryDto> Children { get; set; } 
     }
 }

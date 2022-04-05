@@ -1,0 +1,74 @@
+﻿@using Horeca.Categories
+@using Horeca.Products
+@using Horeca.Localization
+@using Horeca.Utils
+@inherits HorecaComponentBase
+@inject ICategoryAppService CategoryAppService
+@inject AbpBlazorMessageLocalizerHelper<HorecaResource> LH
+<Row>
+<Card>
+    <CardBody>
+        <Fields>
+            <Row>
+                <Column ColumnSize="ColumnSize.Is12">
+                    <Field Horizontal>
+                        <FieldLabel ColumnSize="ColumnSize.Is2">@L["Name"]</FieldLabel>
+                        <FieldBody ColumnSize="ColumnSize.Is10">
+                            <TextEdit Text="@ProductDetails.Name" Disabled="@IsExistingProduct"/>
+                        </FieldBody>
+                    </Field>
+                </Column>
+            </Row>
+            <Row>
+                <Column ColumnSize="ColumnSize.Is12">
+                    <Field Horizontal>
+                        <FieldLabel ColumnSize="ColumnSize.Is2">@L["Category"]</FieldLabel>
+                        <FieldBody ColumnSize="ColumnSize.Is10">
+                            <TextEdit @bind-Text="@ProductDetails.CategoryName" ReadOnly/>
+                        </FieldBody>
+                    </Field>
+                </Column>
+            </Row>
+            <Row>
+                <Column ColumnSize="ColumnSize.Is12">
+                    <Field Horizontal>
+                        <FieldLabel ColumnSize="ColumnSize.Is2">@L["Manufacturer"]</FieldLabel>
+                        <FieldBody ColumnSize="ColumnSize.Is10">
+                            <TextEdit Text="@ProductDetails.Manufacturer" Disabled="@IsExistingProduct"/>
+                        </FieldBody>
+                    </Field>
+                </Column>
+            </Row>
+        </Fields>
+    </CardBody>
+</Card>
+</Row>
+<Row>
+    <Column ColumnSize="ColumnSize.Is6">
+        <Button Color="Color.Primary" Clicked='()=>NavigateTo(StepName.Start)'>
+                                        @L["Back"]</Button>
+    </Column>
+    <Column ColumnSize="ColumnSize.Is6">
+        <Button Color="Color.Primary" Clicked='()=>NavigateTo(StepName.Bid)'>
+                                        @L["Next"]</Button>
+    </Column>
+</Row>
+
+@code {
+    [Parameter]
+    public string SelectedStep { get; set; }
+    [Parameter]
+    public EventCallback<string> SelectedStepChanged { get; set; }
+    [Parameter]
+    public CreateUpdateProductDto ProductDetails { get; set; }
+    [Parameter]
+    public EventCallback<CreateUpdateProductDto> ProductDetailsChanged { get; set; }
+    [Parameter]
+    public bool IsExistingProduct { get; set; }
+
+    public async Task NavigateTo(string step)
+    {
+        await SelectedStepChanged.InvokeAsync(step);
+        await ProductDetailsChanged.InvokeAsync(ProductDetails);
+    }
+}

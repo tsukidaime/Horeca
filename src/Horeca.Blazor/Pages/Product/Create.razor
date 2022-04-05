@@ -1,0 +1,72 @@
+﻿@page "/products/create"
+@using Horeca.Products
+@using Horeca.Localization
+@using Volo.Abp.AspNetCore.Components.Web
+@using Horeca.Utils;
+@inherits HorecaComponentBase
+@inject IProductAppService ProductAppService
+@inject AbpBlazorMessageLocalizerHelper<HorecaResource> LH
+<Card>
+    <CardTitle>@L["Create"] @L["product"]</CardTitle>
+    <CardBody>
+        <Steps SelectedStep="@SelectedStep" SelectedStepChanged="@OnSelectedStepChanged">
+            <Items>
+                <Step Name="start">@L["Product"] @L["Selection"]</Step>
+                <Step Name="category">@L["Category"] @L["Selection"] </Step>
+                <Step Name="productInfo">@L["Product"] @L["Details"]</Step>
+                <Step Name="productBid">@L["Product"] @L["Bid"]</Step>
+                <Step Name="finish">
+                    <Marker>
+                        <Icon Name="IconName.Flag" />
+                    </Marker>
+                    <Caption>
+                        @L["Finish"]
+                    </Caption>
+                </Step>
+            </Items>
+            <Content>
+                <StepPanel Name="selectStep">
+                    <Row>
+                        <Column ColumnSize="ColumnSize.Is12">
+                            <Card>
+                                <CardTitle>@L["Existing"] @L["product"]</CardTitle>
+                                <CardBody>
+                                    <Search @bind-SelectedStep="SelectedStep"  @bind-IsExistingProduct="IsExistingProduct"
+                                    @bind-ProductDetails="ProductDetails"></Search>
+                                </CardBody>
+                            </Card>
+                        </Column>
+                    </Row>
+                    <Row>
+                       <Column ColumnSize="ColumnSize.Is12">
+                            <Card>
+                                <CardTitle>@L["Create"] @L["new"] @L["product"]</CardTitle>
+                                <CardBody>
+                                    <Button Color="Color.Primary" Clicked='()=>NavigateTo(StepName.Category)'>
+                                        @L["Select"] @L["Category"]</Button>
+                                </CardBody>
+                            </Card>
+                        </Column>
+                    </Row>
+                </StepPanel>
+                <StepPanel Name="categoryStep">
+                    <Category @bind-SelectedStep="SelectedStep" @bind-ProductDetails="ProductDetails" @bind-IsExistingProduct="IsExistingProduct"></Category>
+                </StepPanel>
+                <StepPanel Name="productInfo">
+                    <Details @bind-SelectedStep="SelectedStep" @bind-ProductDetails="ProductDetails" IsExistingProduct="@IsExistingProduct"></Details>
+                </StepPanel>
+                <StepPanel Name="productBid">
+                    <ProductBid @bind-SelectedStep="SelectedStep" @bind-ProductBidDto="ProductBidDto"></ProductBid>
+                </StepPanel>
+                <StepPanel Name="finish">
+                    <Card>
+                        <CardBody>
+                            <Button Color="Color.Primary" Clicked='@CreateProduct'>
+                                @L["Submit"]</Button>
+                        </CardBody>
+                    </Card>
+                </StepPanel>
+            </Content>
+        </Steps>
+    </CardBody>
+</Card>

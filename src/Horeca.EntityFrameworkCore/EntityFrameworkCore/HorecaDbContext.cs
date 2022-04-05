@@ -29,6 +29,8 @@ public class HorecaDbContext :
     public DbSet<ProductBid> Bids { get; set; }
     public DbSet<Category> Categories { get; set; }
     public DbSet<Address> Addresses { get; set; }
+    public DbSet<Order> Orders { get; set; }
+    public DbSet<OrderLine> OrderLines { get; set; }
     #region Entities from the modules
 
     /* Notice: We only implemented IIdentityDbContext and ITenantManagementDbContext
@@ -77,6 +79,21 @@ public class HorecaDbContext :
         builder.ConfigureFeatureManagement();
         builder.ConfigureTenantManagement();
 
+        builder.Entity<Order>()
+            .HasMany(x => x.Lines)
+            .WithOne(x => x.Order)
+            .HasForeignKey(x => x.OrderId);
+
+        builder.Entity<Order>()
+            .HasOne(x => x.User)
+            .WithMany()
+            .HasForeignKey(x => x.UserId);
+
+        builder.Entity<OrderLine>()
+            .HasOne(x=>x.Product)
+            .WithMany()
+            .HasForeignKey(x => x.ProductId);
+
         builder.Entity<ProductBid>()
             .HasOne<IdentityUser>()
             .WithMany()
@@ -93,7 +110,7 @@ public class HorecaDbContext :
             .HasForeignKey(x => x.ParentId);
 
         builder.Entity<Product>()
-            .HasOne<Category>()
+            .HasOne<Category>(x=>x.Category)
             .WithMany()
             .HasForeignKey(x => x.CategoryId);
 

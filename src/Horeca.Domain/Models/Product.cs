@@ -11,6 +11,7 @@ namespace Horeca.Models
         public string Description { get; set; }
         public string Manufacturer { get; set; }
         public ApprovalState ApprovalState { get; set; }
+        public Category Category { get; set; }
         public Guid CategoryId { get; set; }
         public List<ProductBid> ProductBids { get; set; }
     }

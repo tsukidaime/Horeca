@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Horeca.Products;
 
 namespace Horeca.Blazor;
 
@@ -6,6 +7,6 @@ public class HorecaBlazorAutoMapperProfile : Profile
 {
     public HorecaBlazorAutoMapperProfile()
     {
-        //Define your AutoMapper configuration here for the Blazor project.
+        CreateMap<ProductDto, CreateUpdateProductDto>();
     }
 }

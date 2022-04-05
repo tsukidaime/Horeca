@@ -9,7 +9,7 @@ namespace Horeca.Models
 {
     public class ProductBid : Entity<Guid>
     {
-        public double Price { get; set; }
+        public decimal Price { get; set; }
         public int MinPurchaseAmount { get; set; }
         public int MaxPurchaseAmount { get; set; }
         public Guid UserId { get; set; }

@@ -1,6 +1,9 @@
 ﻿using Horeca.Models;
 using Horeca.Permissions;
+using Microsoft.EntityFrameworkCore;
 using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using Volo.Abp.Application.Dtos;
 using Volo.Abp.Application.Services;
@@ -32,24 +35,22 @@ namespace Horeca.Categories
             return MapToGetOutputDto(await _categoryRepository.InsertAsync(MapToEntity(input)));
         }
 
-        public async override Task DeleteAsync(Guid id)
+        public async Task<List<CategoryDto>> GetChildren(Guid id)
         {
-            await base.DeleteAsync(id);
+            var category = await _categoryRepository.GetAsync(id, true);
+            return ObjectMapper.Map<List<Category>, List<CategoryDto>>(category.SubCategories);
         }
 
-        public async override Task<CategoryDto> GetAsync(Guid id)
+        public async Task<List<CategoryDto>> GetRootCategories()
         {
-            return await base.GetAsync(id);
+            var query = await _categoryRepository.WithDetailsAsync(x=>x.SubCategories);
+            var categories = await AsyncExecuter.ToListAsync(query);
+            return ObjectMapper.Map<List<Category>, List<CategoryDto>>(categories.Where(x => x.ParentId == null).ToList());
         }
 
-        public async override Task<PagedResultDto<CategoryDto>> GetListAsync(PagedAndSortedResultRequestDto input)
+        public async Task<bool> HasChild(Guid id)
         {
-            return await base.GetListAsync(input);
-        }
-
-        public async override Task<CategoryDto> UpdateAsync(Guid id, CreateUpdateCategoryDto input)
-        {
-            return await base.UpdateAsync(id, input);
+            return await _categoryRepository.AnyAsync(x => x.ParentId == id);
         }
     }
 }

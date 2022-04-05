@@ -7,6 +7,7 @@ using Volo.Abp.Account.Localization;
 using Volo.Abp.Authorization.Permissions;
 using Volo.Abp.UI.Navigation;
 using Volo.Abp.Users;
+using Horeca.Permissions;
 
 namespace Horeca.Blazor.Menus;
 
@@ -31,7 +32,7 @@ public class HorecaMenuContributor : IMenuContributor
         }
     }
 
-    private Task ConfigureMainMenuAsync(MenuConfigurationContext context)
+    private async Task ConfigureMainMenuAsync(MenuConfigurationContext context)
     {
         var l = context.GetLocalizer<HorecaResource>();
 
@@ -45,10 +46,17 @@ public class HorecaMenuContributor : IMenuContributor
             )
         );
 
-        return Task.CompletedTask;
+        if (await context.IsGrantedAsync(HorecaPermissions.Product))
+        {
+            context.Menu.AddItem(new ApplicationMenuItem(
+                "Horeca.Products",
+                l["Menu:Products"],
+                url: "/products"
+            ));
+        }
     }
 
-    private Task ConfigureUserMenuAsync(MenuConfigurationContext context)
+    private async Task ConfigureUserMenuAsync(MenuConfigurationContext context)
     {
         var accountStringLocalizer = context.GetLocalizer<AccountResource>();
 
@@ -62,6 +70,5 @@ public class HorecaMenuContributor : IMenuContributor
             order: 1000,
             null).RequireAuthenticated());
 
-        return Task.CompletedTask;
     }
 }

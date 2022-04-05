@@ -21,6 +21,7 @@ public static class HorecaPermissions
     public const string ProductEdit = Product + Edit;
     public const string ProductDelete = Product + Delete;
     public const string ProductRead = Product + Read;
+    public const string ProductApprove = Product + "Approve";
 
     public const string Category = "Category";
 

@@ -14,6 +14,7 @@ public class HorecaPermissionDefinitionProvider : PermissionDefinitionProvider
         product.AddChild(HorecaPermissions.ProductEdit, L("Permission:ProductEdit"));
         product.AddChild(HorecaPermissions.ProductDelete, L("Permission:ProductDelete"));
         product.AddChild(HorecaPermissions.ProductRead, L("Permission:ProductRead"));
+        product.AddChild(HorecaPermissions.ProductApprove, L("Permission:ProductApprove"));
         var productBid = horeca.AddPermission(HorecaPermissions.ProductBid, L("Permission:ProductBid"));
         productBid.AddChild(HorecaPermissions.ProductBidCreate, L("Permission:ProductBidCreate"));
         productBid.AddChild(HorecaPermissions.ProductBidEdit, L("Permission:ProductBidEdit"));

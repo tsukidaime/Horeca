@@ -1,6 +1,10 @@
 ﻿using Horeca.Models;
 using Horeca.Permissions;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.EntityFrameworkCore;
 using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using Volo.Abp.Application.Dtos;
 using Volo.Abp.Application.Services;
@@ -27,32 +31,58 @@ namespace Horeca.Products
             UpdatePolicyName = HorecaPermissions.ProductEdit;
             DeletePolicyName = HorecaPermissions.ProductDelete;
         }
-        public async override Task<ProductDto> CreateAsync(CreateUpdateProductDto input)
+        public override async Task<ProductDto> CreateAsync(CreateUpdateProductDto input)
         {
-            var product = MapToEntity(input);
+            var product = await MapToEntityAsync(input);
             product.CreatorId = CurrentUser.Id;
             product.CreationTime = DateTime.Now;
-            return MapToGetOutputDto(await _productRepository.InsertAsync(product));
+            product = await _productRepository.InsertAsync(product);
+            await _productRepository.EnsurePropertyLoadedAsync(product, p => p.Category);
+            return ObjectMapper.Map<Product, ProductDto>(product);
         }
 
-        public async override Task DeleteAsync(Guid id)
+        public override async Task<ProductDto> GetAsync(Guid id)
         {
-            await base.DeleteAsync(id);
+            var product = await _productRepository.GetAsync(id);
+            await _productRepository.EnsurePropertyLoadedAsync(product, p => p.Category);
+            return ObjectMapper.Map<Product, ProductDto>(product);
         }
 
-        public async override Task<ProductDto> GetAsync(Guid id)
+        public async Task<PagedResultDto<ProductDto>> GetPagedListAsync(GetProductListDto input)
         {
-            return await base.GetAsync(id);
+            if (input.Filter.IsNullOrEmpty())
+            {
+                input.Filter = nameof(Product.Name);
+            }
+
+            var query = await _productRepository.GetQueryableAsync();
+            var products = await query.Skip(input.SkipCount)
+                .Take(input.MaxResultCount)
+                .ToListAsync();
+            
+            foreach(var product in products)
+            {
+                await _productRepository.EnsurePropertyLoadedAsync(product, p => p.Category);
+            }
+
+            var totalCount = input.Filter.IsNullOrEmpty()
+                ? await _productRepository.CountAsync()
+                : await _productRepository.CountAsync(
+                    product => product.Name.Contains(input.Filter));
+
+            return new PagedResultDto<ProductDto>(
+                totalCount,
+                ObjectMapper.Map<List<Product>, List<ProductDto>>(products)
+            );
         }
 
-        public async override Task<PagedResultDto<ProductDto>> GetListAsync(PagedAndSortedResultRequestDto input)
+        [Authorize(HorecaPermissions.ProductApprove)]
+        public async Task<ProductDto> UpdateApprovalStateAsync(Guid id,  ApprovalState state)
         {
-            return await base.GetListAsync(input);
-        }
-
-        public async override Task<ProductDto> UpdateAsync(Guid id, CreateUpdateProductDto input)
-        {
-            return await base.UpdateAsync(id, input);
+            var entity = await _productRepository.GetAsync(id);
+            entity.ApprovalState = state;
+            await _productRepository.UpdateAsync(entity);
+            return await MapToGetOutputDtoAsync(entity);
         }
     }
 }

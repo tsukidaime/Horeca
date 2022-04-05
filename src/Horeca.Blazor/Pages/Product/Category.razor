@@ -1,0 +1,29 @@
+﻿@using Horeca.Localization
+@using Horeca.Categories
+@using Horeca.Utils
+
+@inherits HorecaComponentBase
+
+@inject AbpBlazorMessageLocalizerHelper<HorecaResource> LH
+
+<Row>
+    <Column ColumnSize="ColumnSize.Is12">
+        <TreeView Nodes="@Items"
+                  GetChildNodes="@(item => item.Children)"
+                  HasChildNodes="@(item => item.Children?.Any() == true)"
+                  @bind-SelectedNode="@SelectedNode"
+                  @bind-ExpandedNodes="@ExpandedNodes">
+            <NodeContent>@context.Name</NodeContent>
+        </TreeView>
+    </Column>
+</Row>
+<Row>
+    <Column ColumnSize="ColumnSize.Is6">
+        <Button Color="Color.Primary" Clicked='()=>NavigateTo(StepName.Start)'>
+                                        @L["Back"]</Button>
+    </Column>
+    <Column ColumnSize="ColumnSize.Is6">
+        <Button Color="Color.Primary" Clicked='()=>NavigateTo(StepName.Details)'>
+                                        @L["Next"]</Button>
+    </Column>
+</Row>

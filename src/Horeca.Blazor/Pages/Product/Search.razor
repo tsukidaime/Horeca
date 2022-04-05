@@ -1,0 +1,54 @@
+﻿@using Horeca.Products
+@using Horeca.Localization
+@using Volo.Abp.AspNetCore.Components.Web
+@using Blazorise.Components
+@inherits HorecaComponentBase
+@inject IProductAppService ProductAppService
+@inject AbpBlazorMessageLocalizerHelper<HorecaResource> LH
+<Row>
+    <Column ColumnSize="ColumnSize.Is12">
+        <Fields>
+            <Field ColumnSize="ColumnSize.Is4.OnDesktop">
+                <TextEdit @bind-Text="@SearchText" Placeholder="@L["Name"]"/>
+            </Field>
+            <Field ColumnSize="ColumnSize.Is2.OnDesktop">
+                <Button Color="Color.Primary" Clicked="@SearchAsync">@L["Search"]</Button>
+            </Field>
+        </Fields>
+    </Column>
+</Row>
+<Row>
+    <Column ColumnSize="ColumnSize.Is12">
+        @if (HiddenProductsGrid)
+        {
+            <DataGrid TItem="ProductDto"
+                    Data="ProductList"
+                    ReadData="OnDataGridReadAsync"
+                    TotalItems="TotalCount"
+                    ShowPager="true"
+                    PageSize="PageSize">
+            <DataGridColumns>
+                <DataGridColumn TItem="ProductDto"
+                                Field="@nameof(ProductDto.Name)"
+                                Caption="@L["Name"]"></DataGridColumn>
+                <DataGridColumn TItem="ProductDto"
+                                Field="@nameof(ProductDto.Manufacturer)"
+                                Caption="@L["Manufacturer"]"></DataGridColumn>
+                <DataGridColumn TItem="ProductDto"
+                                Field="@nameof(ProductDto.CategoryName)"
+                                Caption="@L["Category"]"></DataGridColumn>
+                <DataGridColumn Width="150px"
+                                TItem="ProductDto"
+                                Field="@nameof(ProductDto.Id)"
+                                Sortable="false"
+                                Caption="@L["Actions"]">
+                    <DisplayTemplate>
+                        <Button Color="Color.Primary" Clicked="()=>Select(context)">
+                            @L["Select"]</Button>
+                    </DisplayTemplate>
+                </DataGridColumn>
+            </DataGridColumns>
+        </DataGrid>
+        }
+    </Column>
+</Row>
