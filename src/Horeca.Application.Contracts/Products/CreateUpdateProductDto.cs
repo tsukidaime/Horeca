@@ -4,12 +4,11 @@ using Volo.Abp.Application.Dtos;
 
 namespace Horeca.Products
 {
-    public class CreateUpdateProductDto
+    public class CreateUpdateProductDto : EntityDto<Guid>
     {
         [Required]
         [StringLength(128)]
         public string Name { get; set; }
-        [Required]
         public string Description { get; set; }
         [Required]
         public string Manufacturer { get; set; }

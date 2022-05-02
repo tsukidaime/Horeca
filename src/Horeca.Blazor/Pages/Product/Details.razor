@@ -14,7 +14,7 @@
                     <Field Horizontal>
                         <FieldLabel ColumnSize="ColumnSize.Is2">@L["Name"]</FieldLabel>
                         <FieldBody ColumnSize="ColumnSize.Is10">
-                            <TextEdit Text="@ProductDetails.Name" Disabled="@IsExistingProduct"/>
+                            <TextEdit @bind-Text="@ProductDetails.Name" Disabled="@IsExistingProduct"/>
                         </FieldBody>
                     </Field>
                 </Column>
@@ -34,7 +34,7 @@
                     <Field Horizontal>
                         <FieldLabel ColumnSize="ColumnSize.Is2">@L["Manufacturer"]</FieldLabel>
                         <FieldBody ColumnSize="ColumnSize.Is10">
-                            <TextEdit Text="@ProductDetails.Manufacturer" Disabled="@IsExistingProduct"/>
+                            <TextEdit @bind-Text="@ProductDetails.Manufacturer" Disabled="@IsExistingProduct"/>
                         </FieldBody>
                     </Field>
                 </Column>
@@ -68,7 +68,10 @@
 
     public async Task NavigateTo(string step)
     {
+        if(step == StepName.Bid)
+        {
+            await ProductDetailsChanged.InvokeAsync(ProductDetails);
+        }
         await SelectedStepChanged.InvokeAsync(step);
-        await ProductDetailsChanged.InvokeAsync(ProductDetails);
     }
 }

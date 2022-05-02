@@ -116,7 +116,7 @@ public class HorecaDbContext :
 
         builder.Entity<Product>()
             .HasMany<ProductBid>(x=>x.ProductBids)
-            .WithOne(x=>x.Product)
+            .WithOne()
             .HasForeignKey(x=>x.ProductId);
 
     }

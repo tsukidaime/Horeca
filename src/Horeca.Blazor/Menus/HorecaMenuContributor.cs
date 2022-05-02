@@ -45,13 +45,18 @@ public class HorecaMenuContributor : IMenuContributor
                 icon: "fas fa-home"
             )
         );
+        context.Menu.AddItem(new ApplicationMenuItem(
+                "Horeca.Products",
+                l["Menu:Products"],
+                url: "/product/grid"
+            ));
 
         if (await context.IsGrantedAsync(HorecaPermissions.Product))
         {
             context.Menu.AddItem(new ApplicationMenuItem(
                 "Horeca.Products",
-                l["Menu:Products"],
-                url: "/products"
+                l["Menu:Product:Management"],
+                url: "/product/management"
             ));
         }
     }

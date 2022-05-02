@@ -51,7 +51,7 @@ namespace Horeca.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("Addresses");
+                    b.ToTable("Addresses", (string)null);
                 });
 
             modelBuilder.Entity("Horeca.Models.Category", b =>
@@ -69,7 +69,7 @@ namespace Horeca.Migrations
 
                     b.HasIndex("ParentId");
 
-                    b.ToTable("Categories");
+                    b.ToTable("Categories", (string)null);
                 });
 
             modelBuilder.Entity("Horeca.Models.Order", b =>
@@ -110,7 +110,7 @@ namespace Horeca.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("Orders");
+                    b.ToTable("Orders", (string)null);
                 });
 
             modelBuilder.Entity("Horeca.Models.OrderLine", b =>
@@ -136,7 +136,7 @@ namespace Horeca.Migrations
 
                     b.HasIndex("ProductId");
 
-                    b.ToTable("OrderLines");
+                    b.ToTable("OrderLines", (string)null);
                 });
 
             modelBuilder.Entity("Horeca.Models.Product", b =>
@@ -189,7 +189,7 @@ namespace Horeca.Migrations
 
                     b.HasIndex("CategoryId");
 
-                    b.ToTable("Products");
+                    b.ToTable("Products", (string)null);
                 });
 
             modelBuilder.Entity("Horeca.Models.ProductBid", b =>
@@ -218,7 +218,7 @@ namespace Horeca.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("Bids");
+                    b.ToTable("Bids", (string)null);
                 });
 
             modelBuilder.Entity("Volo.Abp.AuditLogging.AuditLog", b =>

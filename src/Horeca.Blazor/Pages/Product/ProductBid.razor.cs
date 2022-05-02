@@ -9,7 +9,7 @@ namespace Horeca.Blazor.Pages.Product
         [Parameter]
         public CreateUpdateProductBidDto ProductBidDto { get; set; }
         [Parameter]
-        public EventCallback<CreateUpdateProductBidDto> ProductBidChanged { get; set; }
+        public EventCallback<CreateUpdateProductBidDto> ProductBidDtoChanged { get; set; }
         [Parameter]
         public string SelectedStep { get; set; }
         [Parameter]
@@ -17,7 +17,7 @@ namespace Horeca.Blazor.Pages.Product
         public async Task NavigateTo(string step)
         {
             await SelectedStepChanged.InvokeAsync(step);
-            await ProductBidChanged.InvokeAsync(ProductBidDto);
+            await ProductBidDtoChanged.InvokeAsync(ProductBidDto);
         }
     }
 }

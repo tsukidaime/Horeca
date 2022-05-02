@@ -48,27 +48,21 @@ namespace Horeca.Products
             return ObjectMapper.Map<Product, ProductDto>(product);
         }
 
-        public async Task<PagedResultDto<ProductDto>> GetPagedListAsync(GetProductListDto input)
+        public async Task<PagedResultDto<ProductDto>> GetListByNameAsync(GetProductListDto input)
         {
-            if (input.Filter.IsNullOrEmpty())
-            {
-                input.Filter = nameof(Product.Name);
-            }
+            var query = await _productRepository.WithDetailsAsync(x => x.Category);
+            query = query.Skip(input.SkipCount)
+                .Take(input.MaxResultCount);
 
-            var query = await _productRepository.GetQueryableAsync();
-            var products = await query.Skip(input.SkipCount)
-                .Take(input.MaxResultCount)
-                .ToListAsync();
-            
-            foreach(var product in products)
-            {
-                await _productRepository.EnsurePropertyLoadedAsync(product, p => p.Category);
-            }
+            if (!input.Filter.IsNullOrEmpty())
+                query = query.Where(x => x.Name.StartsWith(input.Filter));
+
+            var products = await query.ToListAsync();
 
             var totalCount = input.Filter.IsNullOrEmpty()
                 ? await _productRepository.CountAsync()
                 : await _productRepository.CountAsync(
-                    product => product.Name.Contains(input.Filter));
+                    product => product.Name.StartsWith(input.Filter));
 
             return new PagedResultDto<ProductDto>(
                 totalCount,

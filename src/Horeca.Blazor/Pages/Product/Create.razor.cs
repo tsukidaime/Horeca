@@ -8,12 +8,18 @@ namespace Horeca.Blazor.Pages.Product
 {
     public partial class Create
     {
-        public string SelectedStep { get; set; } = "selectStep";
+        [Inject]
+        public NavigationManager NavigationManager { get; set; }
+        public string SelectedStep { get; set; } = "start";
         public CreateUpdateProductDto ProductDetails { get; set; } = new CreateUpdateProductDto();
         public CreateUpdateProductBidDto ProductBidDto { get; set; } = new CreateUpdateProductBidDto();
         public CategoryDto SelectedCategory { get; set; } = new CategoryDto();
         [Parameter]
         public ICategoryAppService CategoryAppService { get; set; }
+        [Parameter]
+        public IProductBidAppService ProductBidAppService { get; set; }
+        [Parameter]
+        public IProductAppService ProductAppService { get; set; }
         public bool IsExistingProduct { get; set; }
         private Task OnSelectedStepChanged(string name)
         {
@@ -28,7 +34,18 @@ namespace Horeca.Blazor.Pages.Product
 
         public async Task CreateProduct()
         {
-            await ProductAppService.CreateAsync(ProductDetails);
+            if (IsExistingProduct)
+            {
+                ProductBidDto.ProductId = ProductDetails.Id;
+            }
+            else
+            {
+                var product = await ProductAppService.CreateAsync(ProductDetails);
+                ProductBidDto.ProductId = product.Id;
+            }
+
+            await ProductBidAppService.CreateAsync(ProductBidDto);
+            NavigationManager.NavigateTo("/product/management");
         }
     }
 }

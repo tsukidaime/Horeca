@@ -9,6 +9,7 @@ namespace Horeca.Products
         public string Description { get; set; }
         public string Manufacturer { get; set; }
         public string CategoryName { get; set; }
+        public ApprovalState ApprovalState { get; set; }
         public Guid CategoryId { get; set; }
     }
 }

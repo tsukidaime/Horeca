@@ -30,4 +30,70 @@
     <ProjectReference Include="..\..\src\Horeca.HttpApi.Client\Horeca.HttpApi.Client.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Content Update="wwwroot\img\about-food.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Update="wwwroot\img\anim-food.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Update="wwwroot\img\big-mail.svg">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Update="wwwroot\img\contacts-location.svg">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Update="wwwroot\img\contacts-mail.svg">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Update="wwwroot\img\contacts-phone.svg">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Update="wwwroot\img\header-background.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Update="wwwroot\img\header-global.svg">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Update="wwwroot\img\header-logo.svg">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Update="wwwroot\img\header-profile.svg">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Update="wwwroot\img\product1.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Update="wwwroot\img\product2.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Update="wwwroot\img\product3.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Update="wwwroot\img\services-braces.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Update="wwwroot\img\services-dollar.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Update="wwwroot\img\services-graph.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Update="wwwroot\img\smal-mail.svg">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Update="wwwroot\img\social-facebook.svg">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Update="wwwroot\img\social-instagram.svg">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Update="wwwroot\img\social-linkedin.svg">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Update="wwwroot\img\social-twitter.svg">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+
 </Project>

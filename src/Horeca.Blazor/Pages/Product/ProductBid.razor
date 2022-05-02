@@ -14,17 +14,7 @@
                         <Field Horizontal>
                             <FieldLabel ColumnSize="ColumnSize.Is2">@L["Price"]</FieldLabel>
                             <FieldBody ColumnSize="ColumnSize.Is10">
-                                <NumericEdit TValue="decimal" @bind-Value="@ProductBidDto.Price"/>
-                            </FieldBody>
-                        </Field>
-                    </Column>
-                </Row>
-                <Row>
-                    <Column ColumnSize="ColumnSize.Is12">
-                        <Field Horizontal>
-                            <FieldLabel ColumnSize="ColumnSize.Is2">@L["MaxPurchaseAmount"]</FieldLabel>
-                            <FieldBody ColumnSize="ColumnSize.Is10">
-                                <NumericEdit TValue="int" @bind-Value="@ProductBidDto.MaxPurchaseAmount"/>
+                                <NumericEdit TValue="double" @bind-Value="@ProductBidDto.Price"/>
                             </FieldBody>
                         </Field>
                     </Column>
@@ -35,6 +25,16 @@
                             <FieldLabel ColumnSize="ColumnSize.Is2">@L["MinPurchaseAmount"]</FieldLabel>
                             <FieldBody ColumnSize="ColumnSize.Is10">
                                 <NumericEdit TValue="int" @bind-Value="@ProductBidDto.MinPurchaseAmount"/>
+                            </FieldBody>
+                        </Field>
+                    </Column>
+                </Row>
+                <Row>
+                    <Column ColumnSize="ColumnSize.Is12">
+                        <Field Horizontal>
+                            <FieldLabel ColumnSize="ColumnSize.Is2">@L["MaxPurchaseAmount"]</FieldLabel>
+                            <FieldBody ColumnSize="ColumnSize.Is10">
+                                <NumericEdit TValue="int" @bind-Value="@ProductBidDto.MaxPurchaseAmount"/>
                             </FieldBody>
                         </Field>
                     </Column>

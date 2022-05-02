@@ -1,4 +1,4 @@
-﻿@page "/products"
+﻿@page "/product/management"
 @using Horeca.Products
 @using Horeca.Localization
 @using Volo.Abp.AspNetCore.Components.Web
@@ -51,16 +51,21 @@
                                 }
                                 @if (CanDeleteProduct)
                                 {
-                                    <DropdownItem>
+                                    <DropdownItem Clicked="() => DeleteProductAsync(context)">
                                         @L["Delete"]
                                     </DropdownItem>
                                 }
                                 @if (CanApproveProduct)
                                 {
-                                    <DropdownItem>
-                                        @L["Approve"]
+                                    <DropdownItem Clicked="() => 
+                                        UpdateProductApproveAsync(context, context.ApprovalState == ApprovalState.Approved ? 
+                                            ApprovalState.PendingApproval : ApprovalState.Approved)">
+                                        @(context.ApprovalState == ApprovalState.Approved ? @L["Disapprove"] : @L["Approve"])
                                     </DropdownItem>
                                 }
+                                <DropdownItem Clicked="() => NavigateToBidsManagement(context)">
+                                    @L["Bids"]
+                                </DropdownItem>
                             </DropdownMenu>
                         </Dropdown>
                     </DisplayTemplate>
@@ -74,6 +79,19 @@
                 <DataGridColumn TItem="ProductDto"
                                 Field="@nameof(ProductDto.CategoryName)"
                                 Caption="@L["Category"]"></DataGridColumn>
+                @if (CanApproveProduct)
+                {
+                    <DataGridColumn TItem="ProductDto"
+                                Field="@nameof(ProductDto.ApprovalState)"
+                                Caption="@L["ApprovalState"]">
+                        <DisplayTemplate>
+                            @if (context.ApprovalState == ApprovalState.Approved)
+                                @L["Approved"]
+                            else
+                                @L["PendingForApprove"]
+                        </DisplayTemplate>
+                </DataGridColumn>
+                }
             </DataGridColumns>
         </DataGrid>
     </CardBody>

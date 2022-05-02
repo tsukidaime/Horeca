@@ -1,0 +1,22 @@
+﻿<Accordion>
+    @for(var i=0;i < Items.Count;i++){
+    <Collapse Visible="@ItemVisibilities[i]">
+        <CollapseHeader>
+            <Heading Size="HeadingSize.Is5">
+                <Button Clicked="@(()=>@ItemVisibilities[i] = !@ItemVisibilities[i])">@Items[i].Name</Button>
+            </Heading>
+        </CollapseHeader>
+        <CollapseBody>
+            @if (Items[i].Children is not null)
+            {
+                    <ListGroup Mode="ListGroupMode.Selectable" @bind-SelectedItem="SelectedChild">
+                        @foreach (var item in Items[i].Children)
+                        {
+                            <ListGroupItem >@item.Name</ListGroupItem>
+                        }
+                    </ListGroup>
+            }
+        </CollapseBody>
+    </Collapse>
+    }
+</Accordion>

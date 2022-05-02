@@ -50,12 +50,12 @@
 
 @font-face {
     font-family: "Century Gothic";
-    src: url("./fonts/GOTHIC");
+    src: url("fonts/GOTHIC.TTF");
 }
 
 @font-face {
     font-family: "Century Gothic";
-    src: url("./fonts/GOTHICB0");
+    src: url("fonts/GOTHICB0.TTF");
 }
 /* Обнуление */
 *,
@@ -103,39 +103,16 @@ body {
     font-size: 14px;
 }
 
-.wrapper {
+#ApplicationContainer {
     overflow: hidden;
     display: flex;
     flex-direction: column;
     min-height: 100%;
 }
 
-[class*="__container"] {
-    max-width: 1240px;
-    margin: 0 auto;
-}
-
-.header {
-    position: absolute;
-    width: 100%;
-    top: 0;
-    left: 0;
-    z-index: 50;
-    /* background-color: #ff8a00; */
-}
-
-.header__container {
-    display: flex;
-    min-height: 90px;
-    align-items: center;
-}
-
-.header__menu {
-    flex: 1 1 auto;
-}
-
-.header__button {
-    padding-right: 58px;
+.navbar {
+    background-color: #ff8a00 !important;
+    margin-bottom: 0!important;
 }
 
 .header__icons {
@@ -143,18 +120,7 @@ body {
     gap: 28px;
 }
 
-.menu {
-    display: flex;
-    justify-content: flex-start;
-    padding-left: 90px;
-}
-
-.menu__list {
-    display: flex;
-    gap: 21px;
-}
-
-.menu__link {
+.nav-link {
     font-family: "Century Gothic";
     text-transform: uppercase;
     font-weight: 700;
@@ -162,7 +128,7 @@ body {
     color: white;
 }
 
-.menu__active {
+.nav-link_active {
     border-bottom: 2px solid #ffffff;
     padding-bottom: 2px;
 }
@@ -194,12 +160,18 @@ body {
         background-color: #fcaa63;
     }
 
-main {
-    flex: 1 1 auto;
+[class*="__container"] {
+    max-width: 1240px;
+    margin: 0 0;
 }
+
 
 #welcome {
     background: linear-gradient( 277.75deg, #ff8a00 52.46%, #f0ac55 91.84%, #f5edd7 99.59% );
+}
+
+main {
+    flex: 1 1 auto;
 }
 
 .welcome__container {

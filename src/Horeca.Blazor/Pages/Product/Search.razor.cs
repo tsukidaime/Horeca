@@ -1,6 +1,7 @@
 ﻿using Blazorise;
 using Blazorise.DataGrid;
 using Horeca.Products;
+using Horeca.Utils;
 using Microsoft.AspNetCore.Components;
 using System.Collections.Generic;
 using System.Linq;
@@ -46,12 +47,12 @@ namespace Horeca.Blazor.Pages.Product
         public async Task Select(ProductDto productDto)
         {
             await ProductDetailsChanged.InvokeAsync(ObjectMapper.Map<ProductDto, CreateUpdateProductDto>(productDto));
-            await SelectedStepChanged.InvokeAsync("productInfo");
+            await SelectedStepChanged.InvokeAsync(StepName.Details);
             await IsExistingProductChanged.InvokeAsync(true);
         }
         public async Task SearchAsync()
         {
-            var result = await ProductAppService.GetPagedListAsync(
+            var result = await ProductAppService.GetListByNameAsync(
                 new GetProductListDto
                 {
                     MaxResultCount = PageSize,

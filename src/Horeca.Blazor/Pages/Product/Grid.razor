@@ -1,0 +1,22 @@
+﻿@page "/product/grid"
+@using Horeca.Products
+@using Horeca.Localization
+@using Horeca.Blazor.Pages.Category;
+@using Volo.Abp.AspNetCore.Components.Web
+@inherits HorecaComponentBase
+@inject AbpBlazorMessageLocalizerHelper<HorecaResource> LH
+<Layout Sider>
+    <LayoutSider>
+        <LayoutSiderContent>
+            <SideAccordion></SideAccordion>
+        </LayoutSiderContent>
+    </LayoutSider>
+    <Layout>
+        <LayoutHeader Fixed>
+            Header
+        </LayoutHeader>
+        <LayoutContent>
+            Content
+        </LayoutContent>
+    </Layout>
+</Layout>

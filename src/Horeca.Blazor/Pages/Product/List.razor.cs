@@ -26,6 +26,7 @@ namespace Horeca.Blazor.Pages.Product
         private bool CanEditProduct { get; set; }
         private bool CanDeleteProduct { get; set; }
         private bool CanApproveProduct { get; set; }
+        private bool CanSeeBids { get; set; }
 
         protected override async Task OnInitializedAsync()
         {
@@ -37,10 +38,8 @@ namespace Horeca.Blazor.Pages.Product
         {
             CanCreateProduct = await AuthorizationService
                 .IsGrantedAsync(HorecaPermissions.ProductCreate);
-
             CanEditProduct = await AuthorizationService
                 .IsGrantedAsync(HorecaPermissions.ProductEdit);
-
             CanDeleteProduct = await AuthorizationService
                 .IsGrantedAsync(HorecaPermissions.ProductDelete);
             CanApproveProduct = await AuthorizationService
@@ -49,7 +48,7 @@ namespace Horeca.Blazor.Pages.Product
 
         private async Task GetProductsAsync()
         {
-            var result = await ProductAppService.GetPagedListAsync(
+            var result = await ProductAppService.GetListByNameAsync(
                 new GetProductListDto
                 {
                     MaxResultCount = PageSize,
@@ -74,12 +73,19 @@ namespace Horeca.Blazor.Pages.Product
 
             await InvokeAsync(StateHasChanged);
         }
-
+        public void NavigateToBidsManagement(ProductDto Product)
+        {
+            NavigationManager.NavigateTo($"productbid/management/{Product.Id}");
+        }
         public void NavigateToCreate()
         {
-            NavigationManager.NavigateTo("products/create");
+            NavigationManager.NavigateTo("product/create");
         }
-
+        private async Task UpdateProductApproveAsync(ProductDto Product, ApprovalState state)
+        {
+            await ProductAppService.UpdateApprovalStateAsync(Product.Id, state);
+            await GetProductsAsync();
+        }
         private async Task DeleteProductAsync(ProductDto Product)
         {
             var confirmMessage = L["ProductDeletionConfirmationMessage", Product.Name];

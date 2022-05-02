@@ -8,7 +8,7 @@ namespace Horeca.Models
     {
         public string Name { get; set; }
         public Guid? ParentId { get; set; }
-        public virtual Category Parent { get; set; }
-        public virtual List<Category> SubCategories { get; set; }
+        public Category Parent { get; set; }
+        public List<Category> SubCategories { get; set; }
     }
 }

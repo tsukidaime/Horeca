@@ -1,10 +1,9 @@
-﻿@page "/products/create"
+﻿@page "/product/create"
 @using Horeca.Products
 @using Horeca.Localization
 @using Volo.Abp.AspNetCore.Components.Web
 @using Horeca.Utils;
 @inherits HorecaComponentBase
-@inject IProductAppService ProductAppService
 @inject AbpBlazorMessageLocalizerHelper<HorecaResource> LH
 <Card>
     <CardTitle>@L["Create"] @L["product"]</CardTitle>
@@ -25,7 +24,7 @@
                 </Step>
             </Items>
             <Content>
-                <StepPanel Name="selectStep">
+                <StepPanel Name="start">
                     <Row>
                         <Column ColumnSize="ColumnSize.Is12">
                             <Card>
@@ -49,7 +48,7 @@
                         </Column>
                     </Row>
                 </StepPanel>
-                <StepPanel Name="categoryStep">
+                <StepPanel Name="category">
                     <Category @bind-SelectedStep="SelectedStep" @bind-ProductDetails="ProductDetails" @bind-IsExistingProduct="IsExistingProduct"></Category>
                 </StepPanel>
                 <StepPanel Name="productInfo">

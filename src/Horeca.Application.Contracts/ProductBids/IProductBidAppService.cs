@@ -1,6 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
+using System.Threading.Tasks;
 using Volo.Abp.Application.Dtos;
 using Volo.Abp.Application.Services;
 
@@ -12,5 +11,6 @@ namespace Horeca.ProductBids
             PagedAndSortedResultRequestDto,
             CreateUpdateProductBidDto>
     {
+        Task<PagedResultDto<ProductBidDto>> GetListByProductIdAsync(GetProductBidListDto input);
     }
 }

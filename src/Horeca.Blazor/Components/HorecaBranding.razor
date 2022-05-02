@@ -1,0 +1,9 @@
+﻿@using Volo.Abp.AspNetCore.Components.Web.BasicTheme.Themes.Basic
+@using Volo.Abp.DependencyInjection
+@using Volo.Abp.AspNetCore.Components.WebAssembly.BasicTheme.Themes.Basic
+@inherits Branding
+@attribute [ExposeServices(typeof(Branding))]
+@attribute [Dependency(ReplaceServices = true)]
+<a href="/" class="header__logo">
+    <img src="img/header-logo.svg" alt="logo"/>
+</a>

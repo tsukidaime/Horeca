@@ -6,7 +6,7 @@ namespace Horeca.ProductBids
     public class CreateUpdateProductBidDto
     {
         [Required]
-        public decimal Price { get; set; }
+        public double Price { get; set; }
         [Required]
         public int MinPurchaseAmount { get; set; }
         [Required]
