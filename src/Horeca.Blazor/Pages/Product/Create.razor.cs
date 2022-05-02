@@ -14,11 +14,11 @@ namespace Horeca.Blazor.Pages.Product
         public CreateUpdateProductDto ProductDetails { get; set; } = new CreateUpdateProductDto();
         public CreateUpdateProductBidDto ProductBidDto { get; set; } = new CreateUpdateProductBidDto();
         public CategoryDto SelectedCategory { get; set; } = new CategoryDto();
-        [Parameter]
+        [Inject]
         public ICategoryAppService CategoryAppService { get; set; }
-        [Parameter]
+        [Inject]
         public IProductBidAppService ProductBidAppService { get; set; }
-        [Parameter]
+        [Inject]
         public IProductAppService ProductAppService { get; set; }
         public bool IsExistingProduct { get; set; }
         private Task OnSelectedStepChanged(string name)

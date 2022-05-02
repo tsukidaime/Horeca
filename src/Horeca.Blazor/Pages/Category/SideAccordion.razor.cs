@@ -3,6 +3,7 @@ using Horeca.Categories;
 using Microsoft.AspNetCore.Components;
 using System;
 using System.Collections.Generic;
+using System.Collections.Specialized;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -11,7 +12,7 @@ namespace Horeca.Blazor.Pages.Category
     public partial class SideAccordion
     {
         public IList<CategoryDto> Items { get; set; }
-        public List<bool> ItemVisibilities { get; } = new List<bool>();
+        public Dictionary<Guid, bool> ItemVisibilities { get; } = new Dictionary<Guid, bool>();
         [Inject]
         public ICategoryAppService CategoryAppService { get; set; }
         public string SelectedChild { get; set; }
@@ -20,7 +21,7 @@ namespace Horeca.Blazor.Pages.Category
         {
             Items = await CategoryAppService.GetRootCategories();
             foreach (var item in Items)
-                ItemVisibilities.Add(false);
+                ItemVisibilities.Add(item.Id, false);
         }
     }
 }

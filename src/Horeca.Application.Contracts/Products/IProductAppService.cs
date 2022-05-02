@@ -9,10 +9,11 @@ namespace Horeca.Products
         : ICrudAppService< 
             ProductDto, 
             Guid, //Primary key of the category entity
-            PagedAndSortedResultRequestDto, //Used for paging/sorting
+            GetProductListDto, //Used for paging/sorting
             CreateUpdateProductDto> //Used to create/update a category
     {
         Task<ProductDto> UpdateApprovalStateAsync(Guid id, ApprovalState state);
-        Task<PagedResultDto<ProductDto>> GetListByNameAsync(GetProductListDto input);
+        Task<PagedResultDto<ProductDto>> GetListByNameAsync(string name, GetProductListDto input);
+        Task<PagedResultDto<ProductDto>> GetListByCategoryAsync(Guid? categoryId, GetProductListDto input);
     }
 }

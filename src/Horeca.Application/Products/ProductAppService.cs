@@ -5,6 +5,7 @@ using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Threading.Tasks;
 using Volo.Abp.Application.Dtos;
 using Volo.Abp.Application.Services;
@@ -16,7 +17,7 @@ namespace Horeca.Products
             Product,
             ProductDto,
             Guid, 
-            PagedAndSortedResultRequestDto, 
+            GetProductListDto, 
             CreateUpdateProductDto>, 
         IProductAppService
     {
@@ -48,26 +49,34 @@ namespace Horeca.Products
             return ObjectMapper.Map<Product, ProductDto>(product);
         }
 
-        public async Task<PagedResultDto<ProductDto>> GetListByNameAsync(GetProductListDto input)
+        public async Task<PagedResultDto<ProductDto>> GetListByCategoryAsync(Guid? categoryId, GetProductListDto input)
+        {
+            return await GetListAsync(input, categoryId != null, x => x.CategoryId == categoryId);
+        }
+
+        private async Task<PagedResultDto<ProductDto>> GetListAsync(GetProductListDto input, bool filterExists, Expression<Func<Product, bool>> filter)
         {
             var query = await _productRepository.WithDetailsAsync(x => x.Category);
-            query = query.Skip(input.SkipCount)
-                .Take(input.MaxResultCount);
-
-            if (!input.Filter.IsNullOrEmpty())
-                query = query.Where(x => x.Name.StartsWith(input.Filter));
-
+            if (input.OnlyApproved)
+                query = query.Where(x => x.ApprovalState == ApprovalState.Approved);
+            if (filterExists)
+                query = query.Where(filter);
+            query = query.Skip(input.SkipCount).Take(input.MaxResultCount);
             var products = await query.ToListAsync();
 
-            var totalCount = input.Filter.IsNullOrEmpty()
+            var totalCount = filterExists
                 ? await _productRepository.CountAsync()
-                : await _productRepository.CountAsync(
-                    product => product.Name.StartsWith(input.Filter));
+                : await _productRepository.CountAsync(filter);
 
             return new PagedResultDto<ProductDto>(
                 totalCount,
                 ObjectMapper.Map<List<Product>, List<ProductDto>>(products)
             );
+        }
+
+        public async Task<PagedResultDto<ProductDto>> GetListByNameAsync(string name, GetProductListDto input)
+        {
+            return await GetListAsync(input, !name.IsNullOrEmpty(), x => x.Name.StartsWith(name));
         }
 
         [Authorize(HorecaPermissions.ProductApprove)]

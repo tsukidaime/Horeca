@@ -15,13 +15,13 @@ public static class HorecaPermissions
     public const string ProductBidDelete = ProductBid + Delete;
     public const string ProductBidRead = ProductBid + Read;
 
-    public const string Product = "Product";
+    public const string ProductManagement = "ProductManagement";
 
-    public const string ProductCreate = Product + Create;
-    public const string ProductEdit = Product + Edit;
-    public const string ProductDelete = Product + Delete;
-    public const string ProductRead = Product + Read;
-    public const string ProductApprove = Product + "Approve";
+    public const string ProductCreate = ProductManagement + Create;
+    public const string ProductEdit = ProductManagement + Edit;
+    public const string ProductDelete = ProductManagement + Delete;
+    public const string ProductRead = ProductManagement + Read;
+    public const string ProductApprove = ProductManagement + "Approve";
 
     public const string Category = "Category";
 

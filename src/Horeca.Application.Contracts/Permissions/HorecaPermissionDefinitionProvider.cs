@@ -9,7 +9,7 @@ public class HorecaPermissionDefinitionProvider : PermissionDefinitionProvider
     public override void Define(IPermissionDefinitionContext context)
     {
         var horeca = context.AddGroup(HorecaPermissions.Horeca);
-        var product = horeca.AddPermission(HorecaPermissions.Product, L("Permission:Product"));
+        var product = horeca.AddPermission(HorecaPermissions.ProductManagement, L("Permission:Product"));
         product.AddChild(HorecaPermissions.ProductCreate, L("Permission:ProductCreate"));
         product.AddChild(HorecaPermissions.ProductEdit, L("Permission:ProductEdit"));
         product.AddChild(HorecaPermissions.ProductDelete, L("Permission:ProductDelete"));

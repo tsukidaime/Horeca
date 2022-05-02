@@ -48,10 +48,10 @@ public class HorecaMenuContributor : IMenuContributor
         context.Menu.AddItem(new ApplicationMenuItem(
                 "Horeca.Products",
                 l["Menu:Products"],
-                url: "/product/grid"
+                url: "/products"
             ));
 
-        if (await context.IsGrantedAsync(HorecaPermissions.Product))
+        if (await context.IsGrantedAsync(HorecaPermissions.ProductManagement))
         {
             context.Menu.AddItem(new ApplicationMenuItem(
                 "Horeca.Products",

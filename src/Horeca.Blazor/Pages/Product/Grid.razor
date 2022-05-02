@@ -1,22 +1,19 @@
-﻿@page "/product/grid"
-@using Horeca.Products
+﻿@using Horeca.Products
 @using Horeca.Localization
 @using Horeca.Blazor.Pages.Category;
+@using Horeca.Utils
 @using Volo.Abp.AspNetCore.Components.Web
+@using Horeca.Blazor.Components;
 @inherits HorecaComponentBase
 @inject AbpBlazorMessageLocalizerHelper<HorecaResource> LH
-<Layout Sider>
-    <LayoutSider>
-        <LayoutSiderContent>
-            <SideAccordion></SideAccordion>
-        </LayoutSiderContent>
-    </LayoutSider>
-    <Layout>
-        <LayoutHeader Fixed>
-            Header
-        </LayoutHeader>
-        <LayoutContent>
-            Content
-        </LayoutContent>
-    </Layout>
-</Layout>
+<CardDeck>
+    @foreach(var product in ProductList)
+    {
+        <ProductCard Product="product"></ProductCard>
+    }
+</CardDeck>
+<Row>
+    <Column ColumnSize="ColumnSize.Is12">
+        <HorecaPagination SelectedPage="SelectedPage" MetaData="PaginationData" Spread="2"></HorecaPagination>
+    </Column>
+</Row>

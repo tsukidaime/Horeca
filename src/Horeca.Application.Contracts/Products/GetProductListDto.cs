@@ -4,6 +4,6 @@ namespace Horeca.Products
 {
     public class GetProductListDto : PagedAndSortedResultRequestDto
     {
-        public string Filter { get; set; }
+        public bool OnlyApproved { get; set; }
     }
 }

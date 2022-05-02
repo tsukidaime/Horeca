@@ -48,12 +48,13 @@ namespace Horeca.Blazor.Pages.Product
 
         private async Task GetProductsAsync()
         {
-            var result = await ProductAppService.GetListByNameAsync(
+            var result = await ProductAppService.GetListAsync(
                 new GetProductListDto
                 {
                     MaxResultCount = PageSize,
                     SkipCount = CurrentPage * PageSize,
-                    Sorting = CurrentSorting
+                    Sorting = CurrentSorting,
+                    OnlyApproved = false
                 }
             );
 
