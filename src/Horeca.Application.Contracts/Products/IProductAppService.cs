@@ -13,7 +13,5 @@ namespace Horeca.Products
             CreateUpdateProductDto> //Used to create/update a category
     {
         Task<ProductDto> UpdateApprovalStateAsync(Guid id, ApprovalState state);
-        Task<PagedResultDto<ProductDto>> GetListByNameAsync(string name, GetProductListDto input);
-        Task<PagedResultDto<ProductDto>> GetListByCategoryAsync(Guid? categoryId, GetProductListDto input);
     }
 }

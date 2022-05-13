@@ -3,16 +3,18 @@
         <Collapse Visible="@ItemVisibilities[item.Id]">
             <CollapseHeader>
                 <Heading Size="HeadingSize.Is5">
-                    <Button Clicked="@(()=>@ItemVisibilities[item.Id] = !@ItemVisibilities[item.Id])">@item.Name</Button>
+                    <Button Clicked="@(()=>SelectHead(item.Id))">@item.Name</Button>
                 </Heading>
             </CollapseHeader>
             <CollapseBody>
                 @if (item.Children.Count() > 0)
                 {
-                        <ListGroup Mode="ListGroupMode.Selectable" @bind-SelectedItem="SelectedChild">
+                        <ListGroup Mode="ListGroupMode.Selectable" @bind-SelectedItem="SelectedChild" Flush>
                             @foreach (var subItem in item.Children)
                             {
-                                <ListGroupItem >@subItem.Name</ListGroupItem>
+                                <ListGroupItem Name="@subItem.Name" Clicked="@(()=>SelectCategory(subItem.Id))">
+                                    @subItem.Name
+                                </ListGroupItem>
                             }
                         </ListGroup>
                 }

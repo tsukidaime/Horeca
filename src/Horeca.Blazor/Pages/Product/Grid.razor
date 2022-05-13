@@ -6,6 +6,18 @@
 @using Horeca.Blazor.Components;
 @inherits HorecaComponentBase
 @inject AbpBlazorMessageLocalizerHelper<HorecaResource> LH
+<Row>
+    <Column ColumnSize="ColumnSize.Is12">
+        <Fields>
+            <Field ColumnSize="ColumnSize.Is8">
+                <TextEdit @bind-Text="@SearchText" Placeholder="@L["Name"]"/>
+            </Field>
+            <Field ColumnSize="ColumnSize.Is4">
+                <Button Color="Color.Primary" Clicked="@SearchAsync">@L["Search"]</Button>
+            </Field>
+        </Fields>
+    </Column>
+</Row>
 <CardDeck>
     @foreach(var product in ProductList)
     {
@@ -14,6 +26,6 @@
 </CardDeck>
 <Row>
     <Column ColumnSize="ColumnSize.Is12">
-        <HorecaPagination SelectedPage="SelectedPage" MetaData="PaginationData" Spread="2"></HorecaPagination>
+        <HorecaPagination SelectedPage="SelectedPage" PaginationData="PaginationData" Spread="2"></HorecaPagination>
     </Column>
 </Row>

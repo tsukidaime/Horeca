@@ -10,7 +10,7 @@ using Volo.Abp.Application.Dtos;
 
 namespace Horeca.Blazor.Pages.Product
 {
-    public partial class Search
+    public partial class ProductSearch
     {
         [Parameter]
         public string SelectedStep { get; set; }
@@ -27,7 +27,7 @@ namespace Horeca.Blazor.Pages.Product
         public string SearchText { get; set; }
         public IReadOnlyList<ProductDto> ProductList { get; set; }
         public int PageSize { get; } = LimitedResultRequestDto.DefaultMaxResultCount;
-        public int CurrentPage { get; set; }
+        public int CurrentPage { get; set; } = 1;
         public string CurrentSorting { get; set; }
         public int TotalCount { get; set; }
         public bool HiddenProductsGrid { get; set; }
@@ -52,13 +52,14 @@ namespace Horeca.Blazor.Pages.Product
         }
         public async Task SearchAsync()
         {
-            var result = await ProductAppService.GetListByNameAsync(SearchText,
+            var result = await ProductAppService.GetListAsync(
                 new GetProductListDto
                 {
                     MaxResultCount = PageSize,
-                    SkipCount = CurrentPage * PageSize,
+                    SkipCount = (CurrentPage - 1) * PageSize,
                     Sorting = CurrentSorting,
-                    OnlyApproved = false
+                    OnlyApproved = false,
+                    Name = SearchText
                 }
             );
 

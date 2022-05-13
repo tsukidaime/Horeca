@@ -17,6 +17,7 @@ using Volo.Abp.AspNetCore.Components.WebAssembly.BasicTheme;
 using Volo.Abp.Identity.Blazor.WebAssembly;
 using Volo.Abp.SettingManagement.Blazor.WebAssembly;
 using Volo.Abp.TenantManagement.Blazor.WebAssembly;
+using Horeca.Blazor.State;
 
 namespace Horeca.Blazor;
 
@@ -42,6 +43,12 @@ public class HorecaBlazorModule : AbpModule
         ConfigureUI(builder);
         ConfigureMenu(context);
         ConfigureAutoMapper(context);
+        ConfigureState(builder);
+    }
+
+    private void ConfigureState(WebAssemblyHostBuilder builder)
+    {
+        builder.Services.AddSingleton<ProductGridState>();
     }
 
     private void ConfigureRouter(ServiceConfigurationContext context)

@@ -4,33 +4,30 @@
 @inject ICurrentTenant CurrentTenant
 @inject AuthenticationStateProvider AuthenticationStateProvider
 <section id="welcome">
-    <main class="main">
-            <!-- Welcome -->
-            <section id="welcome">
-              <div class="welcome__container">
-                <div class="welcome__details">
-                  <div class="details__text">
-                    <h1>Бизнес теперь<br />Автоматизирован</h1>
-                    <p>
-                      Автоматизация бизнес процессов закупки, прием, поставки и
-                      документооборота объектов Horeca
-                    </p>
-                  </div>
-                  <div class="details__buttons">
-                      @if (!CurrentUser.IsAuthenticated)
-                        {
-                            <button class="button button_empty">@L["Login"]</button>
-                        }
-                        else
-                        {
-                            <button class="button">ОФОРМИТЬ ЗАКАЗ</button>
-                        }
-                  </div>
-                </div>
-                <div class="welcome__img">
-                  <img src="img/anim-food.png" alt="welcome-image" />
-                </div>
-              </div>
-            </section>
+    <main class="main d-flex justify-content-center">
+        <div class="welcome__container d-flex justify-content-evenly">
+        <div>
+            <div class="details__text">
+            <h1>Бизнес теперь<br />Автоматизирован</h1>
+            <p>
+                Автоматизация бизнес процессов закупки, прием, поставки и
+                документооборота объектов Horeca
+            </p>
+            </div>
+            <div class="details__buttons">
+                @if (!CurrentUser.IsAuthenticated)
+                {
+                    <button class="button button_empty">@L["Login"]</button>
+                }
+                else
+                {
+                    <button class="button">ОФОРМИТЬ ЗАКАЗ</button>
+                }
+            </div>
+        </div>
+        <div>
+            <img src="img/anim-food.png" alt="welcome-image" />
+        </div>
+        </div>
     </main>
 </section>

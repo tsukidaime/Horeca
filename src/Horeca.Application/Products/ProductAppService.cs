@@ -1,10 +1,12 @@
-﻿using Horeca.Models;
+﻿using Horeca.Categories;
+using Horeca.Models;
 using Horeca.Permissions;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Dynamic.Core;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
 using Volo.Abp.Application.Dtos;
@@ -22,11 +24,14 @@ namespace Horeca.Products
         IProductAppService
     {
         private readonly IRepository<Product, Guid> _productRepository;
+        private ICategoryAppService _categoryAppService;
 
-        public ProductAppService(IRepository<Product, Guid> repository)
+        public ProductAppService(IRepository<Product, Guid> repository,
+            ICategoryAppService categoryAppService)
            : base(repository)
         {
             _productRepository = repository;
+            _categoryAppService = categoryAppService;
             GetPolicyName = HorecaPermissions.ProductRead;
             CreatePolicyName = HorecaPermissions.ProductCreate;
             UpdatePolicyName = HorecaPermissions.ProductEdit;
@@ -49,34 +54,28 @@ namespace Horeca.Products
             return ObjectMapper.Map<Product, ProductDto>(product);
         }
 
-        public async Task<PagedResultDto<ProductDto>> GetListByCategoryAsync(Guid? categoryId, GetProductListDto input)
+        public override async Task<PagedResultDto<ProductDto>> GetListAsync(GetProductListDto input)
         {
-            return await GetListAsync(input, categoryId != null, x => x.CategoryId == categoryId);
-        }
-
-        private async Task<PagedResultDto<ProductDto>> GetListAsync(GetProductListDto input, bool filterExists, Expression<Func<Product, bool>> filter)
-        {
-            var query = await _productRepository.WithDetailsAsync(x => x.Category);
+            var query = await GetQueryAsync(input, !input.Name.IsNullOrEmpty(), x => x.Name.StartsWith(input.Name));
+            query = await GetQueryAsync(input, input.CategoryId != null, x => x.CategoryId == input.CategoryId 
+            || _categoryAppService.IsDescendant(x.CategoryId, (Guid)input.CategoryId).Result, query);
             if (input.OnlyApproved)
                 query = query.Where(x => x.ApprovalState == ApprovalState.Approved);
-            if (filterExists)
-                query = query.Where(filter);
+            var totalCount = await query.CountAsync();
             query = query.Skip(input.SkipCount).Take(input.MaxResultCount);
             var products = await query.ToListAsync();
-
-            var totalCount = filterExists
-                ? await _productRepository.CountAsync()
-                : await _productRepository.CountAsync(filter);
 
             return new PagedResultDto<ProductDto>(
                 totalCount,
                 ObjectMapper.Map<List<Product>, List<ProductDto>>(products)
             );
         }
-
-        public async Task<PagedResultDto<ProductDto>> GetListByNameAsync(string name, GetProductListDto input)
+        private async Task<IQueryable<Product>> GetQueryAsync(GetProductListDto input, bool filterExists, Expression<Func<Product, bool>> filter, IQueryable<Product> query = null)
         {
-            return await GetListAsync(input, !name.IsNullOrEmpty(), x => x.Name.StartsWith(name));
+            query ??= await _productRepository.WithDetailsAsync(x => x.Category);
+            if (filterExists)
+                query = query.Where(filter);
+            return query;
         }
 
         [Authorize(HorecaPermissions.ProductApprove)]

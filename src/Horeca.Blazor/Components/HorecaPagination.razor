@@ -4,7 +4,7 @@
     @{
         foreach(var link in _links)
         {
-            <PaginationItem @key="link.Page" Active="@link.Active">
+            <PaginationItem Active="@link.Active">
                 <PaginationLink Page="@link.Text" Clicked="() => OnSelectedPage(link)">
                     @link.Text
                 </PaginationLink>

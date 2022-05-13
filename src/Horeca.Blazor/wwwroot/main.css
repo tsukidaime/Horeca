@@ -104,10 +104,15 @@ body {
 }
 
 #ApplicationContainer {
-    overflow: hidden;
+    overflow: visible;
     display: flex;
     flex-direction: column;
     min-height: 100%;
+}
+
+[class*="__container"] {
+    max-width: 1240px;
+    margin: 0 auto;
 }
 
 .navbar {
@@ -146,9 +151,9 @@ body {
     transform: all 0.3s ease;
 }
 
-    .button:hover {
-        background-color: #fde8d8;
-    }
+.button:hover {
+    background-color: #fde8d8;
+}
 
 .button_empty {
     background: none;
@@ -156,56 +161,44 @@ body {
     color: #ffffff;
 }
 
-    .button_empty:hover {
-        background-color: #fcaa63;
-    }
-
-[class*="__container"] {
-    max-width: 1240px;
-    margin: 0 0;
+.button_empty:hover {
+    background-color: #fcaa63;
 }
 
 
 #welcome {
     background: linear-gradient( 277.75deg, #ff8a00 52.46%, #f0ac55 91.84%, #f5edd7 99.59% );
-}
-
-main {
-    flex: 1 1 auto;
+    position: fixed;
+    top: inherit;
+    left: 0;
+    width: 100%;
 }
 
 .welcome__container {
-    padding: 166px 0;
-    display: flex;
+    padding: 10rem 0;
     align-items: center;
-    justify-content: space-between;
-    gap: 90px;
 }
 
 .details__text {
     color: white;
 }
 
-    .details__text h1 {
-        font-size: 4.5rem;
-        line-height: 1.4;
-        font-weight: 700;
-    }
+.details__text h1 {
+    font-size: 4.5rem;
+    line-height: 1.4;
+    font-weight: 700;
+}
 
-    .details__text p {
-        font-size: 18px;
-        line-height: 22px;
-        margin-top: 35px;
-        margin-bottom: 45px;
-    }
+.details__text p {
+    font-size: 18px;
+    line-height: 22px;
+    margin-top: 35px;
+    margin-bottom: 45px;
+}
 
 .details__buttons {
     display: flex;
     gap: 14px;
-}
-
-.welcome__img {
-    padding-right: 130px;
 }
 
 .footer {

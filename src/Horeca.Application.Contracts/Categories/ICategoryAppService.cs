@@ -16,5 +16,6 @@ namespace Horeca.Categories
         Task<List<CategoryDto>> GetRootCategories();
         Task<bool> HasChild(Guid id);
         Task<List<CategoryDto>> GetChildren(Guid id);
+        Task<bool> IsDescendant(Guid rootId, Guid categoryId);
     }
 }

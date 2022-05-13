@@ -12,7 +12,7 @@ namespace Horeca.Blazor.Components
         [Parameter]
         public EventCallback<int> SelectedPage { get; set; }
         [Parameter]
-        public PaginationData MetaData { get; set; }
+        public PaginationData PaginationData { get; set; }
 
         private List<PagingLink> _links;
 
@@ -23,21 +23,21 @@ namespace Horeca.Blazor.Components
         private void CreatePaginationLinks()
         {
             _links = new List<PagingLink>();
-            _links.Add(new PagingLink(MetaData.CurrentPage - 1, MetaData.HasPrevious, "Previous"));
-            for (int i = 1; i <= MetaData.TotalCount; i++)
+            _links.Add(new PagingLink(PaginationData.CurrentPage - 1, PaginationData.HasPrevious, "Previous"));
+            for (int i = 1; i <= PaginationData.TotalCount; i++)
             {
-                if (i >= MetaData.CurrentPage - Spread && i <= MetaData.CurrentPage + Spread)
+                if (i >= PaginationData.CurrentPage - Spread && i <= PaginationData.CurrentPage + Spread)
                 {
-                    _links.Add(new PagingLink(i, true, i.ToString()) { Active = MetaData.CurrentPage == i });
+                    _links.Add(new PagingLink(i, true, i.ToString()) { Active = PaginationData.CurrentPage == i });
                 }
             }
-            _links.Add(new PagingLink(MetaData.CurrentPage + 1, MetaData.HasNext, "Next"));
+            _links.Add(new PagingLink(PaginationData.CurrentPage + 1, PaginationData.HasNext, "Next"));
         }
         private async Task OnSelectedPage(PagingLink link)
         {
-            if (link.Page == MetaData.CurrentPage || !link.Enabled)
+            if (link.Page == PaginationData.CurrentPage || !link.Enabled)
                 return;
-            MetaData.CurrentPage = link.Page;
+            PaginationData.CurrentPage = link.Page;
             await SelectedPage.InvokeAsync(link.Page);
         }
         

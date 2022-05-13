@@ -6,25 +6,26 @@ using System.Threading.Tasks;
 using Volo.Abp.Application.Dtos;
 using Horeca.Utils;
 using Horeca.Blazor.Components;
+using Horeca.Blazor.State;
 
 namespace Horeca.Blazor.Pages.Product
 {
     public partial class Grid
     {
-        [Parameter]
-        public Guid? CategoryId { get; set; }
-        private IReadOnlyList<ProductDto> ProductList { get; set; }
+        private IReadOnlyList<ProductDto> ProductList { get; set; } = new List<ProductDto>();
         [Inject]
         public IProductAppService ProductAppService { get; set; }
+        [Inject]
+        public ProductGridState ProductGridState { get; set; }
+        public string SearchText { get; set; }
         public int PageSize { get; } = ProductConsts.DefaultGridMaxResultsCount;
-        public int CurrentPage { get; set; }
+        public int CurrentPage { get; set; } = 1;
         public string CurrentSorting { get; set; }
-        public PaginationData PaginationData { get; set; }
+        public PaginationData PaginationData { get; set; } = new PaginationData();
         protected override async Task OnInitializedAsync()
         {
             await GetProductsAsync();
         }
-
         private async Task SelectedPage(int page)
         {
             CurrentPage = page;
@@ -33,26 +34,18 @@ namespace Horeca.Blazor.Pages.Product
 
         private async Task GetProductsAsync()
         {
-            var result = CategoryId != null ? await ProductAppService.GetListByCategoryAsync(
-                CategoryId,
+            var result = await ProductAppService.GetListAsync(
                 new GetProductListDto
                 {
                     MaxResultCount = PageSize,
-                    SkipCount = CurrentPage * PageSize,
+                    SkipCount = (CurrentPage-1) * PageSize,
                     Sorting = CurrentSorting,
-                    OnlyApproved = true
-                }
-            ) :
-            await ProductAppService.GetListAsync(
-                new GetProductListDto
-                {
-                    MaxResultCount = PageSize,
-                    SkipCount = CurrentPage * PageSize,
-                    Sorting = CurrentSorting,
-                    OnlyApproved = true
+                    OnlyApproved = true,
+                    Name = SearchText,
+                    CategoryId = ProductGridState.CategoryId
                 }
             );
-            
+
             ProductList = result.Items;
             PaginationData = new PaginationData
             {
@@ -61,6 +54,12 @@ namespace Horeca.Blazor.Pages.Product
                 TotalCount = result.TotalCount,
                 TotalPages = (int)Math.Ceiling(result.TotalCount / (double)PageSize),
             };
+        }
+
+        public async Task SearchAsync()
+        {
+            await GetProductsAsync();
+            await InvokeAsync(StateHasChanged);
         }
     }
 }

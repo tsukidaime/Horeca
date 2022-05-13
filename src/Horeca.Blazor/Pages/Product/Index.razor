@@ -1,4 +1,4 @@
-﻿@page "/products/{CategoryId:guid?}"
+﻿@page "/products"
 @using Horeca.Products
 @using Horeca.Localization
 @using Horeca.Blazor.Pages.Category;
@@ -6,7 +6,7 @@
 @inherits HorecaComponentBase
 @inject AbpBlazorMessageLocalizerHelper<HorecaResource> LH
 <Layout Sider>
-    <LayoutSider>
+    <LayoutSider class="bg-white">
         <LayoutSiderContent>
             <SideAccordion></SideAccordion>
         </LayoutSiderContent>
@@ -16,7 +16,7 @@
             Header
         </LayoutHeader>
         <LayoutContent>
-            <Grid CategoryId="CategoryId"></Grid>
+            <Grid></Grid>
         </LayoutContent>
     </Layout>
 </Layout>

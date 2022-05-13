@@ -41,6 +41,17 @@ namespace Horeca.Categories
             return ObjectMapper.Map<List<Category>, List<CategoryDto>>(category.SubCategories);
         }
 
+        public async Task<bool> IsDescendant(Guid rootId, Guid categoryId)
+        {
+            var query = await _categoryRepository.GetQueryableAsync();
+            var subItems = new List<bool>();
+            foreach (var item in query.Where(x => x.ParentId == rootId))
+            {
+                subItems.Add(await IsDescendant(item.Id, categoryId) || rootId == item.ParentId);
+            }
+            return subItems.Any(x=>x==true);
+        }
+
         public async Task<List<CategoryDto>> GetRootCategories()
         {
             var query = await _categoryRepository.WithDetailsAsync(x=>x.SubCategories);
