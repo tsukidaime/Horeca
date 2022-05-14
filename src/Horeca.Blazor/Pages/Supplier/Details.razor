@@ -1,0 +1,30 @@
+﻿@page "/supplier/{SupplierId:guid}"
+@using Horeca.Supplier
+@using Horeca.Localization
+@using Horeca.Blazor.Pages.Category;
+@using Horeca.Utils
+@using Volo.Abp.AspNetCore.Components.Web
+@using Horeca.Blazor.Components;
+@inherits HorecaComponentBase
+@inject AbpBlazorMessageLocalizerHelper<HorecaResource> LH
+
+<Jumbotron Background="Background.Light" Margin="Margin.Is4.FromBottom">
+    <JumbotronTitle Size="JumbotronTitleSize.Is4">@Supplier.CompanyName</JumbotronTitle>
+    <JumbotronSubtitle>
+        @L["InHorecaSince"] - @Supplier.StartDate.ToShortDateString()
+    </JumbotronSubtitle>
+    <Rating Color="Color.Primary" />
+    <Divider></Divider>
+    <Paragraph>
+        <Row>
+            <Column ColumnSize="ColumnSize.Is12">
+                <Icon Name="IconName.Briefcase" /> @Supplier.BIN (@L["CheckUpContragent"])
+            </Column>
+        </Row>
+        <Row>
+            <Column ColumnSize="ColumnSize.Is12">
+                <Icon Name="IconName.Phone" /> @Supplier.PhoneNumber
+            </Column>
+        </Row>
+    </Paragraph>
+</Jumbotron>

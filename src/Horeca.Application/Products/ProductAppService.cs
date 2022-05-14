@@ -12,6 +12,7 @@ using System.Threading.Tasks;
 using Volo.Abp.Application.Dtos;
 using Volo.Abp.Application.Services;
 using Volo.Abp.Domain.Repositories;
+using Horeca.Utils;
 
 namespace Horeca.Products
 {
@@ -56,26 +57,23 @@ namespace Horeca.Products
 
         public override async Task<PagedResultDto<ProductDto>> GetListAsync(GetProductListDto input)
         {
-            var query = await GetQueryAsync(input, !input.Name.IsNullOrEmpty(), x => x.Name.StartsWith(input.Name));
-            query = await GetQueryAsync(input, input.CategoryId != null, x => x.CategoryId == input.CategoryId 
-            || _categoryAppService.IsDescendant(x.CategoryId, (Guid)input.CategoryId).Result, query);
-            if (input.OnlyApproved)
-                query = query.Where(x => x.ApprovalState == ApprovalState.Approved);
-            var totalCount = await query.CountAsync();
+            var query = await _productRepository.WithDetailsAsync(x => x.Category);
+            query = query.WhereIf(!input.Name.IsNullOrEmpty(), x => x.Name.StartsWith(input.Name));
+            query = query.WhereIf(input.OnlyApproved, x => x.ApprovalState == ApprovalState.Approved);
+            if (input.CategoryId != null)
+            {
+                var categoryFiltered = await query.AsEnumerable<Product>().Where(async x => x.CategoryId == input.CategoryId
+                || await _categoryAppService.IsDescendant((Guid)input.CategoryId, x.CategoryId));
+                query = categoryFiltered.AsQueryable();
+            }
+            var totalCount = query.Count();
             query = query.Skip(input.SkipCount).Take(input.MaxResultCount);
-            var products = await query.ToListAsync();
+            var products = query.ToList();
 
             return new PagedResultDto<ProductDto>(
                 totalCount,
                 ObjectMapper.Map<List<Product>, List<ProductDto>>(products)
             );
-        }
-        private async Task<IQueryable<Product>> GetQueryAsync(GetProductListDto input, bool filterExists, Expression<Func<Product, bool>> filter, IQueryable<Product> query = null)
-        {
-            query ??= await _productRepository.WithDetailsAsync(x => x.Category);
-            if (filterExists)
-                query = query.Where(filter);
-            return query;
         }
 
         [Authorize(HorecaPermissions.ProductApprove)]
