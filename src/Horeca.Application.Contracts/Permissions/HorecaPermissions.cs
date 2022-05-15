@@ -23,6 +23,13 @@ public static class HorecaPermissions
     public const string ProductRead = ProductManagement + Read;
     public const string ProductApprove = ProductManagement + "Approve";
 
+    public const string AddressManagement = "AddressManagement";
+
+    public const string AddressCreate = AddressManagement + Create;
+    public const string AddressEdit = AddressManagement + Edit;
+    public const string AddressDelete = AddressManagement + Delete;
+    public const string AddressRead = AddressManagement + Read;
+
     public const string Category = "Category";
 
     public const string CategoryCreate = Category + Create;

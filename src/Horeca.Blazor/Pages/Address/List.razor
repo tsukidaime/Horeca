@@ -1,0 +1,80 @@
+﻿@page "/address/management"
+@using Horeca.Addresses
+@using Horeca.Localization
+@using Volo.Abp.AspNetCore.Components.Web
+@inherits HorecaComponentBase
+@inject IAddressAppService AddressAppService
+@inject AbpBlazorMessageLocalizerHelper<HorecaResource> LH
+<Card>
+    <CardHeader>
+        <Row>
+            <Column ColumnSize="ColumnSize.Is6">
+                <h2>@L["Address"]</h2>
+            </Column>
+            <Column ColumnSize="ColumnSize.Is6">
+                <Paragraph Alignment="TextAlignment.Right">
+                    @if (CanCreateAddress)
+                    {
+                        <Button Color="Color.Primary"
+                            Clicked="NavigateToCreate">
+                            @L["New"] @L["Address"] 
+                        </Button>
+                    }
+                </Paragraph>
+            </Column>
+        </Row>
+    </CardHeader>
+    <CardBody>
+        <DataGrid TItem="AddressDto"
+                  Data="AddressList"
+                  ReadData="OnDataGridReadAsync"
+                  TotalItems="TotalCount"
+                  ShowPager="true"
+                  PageSize="PageSize">
+            <DataGridColumns>
+                <DataGridColumn Width="150px"
+                                TItem="AddressDto"
+                                Field="@nameof(AddressDto.Id)"
+                                Sortable="false"
+                                Caption="@L["Actions"]">
+                    <DisplayTemplate>
+                        <Dropdown>
+                            <DropdownToggle Color="Color.Primary">
+                                @L["Actions"]
+                            </DropdownToggle>
+                            <DropdownMenu>
+                                @if (CanEditAddress)
+                                {
+                                    <DropdownItem>
+                                        @L["Edit"]
+                                    </DropdownItem>
+                                }
+                                @if (CanDeleteAddress)
+                                {
+                                    <DropdownItem Clicked="() => DeleteAddressAsync(context)">
+                                        @L["Delete"]
+                                    </DropdownItem>
+                                }
+                            </DropdownMenu>
+                        </Dropdown>
+                    </DisplayTemplate>
+                </DataGridColumn>
+                <DataGridColumn TItem="AddressDto"
+                                Field="@nameof(AddressDto.Name)"
+                                Caption="@L["Name"]"></DataGridColumn>
+                <DataGridColumn TItem="AddressDto"
+                                Field="@nameof(AddressDto.City)"
+                                Caption="@L["City"]"></DataGridColumn>
+                <DataGridColumn TItem="AddressDto"
+                                Field="@nameof(AddressDto.Street)"
+                                Caption="@L["Street"]"></DataGridColumn>
+                <DataGridColumn TItem="AddressDto"
+                                Field="@nameof(AddressDto.Building)"
+                                Caption="@L["Building"]"></DataGridColumn>
+                <DataGridColumn TItem="AddressDto"
+                                Field="@nameof(AddressDto.Comment)"
+                                Caption="@L["Comment"]"></DataGridColumn>
+            </DataGridColumns>
+        </DataGrid>
+    </CardBody>
+</Card>

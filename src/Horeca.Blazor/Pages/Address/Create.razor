@@ -1,0 +1,77 @@
+﻿@page "/address/create"
+@using Horeca.Addresses
+@using Horeca.Localization
+@using Horeca.Utils
+@inherits HorecaComponentBase
+@inject AbpBlazorMessageLocalizerHelper<HorecaResource> LH
+<Card>
+    <CardBody>
+        <Row>
+            <Column ColumnSize="ColumnSize.Is12">
+                <Field Horizontal>
+                    <FieldLabel ColumnSize="ColumnSize.Is2">@L["Name"]</FieldLabel>
+                    <FieldBody ColumnSize="ColumnSize.Is10">
+                        <TextEdit @bind-Text="@AddressDto.Name"/>
+                    </FieldBody>
+                </Field>
+            </Column>
+        </Row>
+        <Row>
+            <Fields>
+                <Field Horizontal ColumnSize="ColumnSize.Is6">
+                    <FieldLabel ColumnSize="ColumnSize.Is2">@L["Region"]</FieldLabel>
+                    <FieldBody ColumnSize="ColumnSize.Is10">
+                        <TextEdit @bind-Text="@AddressDto.Region"/>
+                    </FieldBody>
+                </Field>
+                <Field Horizontal ColumnSize="ColumnSize.Is6">
+                    <FieldLabel ColumnSize="ColumnSize.Is2">@L["City"]</FieldLabel>
+                    <FieldBody ColumnSize="ColumnSize.Is10">
+                        <TextEdit @bind-Text="@AddressDto.City"/>
+                    </FieldBody>
+                </Field>
+            </Fields>
+        </Row>
+        <Row>
+            <Column ColumnSize="ColumnSize.Is12">
+                <Field Horizontal>
+                    <FieldLabel ColumnSize="ColumnSize.Is2">@L["Street"]</FieldLabel>
+                    <FieldBody ColumnSize="ColumnSize.Is10">
+                        <TextEdit @bind-Text="@AddressDto.Street"/>
+                    </FieldBody>
+                </Field>
+            </Column>
+        </Row>
+        <Row>
+            <Fields>
+                <Field Horizontal ColumnSize="ColumnSize.Is8">
+                    <FieldLabel ColumnSize="ColumnSize.Is2">@L["Building"]</FieldLabel>
+                    <FieldBody ColumnSize="ColumnSize.Is10">
+                        <TextEdit @bind-Text="@AddressDto.Building"/>
+                    </FieldBody>
+                </Field>
+                <Field Horizontal ColumnSize="ColumnSize.Is4">
+                    <FieldLabel ColumnSize="ColumnSize.Is2">@L["Block"]</FieldLabel>
+                    <FieldBody ColumnSize="ColumnSize.Is10">
+                        <TextEdit @bind-Text="@AddressDto.Block"/>
+                    </FieldBody>
+                </Field>
+            </Fields>
+        </Row>
+        <Row>
+            <Column ColumnSize="ColumnSize.Is12">
+                <Field Horizontal>
+                    <FieldLabel ColumnSize="ColumnSize.Is2">@L["Comment"]</FieldLabel>
+                    <FieldBody ColumnSize="ColumnSize.Is10">
+                        <TextEdit Size="Size.Large" @bind-Text="@AddressDto.Comment"/>
+                    </FieldBody>
+                </Field>
+            </Column>
+        </Row>
+    </CardBody>
+    <CardFooter>
+        <Button class="button" Clicked="SubmitAsync">
+            @L["Submit"]
+        </Button>
+    </CardFooter>
+</Card>

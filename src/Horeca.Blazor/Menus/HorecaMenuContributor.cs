@@ -51,6 +51,14 @@ public class HorecaMenuContributor : IMenuContributor
                 url: "/products"
             ));
 
+        if (await context.IsGrantedAsync(HorecaPermissions.AddressManagement))
+        {
+            context.Menu.AddItem(new ApplicationMenuItem(
+                "Horeca.Addresses",
+                l["Menu:Address:Management"],
+                url: "/address/management"
+            ));
+        }
         if (await context.IsGrantedAsync(HorecaPermissions.ProductManagement))
         {
             context.Menu.AddItem(new ApplicationMenuItem(

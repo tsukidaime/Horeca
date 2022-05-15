@@ -4,6 +4,7 @@ using Horeca.Models;
 using Horeca.Products;
 using Horeca.ProductBids;
 using Volo.Abp.AutoMapper;
+using Horeca.Addresses;
 
 namespace Horeca;
 
@@ -22,5 +23,8 @@ public class HorecaApplicationAutoMapperProfile : Profile
         CreateMap<Category, CategoryDto>()
             .ForMember(x=>x.ParentName, map=>map.MapFrom(y=>y.Parent.Name))
             .ForMember(x=>x.Children, map=>map.MapFrom(y=>y.SubCategories));
+        CreateMap<CreateUpdateAddressDto, Address>();
+        CreateMap<AddressDto, CreateUpdateAddressDto>();
+        CreateMap<Address, AddressDto>();
     }
 }

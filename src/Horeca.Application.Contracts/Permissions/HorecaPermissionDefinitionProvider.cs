@@ -25,6 +25,11 @@ public class HorecaPermissionDefinitionProvider : PermissionDefinitionProvider
         category.AddChild(HorecaPermissions.CategoryEdit, L("Permission:CategoryEdit"));
         category.AddChild(HorecaPermissions.CategoryDelete, L("Permission:CategoryDelete"));
         category.AddChild(HorecaPermissions.CategoryRead, L("Permission:CategoryRead"));
+        var address = horeca.AddPermission(HorecaPermissions.AddressManagement, L("Permission:Address"));
+        address.AddChild(HorecaPermissions.AddressCreate, L("Permission:AddressCreate"));
+        address.AddChild(HorecaPermissions.AddressEdit, L("Permission:AddressEdit"));
+        address.AddChild(HorecaPermissions.AddressDelete, L("Permission:AddressDelete"));
+        address.AddChild(HorecaPermissions.AddressRead, L("Permission:AddressRead"));
 
     }
 

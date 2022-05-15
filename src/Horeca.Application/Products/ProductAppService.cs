@@ -21,7 +21,7 @@ namespace Horeca.Products
             ProductDto,
             Guid, 
             GetProductListDto, 
-            CreateUpdateProductDto>, 
+            CreateUpdateProductDto>,
         IProductAppService
     {
         private readonly IRepository<Product, Guid> _productRepository;
