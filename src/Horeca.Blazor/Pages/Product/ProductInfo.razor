@@ -1,5 +1,8 @@
-﻿@using Horeca.Products
+﻿@using Horeca.ProductBids
+@using Horeca.Products
+@using Volo.Abp.AspNetCore.Components
 @inject IProductAppService ProductAppService
+@inject IProductBidAppService ProductBidAppService
 
 
 <h3>ProductInfo</h3>
@@ -21,6 +24,44 @@
         <Row>
             @Product.CreationTime
         </Row>
+        <Row>
+            @ProductBidDto.Price
+        </Row>
+        <Row>
+            @ProductBidDto.MinPurchaseAmount
+        </Row>
+        <Row>
+            @ProductBidDto.MaxPurchaseAmount
+        </Row>
+
     </Column>
 </Row>
-<Rating Color="Color.Primary" />
+<Row>
+    <Column ColumnSize="ColumnSize.Is6">
+        <Rating Color="Color.Primary" />
+    </Column>
+    <Column ColumnSize="ColumnSize.Is6">
+        <Button class="button" Clicked='()=>AddToCard()'>
+            Add to card
+        </Button>
+    </Column>
+</Row>
+
+<Row>
+    @Product.Description
+</Row>
+@*<Card>
+    <CardImage Source="https://dummyimage.com/284x206/000/fff"></CardImage>
+    <CardBody>
+        <Rating Color="Color.Primary" />
+        <CardTitle Size="5">@ProductBidDto.Price</CardTitle>
+        <CardSubtitle>@Product.Manufacturer</CardSubtitle>
+        <Row>
+            <Column ColumnSize="ColumnSize.Is12">
+                <Button class="button" Clicked='()=>NavigateTo(Product)'>
+                    @L["Go To Details"]
+                </Button>
+            </Column>
+        </Row>
+    </CardBody>
+</Card>*@
