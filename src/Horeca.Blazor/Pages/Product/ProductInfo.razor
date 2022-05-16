@@ -1,0 +1,26 @@
+﻿@using Horeca.Products
+@inject IProductAppService ProductAppService
+
+
+<h3>ProductInfo</h3>
+
+<Row>
+    <Column ColumnSize="ColumnSize.Is6">
+        <Image Source="https://dummyimage.com/284x206/000/fff"></Image>
+    </Column>
+    <Column ColumnSize="ColumnSize.Is6">
+        <Row>
+            @Product.Name
+        </Row>
+        <Row>
+            @Product.Manufacturer
+        </Row>
+        <Row>
+            @Product.ApprovalState
+        </Row>
+        <Row>
+            @Product.CreationTime
+        </Row>
+    </Column>
+</Row>
+<Rating Color="Color.Primary" />

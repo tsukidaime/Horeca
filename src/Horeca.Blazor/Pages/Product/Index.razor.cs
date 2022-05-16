@@ -5,5 +5,7 @@ namespace Horeca.Blazor.Pages.Product
 {
     public partial class Index
     {
+        [Parameter]
+        public Guid? ProductId { get; set; }
     }
 }
