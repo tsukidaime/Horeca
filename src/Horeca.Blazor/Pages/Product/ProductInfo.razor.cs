@@ -13,6 +13,8 @@ namespace Horeca.Blazor.Pages.Product
     {
         [Parameter]
         public Guid ProductId { get; set; }
+        [Inject]
+        public NavigationManager NavigationManager { get; set; }
 
         private int PageSize { get; } = LimitedResultRequestDto.DefaultMaxResultCount;
         private int CurrentPage { get; set; }
@@ -21,7 +23,7 @@ namespace Horeca.Blazor.Pages.Product
 
         private ProductDto Product { get; set; } = new ProductDto();
         private ProductBidDto ProductBidDto { get; set; } = new ProductBidDto();
-        private IReadOnlyList<ProductBidDto> ProductBidList { get; set; }
+        private IReadOnlyList<ProductBidDto> ProductBidList { get; set; } = new List<ProductBidDto>();
 
 
         protected override async Task OnInitializedAsync()
@@ -65,6 +67,11 @@ namespace Horeca.Blazor.Pages.Product
         private async Task AddToCard()
         {
             await InvokeAsync(StateHasChanged);
+        }
+
+        public void NavigateTo(ProductDto Product)
+        {
+            NavigationManager.NavigateTo($"products/{Product.Id}");
         }
     }
 }
