@@ -13,6 +13,10 @@ namespace Horeca.Blazor.Pages.Product
     {
         [Parameter]
         public Guid ProductId { get; set; }
+
+        [Parameter]
+        public Guid? ProductBid { get; set; }
+
         [Inject]
         public NavigationManager NavigationManager { get; set; }
 
@@ -41,8 +45,11 @@ namespace Horeca.Blazor.Pages.Product
 
         private async Task GetBidAsync()
         {
+            if(ProductBid == null)
+                ProductBidDto = ProductBidList.FirstOrDefault(x => x.ProductId == ProductId);
+            else
+                ProductBidDto = ProductBidList.FirstOrDefault(x => x.Id == (Guid)ProductBid);
 
-            ProductBidDto = ProductBidList.FirstOrDefault(x => x.ProductId == ProductId);
             await InvokeAsync(StateHasChanged);
         }
 
@@ -69,9 +76,11 @@ namespace Horeca.Blazor.Pages.Product
             await InvokeAsync(StateHasChanged);
         }
 
-        public void NavigateTo(ProductDto Product)
+        public async Task NavigateTo(ProductBidDto ProductBid)
         {
-            NavigationManager.NavigateTo($"products/{Product.Id}");
+            NavigationManager.NavigateTo($"products/{Product.Id}/{ProductBid.Id}");
+            await OnInitializedAsync();
+
         }
     }
 }

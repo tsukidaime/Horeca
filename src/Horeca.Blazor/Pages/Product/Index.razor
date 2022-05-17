@@ -1,4 +1,4 @@
-﻿@page "/products/{ProductId:guid?}"
+﻿@page "/products/{ProductId:guid?}/{ProductBid:guid?}"
 @using Horeca.Products
 @using Horeca.Localization
 @using Horeca.Blazor.Pages.Category;
@@ -18,7 +18,7 @@
         <LayoutContent>
             @if(ProductId != null)
             {
-                <ProductInfo ProductId = "(Guid)ProductId"></ProductInfo>
+                <ProductInfo ProductId = "(Guid)ProductId" ProductBid = "ProductBid"></ProductInfo>
             }
             else
             {
