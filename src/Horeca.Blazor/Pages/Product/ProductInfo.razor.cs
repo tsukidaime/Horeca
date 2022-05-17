@@ -1,4 +1,6 @@
-﻿using Horeca.ProductBids;
+﻿using Horeca.OrderLines;
+using Horeca.Orders;
+using Horeca.ProductBids;
 using Horeca.Products;
 using Microsoft.AspNetCore.Components;
 using System;
@@ -29,6 +31,9 @@ namespace Horeca.Blazor.Pages.Product
         private ProductBidDto ProductBidDto { get; set; } = new ProductBidDto();
         private IReadOnlyList<ProductBidDto> ProductBidList { get; set; } = new List<ProductBidDto>();
 
+        private OrderDto OrderDto { get; set; } = null; 
+        private CreateUpdateOrderDto Order { get; set; } = new CreateUpdateOrderDto();
+        private CreateUpdateOrderLineDto OrderLine { get; set; } = new CreateUpdateOrderLineDto();
 
         protected override async Task OnInitializedAsync()
         {
@@ -73,6 +78,16 @@ namespace Horeca.Blazor.Pages.Product
 
         private async Task AddToCard()
         {
+            Order = new CreateUpdateOrderDto();
+            Order.UserId = (Guid)CurrentUser.Id;
+            if(OrderDto == null)
+                OrderDto = await OrderAppService.CreateAsync(Order);
+
+            OrderLine.OrderId = OrderDto.Id;
+            OrderLine.ProductId = Product.Id;
+            OrderLine.UnitPrice = ProductBidDto.Price;
+            await OrderLineAppService.CreateAsync(OrderLine);
+
             await InvokeAsync(StateHasChanged);
         }
 

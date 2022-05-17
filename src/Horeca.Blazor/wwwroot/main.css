@@ -151,6 +151,10 @@ body {
     transform: all 0.3s ease;
 }
 
+.itemCounter {
+    background-color: #fde8d8;
+}
+
 .button:hover {
     background-color: #fde8d8;
 }
