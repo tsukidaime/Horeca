@@ -1,7 +1,9 @@
 ﻿using Horeca.OrderLines;
 using Horeca.Orders;
+using Horeca.Permissions;
 using Horeca.ProductBids;
 using Horeca.Products;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Components;
 using System;
 using System.Collections.Generic;
@@ -26,6 +28,8 @@ namespace Horeca.Blazor.Pages.Product
         private int CurrentPage { get; set; }
         private string CurrentSorting { get; set; }
         private int TotalCount { get; set; }
+        private bool CanCreateOrder { get; set; }
+
 
         private ProductDto Product { get; set; } = new ProductDto();
         private ProductBidDto ProductBidDto { get; set; } = new ProductBidDto();
@@ -40,6 +44,7 @@ namespace Horeca.Blazor.Pages.Product
             await GetProductsAsync();
             await GetBidsAsync();
             await GetBidAsync();
+            await SetPermissionsAsync();
         }
 
         private async Task GetProductsAsync()
@@ -78,6 +83,7 @@ namespace Horeca.Blazor.Pages.Product
 
         private async Task AddToCard()
         {
+            if (!CurrentUser.IsAuthenticated)
             Order = new CreateUpdateOrderDto();
             Order.UserId = (Guid)CurrentUser.Id;
             if(OrderDto == null)
@@ -96,6 +102,12 @@ namespace Horeca.Blazor.Pages.Product
             NavigationManager.NavigateTo($"products/{Product.Id}/{ProductBid.Id}");
             await OnInitializedAsync();
 
+        }
+        private async Task SetPermissionsAsync()
+        {
+            CanCreateOrder = await AuthorizationService
+                .IsGrantedAsync(HorecaPermissions.AddressCreate);
+            
         }
     }
 }

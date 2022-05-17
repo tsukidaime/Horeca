@@ -73,6 +73,8 @@
             </Column>
         </Row>
         <Row>
+        @if (CanCreateOrder)
+        {
             <Column ColumnSize="ColumnSize.Is6">
                 @L["Count:"]
             </Column>
@@ -84,6 +86,7 @@
                 class = "itemCounter"
                 @bind-Value="@OrderLine.Count"/>
             </Column>
+        }
         </Row>
     </Column>
 </Row>
@@ -93,11 +96,14 @@
     <Column ColumnSize="ColumnSize.Is6">
         <Rating Color="Color.Primary" />
     </Column>
-    <Column ColumnSize="ColumnSize.Is6">
-        <Button class="button" Clicked='()=>AddToCard()'>
-            @L["Add to card"]
-        </Button>
-    </Column>
+    @if (CanCreateOrder)
+    {
+        <Column ColumnSize="ColumnSize.Is6">
+            <Button class="button" Clicked='()=>AddToCard()'>
+                @L["Add to card"]
+            </Button>
+        </Column>
+    }
 </Row>
 
 <Row>
