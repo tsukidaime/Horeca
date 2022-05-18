@@ -1,6 +1,8 @@
 ﻿using Blazorise;
 using Blazorise.DataGrid;
 using Horeca.OrderLines;
+using Horeca.Orders;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -14,9 +16,10 @@ namespace Horeca.Blazor.Pages.Order
         private int CurrentPage { get; set; }
         private string CurrentSorting { get; set; }
         private int TotalCount { get; set; }
+        private OrderDto OrderDto { get; set; }
         private IReadOnlyList<OrderLineDto> OrderLineDtos { get; set; }
 
-        private async Task GetAddresssAsync()
+        private async Task GetOrderLineAsync()
         {
             var result = await OrderLineAppService.GetListAsync(
                 new PagedAndSortedResultRequestDto
@@ -27,7 +30,22 @@ namespace Horeca.Blazor.Pages.Order
                 }
             );
 
-            OrderLineDtos = result.Items;
+            OrderLineDtos = result.Items.Where(x => x.OrderId == OrderDto.Id).ToList();
+            TotalCount = (int)result.TotalCount;
+        }
+
+        private async Task GetOrderAsync()
+        {
+            var result = await OrderAppService.GetListAsync(
+                new GetOrderListDto
+                {
+                    MaxResultCount = PageSize,
+                    SkipCount = CurrentPage * PageSize,
+                    Sorting = CurrentSorting
+                }
+            );
+
+            OrderDto = result.Items.FirstOrDefault(x => x.UserId == CurrentUser.Id);
             TotalCount = (int)result.TotalCount;
         }
 
@@ -39,7 +57,9 @@ namespace Horeca.Blazor.Pages.Order
                 .JoinAsString(",");
             CurrentPage = e.Page - 1;
 
-            await GetAddresssAsync();
+            await GetOrderAsync();
+
+            await GetOrderLineAsync();
 
             await InvokeAsync(StateHasChanged);
         }
@@ -53,7 +73,7 @@ namespace Horeca.Blazor.Pages.Order
             }
 
             await OrderLineAppService.DeleteAsync(Order.Id);
-            await GetAddresssAsync();
+            await GetOrderLineAsync();
             await InvokeAsync(StateHasChanged);
 
         }
