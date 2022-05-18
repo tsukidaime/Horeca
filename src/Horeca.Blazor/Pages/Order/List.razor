@@ -1,0 +1,69 @@
+﻿@page "/order/management"
+@using Horeca.OrderLines
+@inject IOrderLineAppService OrderLineAppService
+@inherits HorecaComponentBase
+
+<h3>List</h3>
+
+<Card>
+    <CardHeader>
+        <Row>
+            <Column ColumnSize="ColumnSize.Is6">
+                <h2>@L["Order "] </h2>
+            </Column>
+            <Column ColumnSize="ColumnSize.Is6">
+                <Paragraph Alignment="TextAlignment.Right">
+                </Paragraph>
+            </Column>
+        </Row>
+    </CardHeader>
+    <CardBody>
+        <DataGrid 
+            TItem = "OrderLineDto"
+            Data = "OrderLineDtos"
+            ReadData = "OnDataGridReadAsync"
+            TotalItems = "TotalCount"
+            ShowPager = "true"
+            PageSize = "PageSize">
+
+            <DataGridColumns>
+                <DataGridColumn
+                    Width = "150px"
+                    TItem = "OrderLineDto"
+                    Field = "@nameof(OrderLineDto.Id)"
+                    Sortable = "false">
+                     <DisplayTemplate>
+                         <Dropdown>
+                            <DropdownToggle Color="Color.Primary">
+                                @L["Delete"]
+                            </DropdownToggle>
+                            <DropdownMenu>
+                                    <DropdownItem Clicked="() => DeleteOrderLineAsync(context)">
+                                        @L["Delete"]
+                                    </DropdownItem>
+                            </DropdownMenu>
+                        </Dropdown>
+                    </DisplayTemplate>
+                </DataGridColumn>
+
+                <DataGridColumn TItem="OrderLineDto"
+                                Field="@nameof(OrderLineDto.ProductId)"
+                                Caption="@L["Product Id"]">
+                </DataGridColumn>
+
+                <DataGridColumn TItem="OrderLineDto"
+                                Field="@nameof(OrderLineDto.Count)"
+                                Caption="@L["Count"]">
+                </DataGridColumn>
+
+                <DataGridColumn TItem="OrderLineDto"
+                                Field="@nameof(OrderLineDto.UnitPrice)"
+                                Caption="@L["Count"]">
+                </DataGridColumn>
+            </DataGridColumns>
+        </DataGrid>
+    </CardBody>
+</Card>
+@code {
+
+}

@@ -67,6 +67,11 @@ public class HorecaMenuContributor : IMenuContributor
                 url: "/product/management"
             ));
         }
+        context.Menu.AddItem(new ApplicationMenuItem(
+            "Horeca.Orders",
+            l["Menu:Order:Management"],
+            url: "/order/management"
+        ));
     }
 
     private async Task ConfigureUserMenuAsync(MenuConfigurationContext context)
