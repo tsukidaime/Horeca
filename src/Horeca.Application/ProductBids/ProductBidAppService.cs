@@ -9,6 +9,8 @@ using Volo.Abp.Domain.Repositories;
 using Horeca.Models;
 using Microsoft.EntityFrameworkCore;
 using Horeca.Permissions;
+using Volo.Abp.Identity;
+using Volo.Abp.Data;
 
 namespace Horeca.ProductBids
 {
@@ -21,9 +23,11 @@ namespace Horeca.ProductBids
         IProductBidAppService
     {
         private readonly IRepository<ProductBid, Guid> _repository;
-        public ProductBidAppService(IRepository<ProductBid, Guid> repository) : base(repository)
+        private readonly IIdentityUserAppService _userService;
+        public ProductBidAppService(IRepository<ProductBid, Guid> repository, IIdentityUserAppService userService) : base(repository)
         {
             _repository = repository;
+            _userService = userService;
             GetPolicyName = HorecaPermissions.ProductBidRead;
             CreatePolicyName = HorecaPermissions.ProductBidCreate;
             UpdatePolicyName = HorecaPermissions.ProductBidEdit;
@@ -46,12 +50,19 @@ namespace Horeca.ProductBids
                 .Where(x => x.ProductId == input.ProductId);
 
             var bids = await query.ToListAsync();
-
+            var bidsDto = new List<ProductBidDto>();
+            foreach(var bid in bids)
+            {
+                var bidDto = ObjectMapper.Map<ProductBid, ProductBidDto>(bid);
+                var supplier = await _userService.GetAsync(bid.UserId);
+                bidDto.SupplierName = supplier.GetProperty<string>("CompanyName");
+                bidsDto.Add(bidDto);
+            }
             var totalCount = await _repository.CountAsync(x => x.ProductId == input.ProductId);
 
             return new PagedResultDto<ProductBidDto>(
                 totalCount,
-                ObjectMapper.Map<List<ProductBid>, List<ProductBidDto>>(bids)
+                bidsDto
                 );
         }
     }

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading.Tasks;
 using Volo.Abp.Application.Services;
 
 namespace Horeca.Orders
@@ -10,5 +11,6 @@ namespace Horeca.Orders
             GetOrderListDto,
             CreateUpdateOrderDto>
     {
+        Task<OrderDto> GetOrderByUserId(Guid userId); 
     }
 }

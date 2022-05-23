@@ -29,7 +29,15 @@ namespace Horeca.Orders
 
         public async override Task<OrderDto> CreateAsync(CreateUpdateOrderDto input)
         {
-            return MapToGetOutputDto(await _orderRepository.InsertAsync(MapToEntity(input)));
+            var enity = MapToEntity(input);
+            enity.OrderState = OrderState.New;
+            return MapToGetOutputDto(await _orderRepository.InsertAsync(enity));
+        }
+
+        public async Task<OrderDto> GetOrderByUserId(Guid userId)
+        {
+            var order = await _orderRepository.FirstOrDefaultAsync(x => x.UserId == userId && x.OrderState == OrderState.New);
+            return ObjectMapper.Map<Order, OrderDto>(order);
         }
     }
 }

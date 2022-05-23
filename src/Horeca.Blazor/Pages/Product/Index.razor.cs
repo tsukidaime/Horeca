@@ -7,8 +7,5 @@ namespace Horeca.Blazor.Pages.Product
     {
         [Parameter]
         public Guid? ProductId { get; set; }
-
-        [Parameter]
-        public Guid? ProductBid { get; set; }
     }
 }

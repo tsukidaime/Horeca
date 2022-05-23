@@ -10,6 +10,7 @@ namespace Horeca.ProductBids
         public double Price { get; set; }
         public int MinPurchaseAmount { get; set; }
         public int MaxPurchaseAmount { get; set; }
+        public string SupplierName { get; set; }
         public Guid UserId { get; set; }
         public Guid ProductId { get; set; }
     }

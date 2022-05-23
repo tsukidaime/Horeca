@@ -3,6 +3,7 @@ using System;
 using Horeca.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using Volo.Abp.EntityFrameworkCore;
@@ -12,9 +13,10 @@ using Volo.Abp.EntityFrameworkCore;
 namespace Horeca.Migrations
 {
     [DbContext(typeof(HorecaDbContext))]
-    partial class HorecaDbContextModelSnapshot : ModelSnapshot
+    [Migration("20220523204913_OrderStatus")]
+    partial class OrderStatus
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -57,7 +59,7 @@ namespace Horeca.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("Addresses", (string)null);
+                    b.ToTable("Addresses");
                 });
 
             modelBuilder.Entity("Horeca.Models.Category", b =>
@@ -75,7 +77,7 @@ namespace Horeca.Migrations
 
                     b.HasIndex("ParentId");
 
-                    b.ToTable("Categories", (string)null);
+                    b.ToTable("Categories");
                 });
 
             modelBuilder.Entity("Horeca.Models.Order", b =>
@@ -119,7 +121,7 @@ namespace Horeca.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("Orders", (string)null);
+                    b.ToTable("Orders");
                 });
 
             modelBuilder.Entity("Horeca.Models.OrderLine", b =>
@@ -145,7 +147,7 @@ namespace Horeca.Migrations
 
                     b.HasIndex("ProductBidId");
 
-                    b.ToTable("OrderLines", (string)null);
+                    b.ToTable("OrderLines");
                 });
 
             modelBuilder.Entity("Horeca.Models.Product", b =>
@@ -198,7 +200,7 @@ namespace Horeca.Migrations
 
                     b.HasIndex("CategoryId");
 
-                    b.ToTable("Products", (string)null);
+                    b.ToTable("Products");
                 });
 
             modelBuilder.Entity("Horeca.Models.ProductBid", b =>
@@ -227,7 +229,7 @@ namespace Horeca.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("Bids", (string)null);
+                    b.ToTable("Bids");
                 });
 
             modelBuilder.Entity("Volo.Abp.AuditLogging.AuditLog", b =>
