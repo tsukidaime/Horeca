@@ -45,6 +45,7 @@ namespace Horeca.Blazor.Pages.Product
             }
 
             await ProductBidAppService.CreateAsync(ProductBidDto);
+            await Message.Success(L["SuccefullySubmitted"]);
             NavigationManager.NavigateTo("/product/management");
         }
     }

@@ -7,7 +7,7 @@ namespace Horeca.OrderLines
     public interface IOrderLineAppService : ICrudAppService<
         OrderLineDto,
         Guid,
-        PagedAndSortedResultRequestDto,
+        GetOrderLineListDto,
         CreateUpdateOrderLineDto>
     {
     }
