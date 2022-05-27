@@ -1,0 +1,97 @@
+﻿@page "/order"
+@using Horeca.Localization
+@using Horeca.OrderLines
+@using Horeca.Orders
+@inherits HorecaComponentBase
+@inject AbpBlazorMessageLocalizerHelper<HorecaResource> LH
+<Card>
+    <CardHeader>
+        <Row>
+            <Column ColumnSize="ColumnSize.Is6">
+                <h2>@L["Order"] </h2>
+            </Column>
+            <Column ColumnSize="ColumnSize.Is6">
+                <Paragraph Alignment="TextAlignment.Right">
+                </Paragraph>
+            </Column>
+        </Row>
+    </CardHeader>
+    <CardBody>
+        <DataGrid 
+            TItem = "OrderLineDto"
+            Data = "OrderLineDtos"
+            ReadData = "OnDataGridReadAsync"
+            TotalItems = "TotalCount"
+            ShowPager = "true"
+            PageSize = "PageSize"
+            Editable
+            Responsive
+            CommandMode="DataGridCommandMode.Commands"
+            EditMode="DataGridEditMode.Form"
+            RowUpdated="@UpdateOrderLineAsync">
+            <DataGridAggregates>
+                <DataGridAggregate TItem="OrderLineDto" 
+                    Field="@nameof(OrderLineDto.Sum)" 
+                    Aggregate="DataGridAggregateType.Sum">
+                    <DisplayTemplate>
+                        @($"{@L["Total:"]} {context.Value}")
+                    </DisplayTemplate>
+                </DataGridAggregate>
+            </DataGridAggregates>
+            <DataGridColumns>
+                <DataGridColumn TItem="OrderLineDto"
+                                Field="@nameof(OrderLineDto.ProductName)"
+                                Caption="@L["ProductName"]">
+                </DataGridColumn>
+                <DataGridColumn TItem="OrderLineDto"
+                                Field="@nameof(OrderLineDto.Supplier)"
+                                Caption="@L["Supplier"]">
+                </DataGridColumn>
+                <DataGridColumn TItem="OrderLineDto"
+                                Field="@nameof(OrderLineDto.UnitPrice)"
+                                Caption="@L["UnitPrice"]">
+                </DataGridColumn>
+                <DataGridColumn TItem="OrderLineDto"
+                                Field="@nameof(OrderLineDto.Count)"
+                                Caption="@L["Count"]" Editable>
+                    <EditTemplate>
+                        <NumericEdit TValue="int"
+                                Min="context.Item.MinAmount"
+                                Max="context.Item.MaxAmount" 
+                                class = "itemCounter" 
+                                Value="@((int)context.CellValue)" 
+                                ValueChanged="@( v => context.CellValue = v)" />
+                    </EditTemplate>
+                </DataGridColumn>
+                <DataGridColumn TItem="OrderLineDto"
+                                Field="@nameof(OrderLineDto.Sum)"
+                                Caption="@L["Sum"]">
+                </DataGridColumn>
+                <DataGridColumn
+                    TItem = "OrderLineDto"
+                    Field = "@nameof(OrderLineDto.Id)"
+                    Sortable = "false">
+                     <DisplayTemplate>
+                         <Button Color="Color.Primary" Clicked="() => DeleteOrderLineAsync(context)">
+                             @L["Delete"]
+                         </Button>
+                    </DisplayTemplate>
+                </DataGridColumn>
+                <DataGridCommandColumn 
+                    TItem="OrderLineDto"
+                    Field="@nameof(OrderLineDto.Id)"
+                    NewCommandAllowed="false" EditCommandAllowed="true" DeleteCommandAllowed="false" >
+                    <SaveCommandTemplate>
+                        <Button ElementId="btnSave" Type="ButtonType.Submit" PreventDefaultOnSubmit Color="Color.Primary" Clicked="@context.Clicked">@context.LocalizationString</Button>
+                    </SaveCommandTemplate>
+                    <EditCommandTemplate>
+                        <Button Color="Color.Primary" Clicked="@context.Clicked">@L["Edit"]</Button>
+                    </EditCommandTemplate>
+                </DataGridCommandColumn>
+            </DataGridColumns>
+        </DataGrid>
+    </CardBody>
+    <CardFooter class="d-flex justify-content-center">
+        <Button Color="Color.Primary" Clicked="SubmitOrderAsync">@L["Submit"]</Button>
+    </CardFooter>
+</Card>

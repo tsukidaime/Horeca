@@ -105,7 +105,7 @@ namespace Horeca.Blazor.Pages.Product
                 await countAlert.Show();
                 return;
             }
-
+            OrderLine.SupplierId = dto.UserId;
             OrderLine.OrderId = Order.Id;
             OrderLine.ProductBidId = dto.Id;
             OrderLine.UnitPrice = dto.Price;

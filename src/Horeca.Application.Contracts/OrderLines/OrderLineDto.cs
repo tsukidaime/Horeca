@@ -11,6 +11,13 @@ namespace Horeca.OrderLines
         public string Supplier { get; set; }
         public int Count { get; set; }
         public double UnitPrice { get; set; }
+        public double Sum
+        {
+            get
+            {
+                return UnitPrice * Count;
+            }
+        }
         public int MinAmount { get; set; }
         public int MaxAmount { get; set; }
     }

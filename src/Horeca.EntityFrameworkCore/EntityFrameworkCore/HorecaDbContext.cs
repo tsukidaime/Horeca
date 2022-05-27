@@ -94,6 +94,11 @@ public class HorecaDbContext :
             .WithMany()
             .HasForeignKey(x => x.ProductBidId);
 
+        builder.Entity<OrderLine>()
+            .HasOne<IdentityUser>()
+            .WithMany()
+            .HasForeignKey(x => x.SupplierId);
+
         builder.Entity<ProductBid>()
             .HasOne<IdentityUser>()
             .WithMany()

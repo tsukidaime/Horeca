@@ -17,11 +17,12 @@ namespace Horeca.Models
 
     public class OrderLine : Entity<Guid>
     {
-        public virtual Order Order { get; set; }
         public Guid OrderId { get; set; }
         public Guid ProductBidId { get; set; }
+        public Guid SupplierId { get; set; }
         public int Count { get; set; }
         public double UnitPrice { get; set; }
+        public virtual Order Order { get; set; }
         public virtual ProductBid ProductBid { get; set; }
     }
 

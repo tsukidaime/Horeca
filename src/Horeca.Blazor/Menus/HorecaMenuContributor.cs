@@ -8,13 +8,14 @@ using Volo.Abp.Authorization.Permissions;
 using Volo.Abp.UI.Navigation;
 using Volo.Abp.Users;
 using Horeca.Permissions;
+using Volo.Abp.Authorization;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Horeca.Blazor.Menus;
 
 public class HorecaMenuContributor : IMenuContributor
 {
     private readonly IConfiguration _configuration;
-
     public HorecaMenuContributor(IConfiguration configuration)
     {
         _configuration = configuration;
@@ -50,7 +51,22 @@ public class HorecaMenuContributor : IMenuContributor
                 l["Menu:Products"],
                 url: "/products"
             ));
-
+        if (await context.IsGrantedAsync(HorecaPermissions.Order))
+        {
+            context.Menu.AddItem(new ApplicationMenuItem(
+                "Horeca.Order",
+                l["Menu:Order"],
+                url: "/order"
+            ));
+        }
+        if (await context.IsGrantedAsync(HorecaPermissions.OrderManagement))
+        {
+            context.Menu.AddItem(new ApplicationMenuItem(
+                "Horeca.OrderManagement",
+                l["Menu:OrderManagement"],
+                url: "/order/management"
+            ));
+        }
         if (await context.IsGrantedAsync(HorecaPermissions.AddressManagement))
         {
             context.Menu.AddItem(new ApplicationMenuItem(
@@ -67,11 +83,6 @@ public class HorecaMenuContributor : IMenuContributor
                 url: "/product/management"
             ));
         }
-        context.Menu.AddItem(new ApplicationMenuItem(
-            "Horeca.Orders",
-            l["Menu:Order:Management"],
-            url: "/order/management"
-        ));
     }
 
     private async Task ConfigureUserMenuAsync(MenuConfigurationContext context)

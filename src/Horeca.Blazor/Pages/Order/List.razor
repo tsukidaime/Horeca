@@ -1,85 +1,79 @@
 ﻿@page "/order/management"
-@using Horeca.Localization
-@using Horeca.OrderLines
 @using Horeca.Orders
+@using Horeca.OrderLines
+@using Horeca.Localization
+@using Volo.Abp.AspNetCore.Components.Web
 @inherits HorecaComponentBase
+@inject IOrderAppService OrderAppService
 @inject AbpBlazorMessageLocalizerHelper<HorecaResource> LH
 <Card>
     <CardHeader>
         <Row>
-            <Column ColumnSize="ColumnSize.Is6">
-                <h2>@L["Order"] </h2>
-            </Column>
-            <Column ColumnSize="ColumnSize.Is6">
-                <Paragraph Alignment="TextAlignment.Right">
-                </Paragraph>
+            <Column ColumnSize="ColumnSize.Is12">
+                <h2>@L["Orders"]</h2>
             </Column>
         </Row>
     </CardHeader>
     <CardBody>
-        <DataGrid 
-            TItem = "OrderLineDto"
-            Data = "OrderLineDtos"
-            ReadData = "OnDataGridReadAsync"
-            TotalItems = "TotalCount"
-            ShowPager = "true"
-            PageSize = "PageSize"
-            Editable
-            Responsive
-            CommandMode="DataGridCommandMode.Commands"
-            EditMode="DataGridEditMode.Form"
-            RowUpdated="@UpdateOrderLineAsync">
-
+        <DataGrid TItem="OrderDto"
+                  Data="OrderList"
+                  ReadData="OnDataGridReadAsync"
+                  TotalItems="TotalCount"
+                  ShowPager="true"
+                  PageSize="PageSize"
+                  Filterable>
             <DataGridColumns>
-                <DataGridColumn TItem="OrderLineDto"
-                                Field="@nameof(OrderLineDto.ProductName)"
-                                Caption="@L["ProductName"]">
-                </DataGridColumn>
-                <DataGridColumn TItem="OrderLineDto"
-                                Field="@nameof(OrderLineDto.Supplier)"
-                                Caption="@L["Supplier"]">
-                </DataGridColumn>
-                <DataGridColumn TItem="OrderLineDto"
-                                Field="@nameof(OrderLineDto.UnitPrice)"
-                                Caption="@L["UnitPrice"]">
-                </DataGridColumn>
-                <DataGridColumn TItem="OrderLineDto"
-                                Field="@nameof(OrderLineDto.Count)"
-                                Caption="@L["Count"]" Editable>
-                    <EditTemplate>
-                        <NumericEdit TValue="int"
-                                Min="context.Item.MinAmount"
-                                Max="context.Item.MaxAmount" 
-                                class = "itemCounter" 
-                                Value="@((int)context.CellValue)" 
-                                ValueChanged="@( v => context.CellValue = v)" />
-                    </EditTemplate>
-                </DataGridColumn>
-                <DataGridColumn
-                    TItem = "OrderLineDto"
-                    Field = "@nameof(OrderLineDto.Id)"
-                    Sortable = "false">
-                     <DisplayTemplate>
-                         <Button Color="Color.Primary" Clicked="() => DeleteOrderLineAsync(context)">
-                             @L["Delete"]
-                         </Button>
+                <DataGridColumn TItem="OrderDto"
+                                Field="@nameof(OrderDto.Id)"
+                                Sortable="false"
+                                Caption="@L["Actions"]">
+                    <DisplayTemplate>
+                        <Dropdown>
+                            <DropdownToggle Color="Color.Primary">
+                                @L["Actions"]
+                            </DropdownToggle>
+                            <DropdownMenu>
+                                @if (CanAcceptDeclineOrder && context.OrderState == OrderState.Submitted)
+                                {
+                                    <DropdownItem>
+                                        <Button Color="Color.Primary" Clicked="() => UpdateOrderStatusAsync(context, OrderState.Accepted)">
+                                            @L["Accept"]
+                                        </Button>
+                                    </DropdownItem>
+                                    <DropdownItem>
+                                        <Button Color="Color.Primary" Clicked="() => UpdateOrderStatusAsync(context, OrderState.Declined)">
+                                            @L["Decline"]
+                                         </Button>
+                                    </DropdownItem>
+                                }
+                            </DropdownMenu>
+                        </Dropdown>
+
                     </DisplayTemplate>
                 </DataGridColumn>
-                <DataGridCommandColumn 
-                    TItem="OrderLineDto"
-                    Field="@nameof(OrderLineDto.Id)"
-                    NewCommandAllowed="false" EditCommandAllowed="true" DeleteCommandAllowed="false" >
-                    <SaveCommandTemplate>
-                        <Button ElementId="btnSave" Type="ButtonType.Submit" PreventDefaultOnSubmit Color="Color.Primary" Clicked="@context.Clicked">@context.LocalizationString</Button>
-                    </SaveCommandTemplate>
-                    <EditCommandTemplate>
-                        <Button Color="Color.Primary" Clicked="@context.Clicked">@L["Edit"]</Button>
-                    </EditCommandTemplate>
-                </DataGridCommandColumn>
+                <DataGridColumn TItem="OrderDto"
+                                Field="@nameof(OrderDto.Id)"
+                                Caption="@L["Id"]"></DataGridColumn>
+                <DataGridColumn TItem="OrderDto"
+                                Field="@nameof(OrderDto.Customer)"
+                                Caption="@L["Customer"]"></DataGridColumn>
+                <DataGridColumn TItem="OrderDto"
+                                Field="@nameof(OrderDto.Total)"
+                                Caption="@L["Total"]"></DataGridColumn>
             </DataGridColumns>
+            <DetailRowTemplate>
+                @{
+                    var lines = ( context as OrderDto ).Lines;
+
+                    <DataGrid TItem="OrderLineDto"
+                              Data="lines"
+                              Sortable="false">
+                        <DataGridColumn TItem="OrderLineDto" Field="@nameof(OrderLineDto.ProductName)" Caption="@L["Product"]" />
+                        <DataGridColumn TItem="OrderLineDto" Field="@nameof(OrderLineDto.Count)" Caption="@L["Count"]" />
+                        <DataGridColumn TItem="OrderLineDto" Field="@nameof(OrderLineDto.Sum)" Caption="@L["Sum"]" />
+                    </DataGrid>
+                }
+            </DetailRowTemplate>
         </DataGrid>
     </CardBody>
-    <CardFooter class="d-flex justify-content-center">
-        <Button Color="Color.Primary" Clicked="SubmitOrderAsync">@L["Submit"]</Button>
-    </CardFooter>
 </Card>

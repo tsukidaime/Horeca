@@ -35,15 +35,16 @@ namespace Horeca.OrderLines
         public override async Task<PagedResultDto<OrderLineDto>> GetListAsync(GetOrderLineListDto input)
         {
             var query = await Repository.WithDetailsAsync(x=>x.ProductBid);
+            query = query.WhereIf(input.OrderId != null,x => x.OrderId == input.OrderId);
+            query = query.WhereIf(input.SupplierId != null, x => x.SupplierId == input.SupplierId);
             query = query.Skip(input.SkipCount)
-                .Take(input.MaxResultCount)
-                .WhereIf(input.OrderId != null,x => x.OrderId == input.OrderId);
-
+                .Take(input.MaxResultCount);
+            var totalCount = await query.CountAsync();
             var lines = await query.ToListAsync();
             var linesDto = new List<OrderLineDto>();
             foreach (var line in lines)
             {
-                var supplier = await _userService.GetAsync(line.ProductBid.UserId);
+                var supplier = await _userService.GetAsync(line.SupplierId);
                 var product = await _productAppService.GetAsync(line.ProductBid.ProductId);
                 var lineDto = ObjectMapper.Map<OrderLine, OrderLineDto>(line);
                 lineDto.MinAmount = line.ProductBid.MinPurchaseAmount;
@@ -52,7 +53,6 @@ namespace Horeca.OrderLines
                 lineDto.Supplier = supplier.GetProperty<string>("CompanyName");
                 linesDto.Add(lineDto);
             }
-            var totalCount = await Repository.CountAsync(x => x.OrderId == input.OrderId);
 
             return new PagedResultDto<OrderLineDto>(
                 totalCount,

@@ -30,12 +30,19 @@ public static class HorecaPermissions
     public const string AddressDelete = AddressManagement + Delete;
     public const string AddressRead = AddressManagement + Read;
 
+    public const string Order = "Order";
+
+    public const string OrderCreate = Order + Create;
+    public const string OrderEdit = Order + Edit;
+    public const string OrderDelete = Order + Delete;
+    public const string OrderRead = Order + Read;
+
     public const string OrderManagement = "OrderManagement";
 
-    public const string OrderCreate = OrderManagement + Create;
-    public const string OrderEdit = OrderManagement + Edit;
-    public const string OrderDelete = OrderManagement + Delete;
-    public const string OrderRead = OrderManagement + Read;
+    public const string OrderManagementCreate = OrderManagement + Create;
+    public const string OrderManagementEdit = OrderManagement + Edit;
+    public const string OrderManagementDelete = OrderManagement + Delete;
+    public const string OrderManagementAccept = OrderManagement + "Accept";
 
     public const string Category = "Category";
 
