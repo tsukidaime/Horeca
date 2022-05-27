@@ -1,7 +1,11 @@
 ﻿using Blazorise;
 using Blazorise.DataGrid;
+using Horeca.Blazor.Components;
 using Horeca.OrderLines;
 using Horeca.Orders;
+using Horeca.ProductBids;
+using Horeca.Utils;
+using Microsoft.AspNetCore.Components;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,41 +16,44 @@ namespace Horeca.Blazor.Pages.Order
 {
     public partial class List
     {
-        private int PageSize { get; } = LimitedResultRequestDto.DefaultMaxResultCount;
-        private int CurrentPage { get; set; }
-        private string CurrentSorting { get; set; }
-        private int TotalCount { get; set; }
-        private OrderDto OrderDto { get; set; }
-        private IReadOnlyList<OrderLineDto> OrderLineDtos { get; set; }
+        public int PageSize { get; } = HorecaConsts.DefaultGridMaxResultsCount;
+        public int CurrentPage { get; set; } = 1;
+        public string CurrentSorting { get; set; }
+        public int TotalCount { get; set; }
+        public OrderDto OrderDto { get; set; }
+        public IReadOnlyList<OrderLineDto> OrderLineDtos { get; set; }
+        [Inject]
+        public IOrderLineAppService OrderLineAppService { get; set; }
+        [Inject]
+        public IOrderAppService OrderAppService { get; set; }
+
+        protected override async Task OnInitializedAsync()
+        {
+            await GetOrderAsync();
+            await GetOrderLineAsync();
+        }
 
         private async Task GetOrderLineAsync()
         {
+            if (OrderDto == null)
+                return;
             var result = await OrderLineAppService.GetListAsync(
-                new PagedAndSortedResultRequestDto
+                new GetOrderLineListDto
                 {
                     MaxResultCount = PageSize,
                     SkipCount = CurrentPage * PageSize,
-                    Sorting = CurrentSorting
+                    Sorting = CurrentSorting,
+                    OrderId = OrderDto.Id
                 }
             );
-
-            OrderLineDtos = result.Items.Where(x => x.OrderId == OrderDto.Id).ToList();
+            
+            OrderLineDtos = result.Items;
             TotalCount = (int)result.TotalCount;
         }
 
         private async Task GetOrderAsync()
         {
-            var result = await OrderAppService.GetListAsync(
-                new GetOrderListDto
-                {
-                    MaxResultCount = PageSize,
-                    SkipCount = CurrentPage * PageSize,
-                    Sorting = CurrentSorting
-                }
-            );
-
-            OrderDto = result.Items.FirstOrDefault(x => x.UserId == CurrentUser.Id);
-            TotalCount = (int)result.TotalCount;
+            OrderDto = await OrderAppService.GetOrderByUserId((Guid)CurrentUser.Id);
         }
 
         private async Task OnDataGridReadAsync(DataGridReadDataEventArgs<OrderLineDto> e)
@@ -64,6 +71,30 @@ namespace Horeca.Blazor.Pages.Order
             await InvokeAsync(StateHasChanged);
         }
 
+        private async Task UpdateOrderLineAsync(SavedRowItem<OrderLineDto, Dictionary<string, object>> e)
+        {
+            var dto = e.Item;
+            await OrderLineAppService.UpdateAsync(dto.Id, new CreateUpdateOrderLineDto
+            {
+                Id = dto.Id,
+                Count = dto.Count,
+                UnitPrice = dto.UnitPrice,
+                ProductBidId = dto.ProductBidId,
+                OrderId = dto.OrderId
+            });
+        }
+
+        private async Task SubmitOrderAsync()
+        {
+            await OrderAppService.UpdateAsync(OrderDto.Id, new CreateUpdateOrderDto
+            {
+                Id = OrderDto.Id,
+                UserId = OrderDto.UserId,
+                OrderState = OrderState.Submitted
+            });
+            await Message.Success(L["SuccefullySubmitted"]);
+            await InvokeAsync(StateHasChanged);
+        }
         private async Task DeleteOrderLineAsync(OrderLineDto Order)
         {
             var confirmMessage = L["OrderDeletionConfirmationMessage", Order.Id];
@@ -73,9 +104,7 @@ namespace Horeca.Blazor.Pages.Order
             }
 
             await OrderLineAppService.DeleteAsync(Order.Id);
-            await GetOrderLineAsync();
             await InvokeAsync(StateHasChanged);
-
         }
     }
 }

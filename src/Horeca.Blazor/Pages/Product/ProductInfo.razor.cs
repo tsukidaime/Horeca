@@ -111,7 +111,7 @@ namespace Horeca.Blazor.Pages.Product
             OrderLine.UnitPrice = dto.Price;
             OrderLine.Count = OrderCounts[dto.Id];
             await OrderLineAppService.CreateAsync(OrderLine);
-
+            await Message.Success(L["SuccesfullyAdded"]);
             NavigationManager.NavigateTo("/products");
         }
 

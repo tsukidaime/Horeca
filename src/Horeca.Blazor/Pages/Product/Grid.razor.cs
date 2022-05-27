@@ -18,7 +18,7 @@ namespace Horeca.Blazor.Pages.Product
         [Inject]
         public ProductGridState ProductGridState { get; set; }
         public string SearchText { get; set; }
-        public int PageSize { get; } = ProductConsts.DefaultGridMaxResultsCount;
+        public int PageSize { get; } = HorecaConsts.DefaultGridMaxResultsCount;
         public int CurrentPage { get; set; } = 1;
         public string CurrentSorting { get; set; }
         public PaginationData PaginationData { get; set; } = new PaginationData();

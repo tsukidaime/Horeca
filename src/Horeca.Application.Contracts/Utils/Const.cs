@@ -12,7 +12,7 @@ namespace Horeca.Utils
         public readonly static string Bid = "productBid";
         public readonly static string Finish = "finish";
     }
-    public static class ProductConsts
+    public static class HorecaConsts
     {
         public readonly static int DefaultGridMaxResultsCount = 12;
     }
