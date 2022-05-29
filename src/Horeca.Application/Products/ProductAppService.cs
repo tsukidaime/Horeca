@@ -68,7 +68,7 @@ namespace Horeca.Products
             }
             var totalCount = query.Count();
             query = query.Skip(input.SkipCount).Take(input.MaxResultCount);
-            var products = query.ToList();
+            var products = query.ToList ();
 
             return new PagedResultDto<ProductDto>(
                 totalCount,

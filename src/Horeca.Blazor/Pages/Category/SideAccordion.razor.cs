@@ -42,7 +42,7 @@ namespace Horeca.Blazor.Pages.Category
                 ItemVisibilities[item.Key] = false;
             }
             await SelectCategory(id);
-            SelectedChild = String.Empty;
+            SelectedChild = string.Empty;
         }
         public void Dispose()
         {

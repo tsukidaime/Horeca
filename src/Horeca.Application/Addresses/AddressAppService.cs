@@ -1,5 +1,6 @@
 ﻿using Horeca.Models;
 using Horeca.Permissions;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -16,7 +17,7 @@ namespace Horeca.Addresses
             Address,
             AddressDto,
             Guid,
-            PagedAndSortedResultRequestDto,
+            GetAddressListDto,
             CreateUpdateAddressDto>,
         IAddressAppService
     {
@@ -26,6 +27,21 @@ namespace Horeca.Addresses
             CreatePolicyName = HorecaPermissions.AddressCreate;
             UpdatePolicyName = HorecaPermissions.AddressEdit;
             DeletePolicyName = HorecaPermissions.AddressDelete;
+        }
+
+        public override async Task<PagedResultDto<AddressDto>> GetListAsync(GetAddressListDto input)
+        {
+            var query = await Repository.GetQueryableAsync();
+            query = query.WhereIf(input.UserId != null, x => x.UserId == (Guid)input.UserId);
+
+            var totalCount = await query.CountAsync();
+            query = query.Skip(input.SkipCount).Take(input.MaxResultCount);
+            var addressList = await query.ToListAsync();
+
+            return new PagedResultDto<AddressDto>(
+                totalCount,
+                ObjectMapper.Map<List<Address>, List<AddressDto>>(addressList)
+            );
         }
     }
 }

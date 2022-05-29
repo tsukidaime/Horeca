@@ -9,7 +9,7 @@ namespace Horeca.Addresses
         : ICrudAppService< 
             AddressDto, 
             Guid, //Primary key of the address entity
-            PagedAndSortedResultRequestDto, //Used for paging/sorting
+            GetAddressListDto, //Used for paging/sorting
             CreateUpdateAddressDto> //Used to create/update a address
     {
     }

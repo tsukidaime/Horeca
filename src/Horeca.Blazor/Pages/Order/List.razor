@@ -10,7 +10,18 @@
     <CardHeader>
         <Row>
             <Column ColumnSize="ColumnSize.Is12">
-                <h2>@L["Orders"]</h2>
+                <h1>@L["Orders"]</h1>
+            </Column>
+        </Row>
+        <Row>
+            <Column ColumnSize="ColumnSize.Is4">
+                <Button Outline Clicked="() => SelectOrderState(OrderState.Submitted)">@L["New"]</Button>
+            </Column>
+            <Column ColumnSize="ColumnSize.Is4">
+                <Button Outline Clicked="() => SelectOrderState(OrderState.Accepted)">@L["Accepted"]</Button>
+            </Column>
+            <Column ColumnSize="ColumnSize.Is4">
+                <Button Outline Clicked="() => SelectOrderState(OrderState.Declined)">@L["Declined"]</Button>
             </Column>
         </Row>
     </CardHeader>
@@ -21,7 +32,7 @@
                   TotalItems="TotalCount"
                   ShowPager="true"
                   PageSize="PageSize"
-                  Filterable>
+                DetailRowStartsVisible="false">
             <DataGridColumns>
                 <DataGridColumn TItem="OrderDto"
                                 Field="@nameof(OrderDto.Id)"
@@ -58,6 +69,13 @@
                                 Field="@nameof(OrderDto.Customer)"
                                 Caption="@L["Customer"]"></DataGridColumn>
                 <DataGridColumn TItem="OrderDto"
+                                Field="@nameof(OrderDto.AddressDto)"
+                                Caption="@L["Address"]">
+                            <DisplayTemplate>
+                                @GetAddressString(context)
+                            </DisplayTemplate>
+                </DataGridColumn>
+                <DataGridColumn TItem="OrderDto"
                                 Field="@nameof(OrderDto.Total)"
                                 Caption="@L["Total"]"></DataGridColumn>
             </DataGridColumns>
@@ -65,13 +83,13 @@
                 @{
                     var lines = ( context as OrderDto ).Lines;
 
-                    <DataGrid TItem="OrderLineDto"
+                            <DataGrid TItem="OrderLineDto"
                               Data="lines"
                               Sortable="false">
-                        <DataGridColumn TItem="OrderLineDto" Field="@nameof(OrderLineDto.ProductName)" Caption="@L["Product"]" />
-                        <DataGridColumn TItem="OrderLineDto" Field="@nameof(OrderLineDto.Count)" Caption="@L["Count"]" />
-                        <DataGridColumn TItem="OrderLineDto" Field="@nameof(OrderLineDto.Sum)" Caption="@L["Sum"]" />
-                    </DataGrid>
+                                <DataGridColumn TItem="OrderLineDto" Field="@nameof(OrderLineDto.ProductName)" Caption="@L["Product"]" />
+                                <DataGridColumn TItem="OrderLineDto" Field="@nameof(OrderLineDto.Count)" Caption="@L["Count"]" />
+                                <DataGridColumn TItem="OrderLineDto" Field="@nameof(OrderLineDto.Sum)" Caption="@L["Sum"]" />
+                            </DataGrid>
                 }
             </DetailRowTemplate>
         </DataGrid>

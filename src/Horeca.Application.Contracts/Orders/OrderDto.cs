@@ -1,4 +1,5 @@
 ﻿
+using Horeca.Addresses;
 using Horeca.OrderLines;
 using System;
 using System.Collections.Generic;
@@ -12,6 +13,7 @@ namespace Horeca.Orders
         public Guid UserId { get; set; }
         public OrderState OrderState { get; set; }
         public double Total { get; set; }
+        public AddressDto AddressDto { get; set; }
         public List<OrderLineDto> Lines { get; set; }
     }
 }

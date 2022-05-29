@@ -10,6 +10,7 @@ using Horeca.Orders;
 using Volo.Abp.Application.Dtos;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Components;
+using Horeca.Addresses;
 
 namespace Horeca.Blazor.Pages.Order
 {
@@ -31,7 +32,13 @@ namespace Horeca.Blazor.Pages.Order
         protected override async Task OnInitializedAsync()
         {
             await SetPermissionsAsync();
-            await GetOrdersAsync();
+            await GetOrdersAsync(OrderState.Submitted);
+        }
+
+        private async Task SelectOrderState(OrderState orderState)
+        {
+            await GetOrdersAsync(orderState);
+            await InvokeAsync(StateHasChanged);
         }
 
         private async Task SetPermissionsAsync()
@@ -45,8 +52,11 @@ namespace Horeca.Blazor.Pages.Order
             CanAcceptDeclineOrder = await AuthorizationService
                 .IsGrantedAsync(HorecaPermissions.OrderManagementAccept);
         }
-
-        private async Task GetOrdersAsync()
+        private string GetAddressString(OrderDto context)
+        {
+            return $"{context.AddressDto.City}, {context.AddressDto.Street} {context.AddressDto.Building} {(!context.AddressDto.Block.IsNullOrEmpty() ? context.AddressDto.Block : string.Empty)} {(!context.AddressDto.Comment.IsNullOrEmpty() ? $"\n{context.AddressDto.Comment}" : string.Empty)}";
+        }
+        private async Task GetOrdersAsync(OrderState orderState)
         {
             var result = await OrderAppService.GetListAsync(
                 new GetOrderListDto
@@ -55,7 +65,7 @@ namespace Horeca.Blazor.Pages.Order
                     SkipCount = CurrentPage * PageSize,
                     Sorting = CurrentSorting,
                     SupplierId = CurrentUser.Id,
-                    OrderState = OrderState.Submitted
+                    OrderState = orderState
                 }
             );
 
@@ -71,18 +81,9 @@ namespace Horeca.Blazor.Pages.Order
                 .JoinAsString(",");
             CurrentPage = e.Page - 1;
 
-            await GetOrdersAsync();
+            await GetOrdersAsync(OrderState.Submitted);
 
             await InvokeAsync(StateHasChanged);
-        }
-        private bool OnOrderStateCustomFilter(object itemValue, object searchValue)
-        {
-            if (searchValue is OrderState filter)
-            {
-                return filter == (OrderState)itemValue;
-            }
-
-            return true;
         }
 
         private async Task UpdateOrderStatusAsync(OrderDto Order, OrderState state)
@@ -92,8 +93,9 @@ namespace Horeca.Blazor.Pages.Order
                 Id = Order.Id,
                 UserId = Order.UserId,
                 OrderState = state,
+                AddressId = Order.AddressDto.Id
             });
-            await GetOrdersAsync();
+            await GetOrdersAsync(OrderState.Submitted);
             await InvokeAsync(StateHasChanged);
         }
     }

@@ -27,7 +27,7 @@ namespace Horeca.Blazor.Pages.Address
         protected override async Task OnInitializedAsync()
         {
             await SetPermissionsAsync();
-            await GetAddresssAsync();
+            await GetAddressListsync();
         }
 
         private async Task SetPermissionsAsync()
@@ -40,14 +40,15 @@ namespace Horeca.Blazor.Pages.Address
                 .IsGrantedAsync(HorecaPermissions.AddressDelete);
         }
 
-        private async Task GetAddresssAsync()
+        private async Task GetAddressListsync()
         {
             var result = await AddressAppService.GetListAsync(
-                new PagedAndSortedResultRequestDto
+                new GetAddressListDto
                 {
                     MaxResultCount = PageSize,
                     SkipCount = CurrentPage * PageSize,
-                    Sorting = CurrentSorting
+                    Sorting = CurrentSorting,
+                    UserId = CurrentUser.Id
                 }
             );
 
@@ -63,7 +64,7 @@ namespace Horeca.Blazor.Pages.Address
                 .JoinAsString(",");
             CurrentPage = e.Page - 1;
 
-            await GetAddresssAsync();
+            await GetAddressListsync();
 
             await InvokeAsync(StateHasChanged);
         }
@@ -81,7 +82,7 @@ namespace Horeca.Blazor.Pages.Address
             }
 
             await AddressAppService.DeleteAsync(Address.Id);
-            await GetAddresssAsync();
+            await GetAddressListsync();
         }
     }
 }

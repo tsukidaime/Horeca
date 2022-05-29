@@ -1,5 +1,6 @@
 ﻿using Blazorise;
 using Blazorise.DataGrid;
+using Horeca.Addresses;
 using Horeca.Blazor.Components;
 using Horeca.OrderLines;
 using Horeca.Orders;
@@ -21,19 +22,26 @@ namespace Horeca.Blazor.Pages.Order
         public string CurrentSorting { get; set; }
         public int TotalCount { get; set; }
         public OrderDto OrderDto { get; set; }
-        public IReadOnlyList<OrderLineDto> OrderLineDtos { get; set; }
+        public Guid SelectedAddressId { get; set; }
+        public IReadOnlyList<OrderLineDto> OrderLineList { get; set; }
+        public IReadOnlyList<AddressDto> AddressList { get; set; }
         [Inject]
         public IOrderLineAppService OrderLineAppService { get; set; }
         [Inject]
+        public IAddressAppService AddressAppService { get; set; }
+        [Inject]
         public IOrderAppService OrderAppService { get; set; }
+        [Inject]
+        public NavigationManager NavigationManager { get; set; }
 
         protected override async Task OnInitializedAsync()
         {
             await GetOrderAsync();
-            await GetOrderLineAsync();
+            await GetOrderLineListAsync();
+            await GetAddressListAsync();
         }
 
-        private async Task GetOrderLineAsync()
+        private async Task GetOrderLineListAsync()
         {
             if (OrderDto == null)
                 return;
@@ -47,8 +55,29 @@ namespace Horeca.Blazor.Pages.Order
                 }
             );
             
-            OrderLineDtos = result.Items;
+            OrderLineList = result.Items;
             TotalCount = (int)result.TotalCount;
+        }
+
+        private async Task GetAddressListAsync()
+        {
+            var result = await AddressAppService.GetListAsync(
+                new GetAddressListDto
+                {
+                    MaxResultCount = PageSize,
+                    SkipCount = CurrentPage * PageSize,
+                    Sorting = CurrentSorting,
+                    UserId = CurrentUser.Id
+                }
+            );
+
+            AddressList = result.Items;
+            if (!AddressList.Any())
+            {
+                await Message.Error(L["PleaseAddAddress"]);
+                NavigationManager.NavigateTo("/address/management");
+            }
+            SelectedAddressId = AddressList.First().Id;
         }
 
         private async Task GetOrderAsync()
@@ -66,7 +95,7 @@ namespace Horeca.Blazor.Pages.Order
 
             await GetOrderAsync();
 
-            await GetOrderLineAsync();
+            await GetOrderLineListAsync();
 
             await InvokeAsync(StateHasChanged);
         }
@@ -90,7 +119,8 @@ namespace Horeca.Blazor.Pages.Order
             {
                 Id = OrderDto.Id,
                 UserId = OrderDto.UserId,
-                OrderState = OrderState.Submitted
+                OrderState = OrderState.Submitted,
+                AddressId = SelectedAddressId
             });
             await Message.Success(L["SuccefullySubmitted"]);
             await InvokeAsync(StateHasChanged);

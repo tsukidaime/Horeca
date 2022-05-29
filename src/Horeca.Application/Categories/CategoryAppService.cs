@@ -45,9 +45,9 @@ namespace Horeca.Categories
         {
             var query = await _categoryRepository.GetQueryableAsync();
             var subItems = new List<bool>();
-            foreach (var item in query.Where(x => x.ParentId == rootId))
+            foreach (var item in query.Where(x=>x.ParentId == rootId))
             {
-                subItems.Add(await IsDescendant(item.Id, categoryId) || rootId == item.ParentId);
+                subItems.Add(await IsDescendant(item.Id, categoryId) || categoryId == item.Id);
             }
             return subItems.Any(x=>x==true);
         }

@@ -1,4 +1,5 @@
-﻿using Horeca.Models;
+﻿using Horeca.Addresses;
+using Horeca.Models;
 using Horeca.OrderLines;
 using Horeca.Permissions;
 using Microsoft.EntityFrameworkCore;
@@ -25,14 +26,17 @@ namespace Horeca.Orders
 
         private readonly IIdentityUserAppService _userService;
         private readonly IOrderLineAppService _lineService;
+        private readonly IAddressAppService _addressService;
         private readonly IRepository<Order, Guid> _orderRepository;
 
         public OrderAppService(IRepository<Order, Guid> repository, 
-            IIdentityUserAppService userService, IOrderLineAppService lineService) : base(repository)
+            IIdentityUserAppService userService, IOrderLineAppService lineService,
+            IAddressAppService addressService) : base(repository)
         {
             _userService = userService;
             _lineService = lineService;
             _orderRepository = repository;
+            _addressService = addressService;
             GetPolicyName = HorecaPermissions.OrderRead;
             CreatePolicyName = HorecaPermissions.OrderCreate;
             UpdatePolicyName = HorecaPermissions.OrderEdit;
@@ -59,6 +63,7 @@ namespace Horeca.Orders
             {
                 var customer = await _userService.GetAsync(order.UserId);
                 var orderDto = ObjectMapper.Map<Order, OrderDto>(order);
+                orderDto.AddressDto = await _addressService.GetAsync((Guid)order.AddressId);
                 orderDto.Customer = customer.GetProperty<string>("CompanyName");
                 orderDto.Total = order.Lines.Sum(x => x.UnitPrice * x.Count);
                 var lines = await _lineService.GetListAsync(new GetOrderLineListDto
