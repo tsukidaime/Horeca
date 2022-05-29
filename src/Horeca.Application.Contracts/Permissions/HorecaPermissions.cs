@@ -7,21 +7,14 @@ public static class HorecaPermissions
     public const string Edit = ".Edit";
     public const string Delete = ".Delete";
     public const string Read = ".Read";
-
-    public const string ProductBid = "ProductBid";
-
-    public const string ProductBidCreate = ProductBid + Create;
-    public const string ProductBidEdit = ProductBid + Edit;
-    public const string ProductBidDelete = ProductBid + Delete;
-    public const string ProductBidRead = ProductBid + Read;
+    public const string Supplier = ".Supplier";
+    public const string Customer = ".Customer";
+    public const string Admin = ".Admin";
 
     public const string ProductManagement = "ProductManagement";
 
-    public const string ProductCreate = ProductManagement + Create;
-    public const string ProductEdit = ProductManagement + Edit;
-    public const string ProductDelete = ProductManagement + Delete;
-    public const string ProductRead = ProductManagement + Read;
-    public const string ProductApprove = ProductManagement + "Approve";
+    public const string ProductManagementSupplier = ProductManagement + Supplier;
+    public const string ProductManagementAdmin = ProductManagement + Admin;
 
     public const string AddressManagement = "AddressManagement";
 
@@ -38,11 +31,8 @@ public static class HorecaPermissions
     public const string OrderRead = Order + Read;
 
     public const string OrderManagement = "OrderManagement";
-
-    public const string OrderManagementCreate = OrderManagement + Create;
-    public const string OrderManagementEdit = OrderManagement + Edit;
-    public const string OrderManagementDelete = OrderManagement + Delete;
-    public const string OrderManagementAccept = OrderManagement + "Accept";
+    public const string OrderManagementSupplier = OrderManagement + Supplier;
+    public const string OrderManagementCustomer = OrderManagement + Customer;
 
     public const string Category = "Category";
 

@@ -7,6 +7,7 @@ namespace Horeca.Products
     {
         public bool OnlyApproved { get; set; }
         public Guid? CategoryId { get; set; }
+        public Guid? SuplierId { get; set; }
         public string Name { get; set; }
     }
 }

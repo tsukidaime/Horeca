@@ -14,14 +14,17 @@
             </Column>
         </Row>
         <Row>
-            <Column ColumnSize="ColumnSize.Is4">
+            <Column ColumnSize="ColumnSize.Is3">
                 <Button Outline Clicked="() => SelectOrderState(OrderState.Submitted)">@L["New"]</Button>
             </Column>
-            <Column ColumnSize="ColumnSize.Is4">
+            <Column ColumnSize="ColumnSize.Is3">
                 <Button Outline Clicked="() => SelectOrderState(OrderState.Accepted)">@L["Accepted"]</Button>
             </Column>
-            <Column ColumnSize="ColumnSize.Is4">
+            <Column ColumnSize="ColumnSize.Is3">
                 <Button Outline Clicked="() => SelectOrderState(OrderState.Declined)">@L["Declined"]</Button>
+            </Column>
+            <Column ColumnSize="ColumnSize.Is3">
+                <Button Outline Clicked="() => SelectOrderState(OrderState.Delivered)">@L["Delivered"]</Button>
             </Column>
         </Row>
     </CardHeader>
@@ -44,7 +47,7 @@
                                 @L["Actions"]
                             </DropdownToggle>
                             <DropdownMenu>
-                                @if (CanAcceptDeclineOrder && context.OrderState == OrderState.Submitted)
+                                @if (IsSupplier && context.OrderState == OrderState.Submitted)
                                 {
                                     <DropdownItem>
                                         <Button Color="Color.Primary" Clicked="() => UpdateOrderStatusAsync(context, OrderState.Accepted)">
@@ -65,9 +68,12 @@
                 <DataGridColumn TItem="OrderDto"
                                 Field="@nameof(OrderDto.Id)"
                                 Caption="@L["Id"]"></DataGridColumn>
-                <DataGridColumn TItem="OrderDto"
+                @if (IsSupplier)
+                {
+                    <DataGridColumn TItem="OrderDto"
                                 Field="@nameof(OrderDto.Customer)"
                                 Caption="@L["Customer"]"></DataGridColumn>
+                }
                 <DataGridColumn TItem="OrderDto"
                                 Field="@nameof(OrderDto.AddressDto)"
                                 Caption="@L["Address"]">

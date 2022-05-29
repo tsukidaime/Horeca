@@ -9,17 +9,9 @@ public class HorecaPermissionDefinitionProvider : PermissionDefinitionProvider
     public override void Define(IPermissionDefinitionContext context)
     {
         var horeca = context.AddGroup(HorecaPermissions.Horeca);
-        var product = horeca.AddPermission(HorecaPermissions.ProductManagement, L("Permission:Product"));
-        product.AddChild(HorecaPermissions.ProductCreate, L("Permission:ProductCreate"));
-        product.AddChild(HorecaPermissions.ProductEdit, L("Permission:ProductEdit"));
-        product.AddChild(HorecaPermissions.ProductDelete, L("Permission:ProductDelete"));
-        product.AddChild(HorecaPermissions.ProductRead, L("Permission:ProductRead"));
-        product.AddChild(HorecaPermissions.ProductApprove, L("Permission:ProductApprove"));
-        var productBid = horeca.AddPermission(HorecaPermissions.ProductBid, L("Permission:ProductBid"));
-        productBid.AddChild(HorecaPermissions.ProductBidCreate, L("Permission:ProductBidCreate"));
-        productBid.AddChild(HorecaPermissions.ProductBidEdit, L("Permission:ProductBidEdit"));
-        productBid.AddChild(HorecaPermissions.ProductBidDelete, L("Permission:ProductBidDelete"));
-        productBid.AddChild(HorecaPermissions.ProductBidRead, L("Permission:ProductBidRead"));
+        var product = horeca.AddPermission(HorecaPermissions.ProductManagement, L("Permission:ProductManagement"));
+        product.AddChild(HorecaPermissions.ProductManagementSupplier, L("Permission:ProductManagementSupplier"));
+        product.AddChild(HorecaPermissions.ProductManagementAdmin, L("Permission:ProductManagementAdmin"));
         var category = horeca.AddPermission(HorecaPermissions.Category,L("Permission:Category"));
         category.AddChild(HorecaPermissions.CategoryCreate, L("Permission:CategoryCreate"));
         category.AddChild(HorecaPermissions.CategoryEdit, L("Permission:CategoryEdit"));
@@ -36,11 +28,8 @@ public class HorecaPermissionDefinitionProvider : PermissionDefinitionProvider
         order.AddChild(HorecaPermissions.OrderDelete, L("Permission:OrderDelete"));
         order.AddChild(HorecaPermissions.OrderRead, L("Permission:OrderRead"));
         var orderManagement = horeca.AddPermission(HorecaPermissions.OrderManagement, L("Permission:OrderManagement"));
-        order.AddChild(HorecaPermissions.OrderManagementCreate, L("Permission:OrderManagementCreate"));
-        order.AddChild(HorecaPermissions.OrderManagementEdit, L("Permission:OrderManagementEdit"));
-        order.AddChild(HorecaPermissions.OrderManagementDelete, L("Permission:OrderManagementDelete"));
-        order.AddChild(HorecaPermissions.OrderManagementAccept, L("Permission:OrderManagementAccept"));
-
+        orderManagement.AddChild(HorecaPermissions.OrderManagementCustomer, L("Permission:OrderManagementCustomer"));
+        orderManagement.AddChild(HorecaPermissions.OrderManagementSupplier, L("Permission:OrderManagementSupplier"));
     }
 
     private static LocalizableString L(string name)

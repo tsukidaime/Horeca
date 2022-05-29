@@ -55,7 +55,7 @@ namespace Horeca.Orders
             var query = await Repository.WithDetailsAsync(x => x.Lines);
             query = query.WhereIf(input.OrderState != null, x => x.OrderState == input.OrderState);
             query = query.WhereIf(input.SupplierId != null, x => x.Lines.Any(y=>y.SupplierId == input.SupplierId));
-
+            query = query.WhereIf(input.CustomerId != null, x => x.UserId == input.CustomerId);
             var totalCount = await query.CountAsync();
             var orders = await query.ToListAsync();
             var ordersDto = new List<OrderDto>();
@@ -71,7 +71,7 @@ namespace Horeca.Orders
                     MaxResultCount = 1000,
                     SkipCount = 0,
                     OrderId = orderDto.Id,
-                    SupplierId = customer.Id
+                    SupplierId = input.SupplierId
                 });
                 orderDto.Lines = lines.Items.ToList();
                 ordersDto.Add(orderDto);

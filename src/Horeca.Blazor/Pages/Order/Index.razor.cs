@@ -109,7 +109,8 @@ namespace Horeca.Blazor.Pages.Order
                 Count = dto.Count,
                 UnitPrice = dto.UnitPrice,
                 ProductBidId = dto.ProductBidId,
-                OrderId = dto.OrderId
+                OrderId = dto.OrderId,
+                SupplierId = dto.SupplierId
             });
         }
 

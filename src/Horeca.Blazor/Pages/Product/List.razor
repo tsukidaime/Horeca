@@ -13,13 +13,10 @@
             </Column>
             <Column ColumnSize="ColumnSize.Is6">
                 <Paragraph Alignment="TextAlignment.Right">
-                    @if (CanCreateProduct)
-                    {
-                        <Button Color="Color.Primary"
-                                Clicked="NavigateToCreate">
-                            @L["New"] @L["product"] 
-                        </Button>
-                    }
+                    <Button Color="Color.Primary"
+                            Clicked="NavigateToCreate">
+                        @L["New"] @L["product"] 
+                    </Button>
                 </Paragraph>
             </Column>
         </Row>
@@ -43,20 +40,11 @@
                                 @L["Actions"]
                             </DropdownToggle>
                             <DropdownMenu>
-                                @if (CanEditProduct)
-                                {
-                                    <DropdownItem>
-                                        @L["Edit"]
-                                    </DropdownItem>
-                                }
-                                @if (CanDeleteProduct)
+                                @if (IsAdmin)
                                 {
                                     <DropdownItem Clicked="() => DeleteProductAsync(context)">
                                         @L["Delete"]
                                     </DropdownItem>
-                                }
-                                @if (CanApproveProduct)
-                                {
                                     <DropdownItem Clicked="() => 
                                         UpdateProductApproveAsync(context, context.ApprovalState == ApprovalState.Approved ? 
                                             ApprovalState.PendingApproval : ApprovalState.Approved)">
@@ -79,7 +67,7 @@
                 <DataGridColumn TItem="ProductDto"
                                 Field="@nameof(ProductDto.CategoryName)"
                                 Caption="@L["Category"]"></DataGridColumn>
-                @if (CanApproveProduct)
+                @if (IsAdmin)
                 {
                     <DataGridColumn TItem="ProductDto"
                                 Field="@nameof(ProductDto.ApprovalState)"

@@ -33,10 +33,6 @@ namespace Horeca.Products
         {
             _productRepository = repository;
             _categoryAppService = categoryAppService;
-            GetPolicyName = HorecaPermissions.ProductRead;
-            CreatePolicyName = HorecaPermissions.ProductCreate;
-            UpdatePolicyName = HorecaPermissions.ProductEdit;
-            DeletePolicyName = HorecaPermissions.ProductDelete;
         }
         public override async Task<ProductDto> CreateAsync(CreateUpdateProductDto input)
         {
@@ -57,9 +53,10 @@ namespace Horeca.Products
 
         public override async Task<PagedResultDto<ProductDto>> GetListAsync(GetProductListDto input)
         {
-            var query = await _productRepository.WithDetailsAsync(x => x.Category);
+            var query = await _productRepository.WithDetailsAsync(x => x.Category, x=>x.ProductBids);
             query = query.WhereIf(!input.Name.IsNullOrEmpty(), x => x.Name.StartsWith(input.Name));
             query = query.WhereIf(input.OnlyApproved, x => x.ApprovalState == ApprovalState.Approved);
+            query = query.WhereIf(input.SuplierId != null, x => x.ProductBids.Any(x=>x.UserId == input.SuplierId));
             if (input.CategoryId != null)
             {
                 var categoryFiltered = await query.AsEnumerable<Product>().Where(async x => x.CategoryId == input.CategoryId
@@ -76,7 +73,6 @@ namespace Horeca.Products
             );
         }
 
-        [Authorize(HorecaPermissions.ProductApprove)]
         public async Task<ProductDto> UpdateApprovalStateAsync(Guid id,  ApprovalState state)
         {
             var entity = await _productRepository.GetAsync(id);

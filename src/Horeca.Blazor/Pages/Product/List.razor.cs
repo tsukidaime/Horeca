@@ -22,11 +22,8 @@ namespace Horeca.Blazor.Pages.Product
         private int CurrentPage { get; set; }
         private string CurrentSorting { get; set; }
         private int TotalCount { get; set; }
-        private bool CanCreateProduct { get; set; }
-        private bool CanEditProduct { get; set; }
-        private bool CanDeleteProduct { get; set; }
-        private bool CanApproveProduct { get; set; }
-        private bool CanSeeBids { get; set; }
+        private bool IsSupplier { get; set; }
+        private bool IsAdmin { get; set; }
 
         protected override async Task OnInitializedAsync()
         {
@@ -36,14 +33,10 @@ namespace Horeca.Blazor.Pages.Product
 
         private async Task SetPermissionsAsync()
         {
-            CanCreateProduct = await AuthorizationService
-                .IsGrantedAsync(HorecaPermissions.ProductCreate);
-            CanEditProduct = await AuthorizationService
-                .IsGrantedAsync(HorecaPermissions.ProductEdit);
-            CanDeleteProduct = await AuthorizationService
-                .IsGrantedAsync(HorecaPermissions.ProductDelete);
-            CanApproveProduct = await AuthorizationService
-                .IsGrantedAsync(HorecaPermissions.ProductApprove);
+            IsSupplier = await AuthorizationService
+                .IsGrantedAsync(HorecaPermissions.ProductManagementSupplier);
+            IsAdmin = await AuthorizationService
+                .IsGrantedAsync(HorecaPermissions.ProductManagementAdmin);
         }
 
         private async Task GetProductsAsync()
@@ -54,7 +47,8 @@ namespace Horeca.Blazor.Pages.Product
                     MaxResultCount = PageSize,
                     SkipCount = CurrentPage * PageSize,
                     Sorting = CurrentSorting,
-                    OnlyApproved = false
+                    OnlyApproved = false,
+                    SuplierId = IsSupplier ? CurrentUser.Id : null
                 }
             );
 

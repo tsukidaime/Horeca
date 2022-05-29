@@ -10,6 +10,6 @@ namespace Horeca.Orders
         Submitted,
         Accepted,
         Declined,
-        Finished
+        Delivered
     }
 }

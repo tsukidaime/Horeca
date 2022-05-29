@@ -28,9 +28,6 @@ namespace Horeca.Blazor.Pages.Product
         private int CurrentPage { get; set; }
         private string CurrentSorting { get; set; }
         private int TotalCount { get; set; }
-        private bool CanCreateOrder { get; set; }
-
-
         private ProductDto Product { get; set; } = new ProductDto();
         private IReadOnlyList<ProductBidDto> ProductBidList { get; set; } = new List<ProductBidDto>();
         private Dictionary<Guid, int> OrderCounts { get;set; } = new Dictionary<Guid, int>();
@@ -42,7 +39,6 @@ namespace Horeca.Blazor.Pages.Product
             await GetOrderAsync();
             await GetProductAsync();
             await GetBidsAsync();
-            await SetPermissionsAsync();
         }
         private async Task GetOrderAsync()
         {
@@ -54,6 +50,10 @@ namespace Horeca.Blazor.Pages.Product
             await InvokeAsync(StateHasChanged);
         }
 
+        private void NavigatoToSupplier(ProductBidDto dto)
+        {
+            NavigationManager.NavigateTo($"/supplier/{dto.UserId}");
+        }
         public async Task OnDataGridReadAsync(DataGridReadDataEventArgs<ProductBidDto> e)
         {
             CurrentSorting = e.Columns
@@ -113,12 +113,6 @@ namespace Horeca.Blazor.Pages.Product
             await OrderLineAppService.CreateAsync(OrderLine);
             await Message.Success(L["SuccesfullyAdded"]);
             NavigationManager.NavigateTo("/products");
-        }
-
-        private async Task SetPermissionsAsync()
-        {
-            CanCreateOrder = await AuthorizationService
-                .IsGrantedAsync(HorecaPermissions.AddressCreate);
         }
     }
 }

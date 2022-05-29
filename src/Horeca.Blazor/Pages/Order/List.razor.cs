@@ -23,10 +23,8 @@ namespace Horeca.Blazor.Pages.Order
         private int CurrentPage { get; set; }
         private string CurrentSorting { get; set; }
         private int TotalCount { get; set; }
-        private bool CanCreateOrder { get; set; }
-        private bool CanEditOrder { get; set; }
-        private bool CanDeleteOrder { get; set; }
-        private bool CanAcceptDeclineOrder { get; set; }
+        private bool IsSupplier { get; set; }
+        private bool IsCustomer { get; set; }
         private OrderState SelectedOrderStateFilter { get; set; }
 
         protected override async Task OnInitializedAsync()
@@ -43,14 +41,10 @@ namespace Horeca.Blazor.Pages.Order
 
         private async Task SetPermissionsAsync()
         {
-            CanCreateOrder = await AuthorizationService
-                .IsGrantedAsync(HorecaPermissions.OrderManagementCreate);
-            CanEditOrder = await AuthorizationService
-                .IsGrantedAsync(HorecaPermissions.OrderManagementEdit);
-            CanDeleteOrder = await AuthorizationService
-                .IsGrantedAsync(HorecaPermissions.OrderManagementDelete);
-            CanAcceptDeclineOrder = await AuthorizationService
-                .IsGrantedAsync(HorecaPermissions.OrderManagementAccept);
+            IsSupplier = await AuthorizationService
+                .IsGrantedAsync(HorecaPermissions.OrderManagementSupplier);
+            IsCustomer = await AuthorizationService
+                .IsGrantedAsync(HorecaPermissions.OrderManagementCustomer);
         }
         private string GetAddressString(OrderDto context)
         {
@@ -64,8 +58,9 @@ namespace Horeca.Blazor.Pages.Order
                     MaxResultCount = PageSize,
                     SkipCount = CurrentPage * PageSize,
                     Sorting = CurrentSorting,
-                    SupplierId = CurrentUser.Id,
-                    OrderState = orderState
+                    SupplierId = IsSupplier ? CurrentUser.Id : null,
+                    OrderState = orderState,
+                    CustomerId = IsCustomer ? CurrentUser.Id : null,
                 }
             );
 

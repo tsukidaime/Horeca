@@ -28,10 +28,6 @@ namespace Horeca.ProductBids
         {
             _repository = repository;
             _userService = userService;
-            GetPolicyName = HorecaPermissions.ProductBidRead;
-            CreatePolicyName = HorecaPermissions.ProductBidCreate;
-            UpdatePolicyName = HorecaPermissions.ProductBidEdit;
-            DeletePolicyName = HorecaPermissions.ProductBidDelete;
         }
 
         public override async Task<ProductBidDto> CreateAsync(CreateUpdateProductBidDto input)

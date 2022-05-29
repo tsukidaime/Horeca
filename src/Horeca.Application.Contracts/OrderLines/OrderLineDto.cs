@@ -7,6 +7,7 @@ namespace Horeca.OrderLines
     {
         public Guid OrderId { get; set; }
         public Guid ProductBidId { get; set; }
+        public Guid SupplierId { get; set; }
         public string ProductName { get; set; }
         public string Supplier { get; set; }
         public int Count { get; set; }

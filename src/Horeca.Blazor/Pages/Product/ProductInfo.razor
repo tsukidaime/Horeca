@@ -18,29 +18,29 @@
     <Column ColumnSize="ColumnSize.Is6">
         <Image Width ="Width.Is100" Height = "Height.Is100" Source="https://dummyimage.com/284x206/000/fff"></Image>
     </Column>
-    <Column ColumnSize="ColumnSize.Is6">
+    <Column ColumnSize="ColumnSize.Is6" Class="d-flex flex-row justify-content-between">
         <Row>
             <Column ColumnSize="ColumnSize.Is6">
-                @L["Name:"]
+                <Heading Size="HeadingSize.Is3">@L["Name:"]</Heading>
             </Column>
             <Column ColumnSize="ColumnSize.Is6">
-                @Product.Name
+                <Heading Size="HeadingSize.Is3">@Product.Name</Heading>
             </Column>
         </Row>
         <Row>
             <Column ColumnSize="ColumnSize.Is6">
-                @L["Manufacturer:"]
+                <Heading Size="HeadingSize.Is3">@L["Manufacturer:"]</Heading>
             </Column>
             <Column ColumnSize="ColumnSize.Is6">
-                @Product.Manufacturer
+                <Heading Size="HeadingSize.Is3">@Product.Manufacturer</Heading>
             </Column>
         </Row>
         <Row>
             <Column ColumnSize="ColumnSize.Is6">
-                @L["Description:"]
+                <Heading Size="HeadingSize.Is3">@L["Description:"]</Heading>
             </Column>
             <Column ColumnSize="ColumnSize.Is6">
-                @Product.Description
+                <Heading Size="HeadingSize.Is3">@Product.Description</Heading>
             </Column>
         </Row>
     </Column>
@@ -57,7 +57,11 @@
             <DataGridColumns>
                 <DataGridColumn TItem="ProductBidDto"
                                 Field="@nameof(ProductBidDto.SupplierName)"
-                                Caption="@L["Supplier"]"></DataGridColumn>
+                                Caption="@L["Supplier"]">
+                    <DisplayTemplate>
+                        <Button Outline Clicked="() => NavigatoToSupplier(context)">@context.SupplierName</Button>
+                    </DisplayTemplate>            
+                </DataGridColumn>
                 <DataGridColumn TItem="ProductBidDto"
                                 Field="@nameof(ProductBidDto.Price)"
                                 Caption="@L["Price"]"></DataGridColumn>
