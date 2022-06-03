@@ -180,7 +180,23 @@ public class IdentityServerDataSeedContributor : IDataSeedContributor, ITransien
             );
         }
 
+        //webDockerClient Client
+        var webDockerClientId = configurationSection["AbpDocker_Web_Docker:ClientId"];
+        if (!blazorClientId.IsNullOrWhiteSpace())
+        {
+            var webClientRootUrl = configurationSection["AbpDocker_Web_Docker:RootUrl"].EnsureEndsWith('/');
 
+            await CreateClientAsync(
+                name: webDockerClientId,
+                scopes: commonScopes,
+                grantTypes: new[] { "hybrid" },
+                secret: (configurationSection["AbpDocker_Web_Docker:ClientSecret"] ?? "1q2w3e*").Sha256(),
+                redirectUri: $"{webClientRootUrl}signin-oidc",
+                postLogoutRedirectUri: $"{webClientRootUrl}signout-callback-oidc",
+                frontChannelLogoutUri: $"{webClientRootUrl}Account/FrontChannelLogout",
+                corsOrigins: new[] { webClientRootUrl.RemovePostFix("/") }
+            );
+        }
 
         // Swagger Client
         var swaggerClientId = configurationSection["Horeca_Swagger:ClientId"];
