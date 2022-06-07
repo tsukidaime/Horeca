@@ -61,7 +61,7 @@ namespace Horeca.Blazor.Pages.Product
             }
             else
             {
-                var product = ProductAppService.CreateAsync(ProductDetails).Result;
+                var product = await ProductAppService.CreateAsync(ProductDetails);
                 ProductBidDto.ProductId = product.Id;
                 try
                 {
