@@ -48,7 +48,7 @@ namespace Horeca.Blazor.Pages.Product
             SelectedStep = step;
         }
 
-        private async Task OnChange(InputFileChangeEventArgs e)
+        private void OnChange(InputFileChangeEventArgs e)
         {
             files = e.GetMultipleFiles();
         }
@@ -61,9 +61,14 @@ namespace Horeca.Blazor.Pages.Product
             }
             else
             {
-                var product = await ProductAppService.CreateAsync(ProductDetails);
+                var product = ProductAppService.CreateAsync(ProductDetails).Result;
                 ProductBidDto.ProductId = product.Id;
-                await _blobContainer.SaveAsync(product.Id.ToString(), files[files.Count-1].OpenReadStream());
+                try
+                {
+                    await _blobContainer.SaveAsync(product.Id.ToString(), files[0].OpenReadStream());
+                }catch (Exception ex)
+                {
+                }
             }
 
             await ProductBidAppService.CreateAsync(ProductBidDto);
