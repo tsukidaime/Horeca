@@ -19,6 +19,8 @@ using Volo.Abp.SettingManagement.Blazor.WebAssembly;
 using Volo.Abp.TenantManagement.Blazor.WebAssembly;
 using Horeca.Blazor.State;
 using Horeca.Extension;
+using Volo.Abp.BlobStoring;
+using Volo.Abp.BlobStoring.FileSystem;
 
 namespace Horeca.Blazor;
 
@@ -45,6 +47,16 @@ public class HorecaBlazorModule : AbpModule
         ConfigureMenu(context);
         ConfigureAutoMapper(context);
         ConfigureState(builder);
+        Configure<AbpBlobStoringOptions>(options =>
+        {
+            options.Containers.ConfigureDefault(container =>
+            {
+                container.UseFileSystem(fileSystem =>
+                {
+                    fileSystem.BasePath = "C:\\my-files";
+                });
+            });
+        });
         context.Services.AddSameSiteCookiePolicy();
     }
 
