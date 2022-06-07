@@ -234,9 +234,9 @@ body {
     margin-right: 16px;
 }
 
-    .social__item:last-child {
-        margin-right: 0;
-    }
+.social__item:last-child {
+    margin-right: 0;
+}
 
 .contacts__text {
     color: white;
