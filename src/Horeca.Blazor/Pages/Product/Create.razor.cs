@@ -1,4 +1,5 @@
-﻿using Horeca.Categories;
+﻿using FileActionsDemo;
+using Horeca.Categories;
 using Horeca.ProductBids;
 using Horeca.Products;
 using Microsoft.AspNetCore.Components;
@@ -6,7 +7,6 @@ using Microsoft.AspNetCore.Components.Forms;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using Volo.Abp.BlobStoring;
 
 namespace Horeca.Blazor.Pages.Product
 {
@@ -17,25 +17,18 @@ namespace Horeca.Blazor.Pages.Product
         public string SelectedStep { get; set; } = "start";
         public CreateUpdateProductDto ProductDetails { get; set; } = new CreateUpdateProductDto();
         public CreateUpdateProductBidDto ProductBidDto { get; set; } = new CreateUpdateProductBidDto();
-        public IReadOnlyList<IBrowserFile> files { get; set; }
         public CategoryDto SelectedCategory { get; set; } = new CategoryDto();
+        List<SaveBlobInputDto> filesBase64 = new List<SaveBlobInputDto>();
+        [Inject]
+        public IFileAppService _fileAppService { get; set; }
         [Inject]
         public ICategoryAppService CategoryAppService { get; set; }
-        private readonly IBlobContainer _blobContainer;
         [Inject]
         public IProductBidAppService ProductBidAppService { get; set; }
         [Inject]
         public IProductAppService ProductAppService { get; set; }
         public bool IsExistingProduct { get; set; }
 
-        public Create()
-        {
-        }
-
-        public Create(IBlobContainer blobContainer)
-        {
-            _blobContainer = blobContainer;
-        }
 
         private Task OnSelectedStepChanged(string name)
         {
@@ -50,7 +43,17 @@ namespace Horeca.Blazor.Pages.Product
 
         private void OnChange(InputFileChangeEventArgs e)
         {
-            files = e.GetMultipleFiles();
+            var files = e.GetMultipleFiles(); // get the files selected by the users
+            foreach (var file in files)
+            {
+                var resizedFile = file.RequestImageFileAsync(file.ContentType, 640, 480).Result; // resize the image file
+                var buf = new byte[resizedFile.Size]; // allocate a buffer to fill with the file's data
+                using (var stream = resizedFile.OpenReadStream())
+                {
+                    stream.ReadAsync(buf); // copy the stream to the buffer
+                }
+                filesBase64.Add(new SaveBlobInputDto { Content = buf, Name = file.Name }); // convert to a base64 string!!
+            }
         }
 
         public async Task CreateProduct()
@@ -63,11 +66,14 @@ namespace Horeca.Blazor.Pages.Product
             {
                 var product = await ProductAppService.CreateAsync(ProductDetails);
                 ProductBidDto.ProductId = product.Id;
+
                 try
                 {
-                    await _blobContainer.SaveAsync(product.Id.ToString(), files[0].OpenReadStream());
-                }catch (Exception ex)
+                    await _fileAppService.SaveBlobAsync(filesBase64[filesBase64.Count-1]);
+                }
+                catch (Exception ex)
                 {
+                    var message = ex.Message;
                 }
             }
 
