@@ -41,18 +41,27 @@ namespace Horeca.Blazor.Pages.Product
             SelectedStep = step;
         }
 
-        private void OnChange(InputFileChangeEventArgs e)
+        private async Task OnChange(InputFileChangeEventArgs e)
         {
             var files = e.GetMultipleFiles(); // get the files selected by the users
             foreach (var file in files)
             {
-                var resizedFile = file.RequestImageFileAsync(file.ContentType, 640, 480).Result; // resize the image file
+                var resizedFile = await file.RequestImageFileAsync(file.ContentType, 640, 480); // resize the image file
                 var buf = new byte[resizedFile.Size]; // allocate a buffer to fill with the file's data
+
                 using (var stream = resizedFile.OpenReadStream())
                 {
-                    stream.ReadAsync(buf); // copy the stream to the buffer
+                    await stream.ReadAsync(buf); // copy the stream to the buffer
                 }
-                filesBase64.Add(new SaveBlobInputDto { Content = buf, Name = file.Name }); // convert to a base64 string!!
+                filesBase64.AddFirst(new SaveBlobInputDto { Content = buf, Name = file.Name }); // convert to a base64 string!!
+                try
+                {
+                    await _fileAppService.SaveBlobAsync(filesBase64[0]);
+                }
+                catch (Exception ex)
+                {
+                    var message = ex.Message;
+                }
             }
         }
 
@@ -69,7 +78,7 @@ namespace Horeca.Blazor.Pages.Product
 
                 try
                 {
-                    await _fileAppService.SaveBlobAsync(filesBase64[filesBase64.Count-1]);
+                    await _fileAppService.SaveBlobAsync(filesBase64[0]);
                 }
                 catch (Exception ex)
                 {

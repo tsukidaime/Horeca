@@ -1,4 +1,5 @@
-﻿using Volo.Abp.Account;
+﻿using FileActionsDemo;
+using Volo.Abp.Account;
 using Volo.Abp.AutoMapper;
 using Volo.Abp.BlobStoring;
 using Volo.Abp.BlobStoring.FileSystem;
@@ -31,7 +32,7 @@ public class HorecaApplicationModule : AbpModule
         });
         Configure<AbpBlobStoringOptions>(options =>
         {
-            options.Containers.ConfigureDefault(container =>
+            options.Containers.Configure<FileContainer>(container =>
             {
                 container.UseFileSystem(fileSystem =>
                 {

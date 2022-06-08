@@ -6,16 +6,16 @@ namespace FileActionsDemo
 {
     public class FileAppService : ApplicationService, IFileAppService
     {
-        private readonly IBlobContainer<MyFileContainer> _fileContainer;
+        private readonly IBlobContainer<FileContainer> _fileContainer;
 
-        public FileAppService(IBlobContainer<MyFileContainer> fileContainer)
+        public FileAppService(IBlobContainer<FileContainer> fileContainer)
         {
             _fileContainer = fileContainer;
         }
 
         public async Task SaveBlobAsync(SaveBlobInputDto input)
         {
-            await _fileContainer.SaveAsync(input.Name, input.Content, true);
+            await _fileContainer.SaveAsync(input.Name, input.Content);
         }
 
         public async Task<BlobDto> GetBlobAsync(GetBlobRequestDto input)

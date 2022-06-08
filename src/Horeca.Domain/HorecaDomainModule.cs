@@ -15,6 +15,7 @@ using Volo.Abp.SettingManagement;
 using Volo.Abp.TenantManagement;
 using Volo.Abp.BlobStoring;
 using Volo.Abp.BlobStoring.FileSystem;
+using FileActionsDemo;
 
 namespace Horeca;
 
@@ -42,7 +43,7 @@ public class HorecaDomainModule : AbpModule
 
         Configure<AbpBlobStoringOptions>(options =>
         {
-            options.Containers.ConfigureDefault(container =>
+            options.Containers.Configure<FileContainer>(container =>
             {
                 container.UseFileSystem(fileSystem =>
                 {

@@ -3,7 +3,7 @@
 namespace FileActionsDemo
 {
     [BlobContainerName("my-file-container")]
-    public class MyFileContainer
+    public class FileContainer
     {
 
     }
