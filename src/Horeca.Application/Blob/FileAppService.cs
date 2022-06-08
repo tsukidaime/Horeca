@@ -2,7 +2,7 @@
 using Volo.Abp.Application.Services;
 using Volo.Abp.BlobStoring;
 
-namespace FileActionsDemo
+namespace Horeca.Blob
 {
     public class FileAppService : ApplicationService, IFileAppService
     {

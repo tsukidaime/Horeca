@@ -1,7 +1,9 @@
-﻿using FileActionsDemo;
+﻿using Horeca.Blob;
 using Horeca.Categories;
 using Horeca.ProductBids;
+using Horeca.ProductPictures;
 using Horeca.Products;
+using Horeca.Utils;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Forms;
 using System;
@@ -18,15 +20,17 @@ namespace Horeca.Blazor.Pages.Product
         public CreateUpdateProductDto ProductDetails { get; set; } = new CreateUpdateProductDto();
         public CreateUpdateProductBidDto ProductBidDto { get; set; } = new CreateUpdateProductBidDto();
         public CategoryDto SelectedCategory { get; set; } = new CategoryDto();
-        List<SaveBlobInputDto> filesBase64 = new List<SaveBlobInputDto>();
+        private List<SaveBlobInputDto> blobs = new List<SaveBlobInputDto>();
         [Inject]
-        public IFileAppService _fileAppService { get; set; }
+        public IFileAppService FileAppService { get; set; }
         [Inject]
         public ICategoryAppService CategoryAppService { get; set; }
         [Inject]
         public IProductBidAppService ProductBidAppService { get; set; }
         [Inject]
         public IProductAppService ProductAppService { get; set; }
+        [Inject]
+        public IProductPictureAppService ProductPictureAppService { get; set; }
         public bool IsExistingProduct { get; set; }
 
 
@@ -43,6 +47,7 @@ namespace Horeca.Blazor.Pages.Product
 
         private async Task OnChange(InputFileChangeEventArgs e)
         {
+            blobs.Clear();
             var files = e.GetMultipleFiles(); // get the files selected by the users
             foreach (var file in files)
             {
@@ -53,15 +58,7 @@ namespace Horeca.Blazor.Pages.Product
                 {
                     await stream.ReadAsync(buf); // copy the stream to the buffer
                 }
-                filesBase64.AddFirst(new SaveBlobInputDto { Content = buf, Name = file.Name }); // convert to a base64 string!!
-                try
-                {
-                    await _fileAppService.SaveBlobAsync(filesBase64[0]);
-                }
-                catch (Exception ex)
-                {
-                    var message = ex.Message;
-                }
+                blobs.Add(new SaveBlobInputDto { Content = buf, Name = file.Name }); // convert to a base64 string!!
             }
         }
 
@@ -75,20 +72,33 @@ namespace Horeca.Blazor.Pages.Product
             {
                 var product = await ProductAppService.CreateAsync(ProductDetails);
                 ProductBidDto.ProductId = product.Id;
+                await SaveBlobs(product.Id);
+            }
 
+            await ProductBidAppService.CreateAsync(ProductBidDto);
+            await Message.Success(L["SuccefullySubmitted"]);
+            NavigationManager.NavigateTo("/product/management");
+        }
+
+        private async Task SaveBlobs(Guid productId)
+        {
+            foreach (var item in blobs)
+            {
+                var blobId = HashGenerator.Hash(item.Name, productId.ToString());
+                item.Name = blobId;
                 try
                 {
-                    await _fileAppService.SaveBlobAsync(filesBase64[0]);
+                    await FileAppService.SaveBlobAsync(item);
+                    await ProductPictureAppService.Create(new CreateProductPictureDto { 
+                        BlobHash = blobId, 
+                        ProductId = productId 
+                    });
                 }
                 catch (Exception ex)
                 {
                     var message = ex.Message;
                 }
             }
-
-            await ProductBidAppService.CreateAsync(ProductBidDto);
-            await Message.Success(L["SuccefullySubmitted"]);
-            NavigationManager.NavigateTo("/product/management");
         }
     }
 

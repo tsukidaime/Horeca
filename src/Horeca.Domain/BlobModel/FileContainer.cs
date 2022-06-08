@@ -1,6 +1,6 @@
 ﻿using Volo.Abp.BlobStoring;
 
-namespace FileActionsDemo
+namespace Horeca.Blob
 {
     [BlobContainerName("my-file-container")]
     public class FileContainer

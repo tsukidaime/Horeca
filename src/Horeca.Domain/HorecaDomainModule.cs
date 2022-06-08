@@ -15,7 +15,7 @@ using Volo.Abp.SettingManagement;
 using Volo.Abp.TenantManagement;
 using Volo.Abp.BlobStoring;
 using Volo.Abp.BlobStoring.FileSystem;
-using FileActionsDemo;
+using Horeca.Blob;
 
 namespace Horeca;
 

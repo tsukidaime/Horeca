@@ -1,4 +1,4 @@
-﻿using FileActionsDemo;
+﻿using Horeca.Blob;
 using Volo.Abp.Account;
 using Volo.Abp.AutoMapper;
 using Volo.Abp.BlobStoring;

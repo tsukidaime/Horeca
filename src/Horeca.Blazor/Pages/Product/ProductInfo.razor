@@ -16,7 +16,15 @@
 </Alert>
 <Row>
     <Column ColumnSize="ColumnSize.Is6">
-        <Image Width ="Width.Is100" Height = "Height.Is100" Source="https://dummyimage.com/284x206/000/fff"></Image>
+        <Carousel @bind-SelectedSlide="@selectedSlide">
+            @foreach(var picture in ProductPictures){
+                var name = picture.BlobHash;
+                var url = picture.ImageUrl;
+                <CarouselSlide Name="@name">
+                    <Image Source="@url" Text="Lights" Display="Display.Block" Width="Width.Is100" />
+                </CarouselSlide>
+            }
+        </Carousel>
     </Column>
     <Column ColumnSize="ColumnSize.Is6">
         <Row>

@@ -26,6 +26,7 @@ public class HorecaDbContext :
 {
     /* Add DbSet properties for your Aggregate Roots / Entities here. */
     public DbSet<Product> Products { get; set; }
+    public DbSet<ProductPicture> ProductPictures { get; set; }
     public DbSet<ProductBid> Bids { get; set; }
     public DbSet<Category> Categories { get; set; }
     public DbSet<Address> Addresses { get; set; }
@@ -129,5 +130,7 @@ public class HorecaDbContext :
             .WithOne()
             .HasForeignKey(x=>x.ProductId);
 
+        builder.Entity<ProductPicture>()
+            .HasKey(x => new { x.ProductId, x.BlobHash});
     }
 }

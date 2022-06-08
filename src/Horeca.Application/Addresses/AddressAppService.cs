@@ -23,10 +23,6 @@ namespace Horeca.Addresses
     {
         public AddressAppService(IRepository<Address, Guid> repository) : base(repository)
         {
-            GetPolicyName = HorecaPermissions.AddressRead;
-            CreatePolicyName = HorecaPermissions.AddressCreate;
-            UpdatePolicyName = HorecaPermissions.AddressEdit;
-            DeletePolicyName = HorecaPermissions.AddressDelete;
         }
 
         public override async Task<PagedResultDto<AddressDto>> GetListAsync(GetAddressListDto input)

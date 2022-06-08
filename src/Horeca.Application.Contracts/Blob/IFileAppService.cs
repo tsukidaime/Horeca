@@ -1,7 +1,7 @@
 ﻿using System.Threading.Tasks;
 using Volo.Abp.Application.Services;
 
-namespace FileActionsDemo
+namespace Horeca.Blob
 {
     public interface IFileAppService : IApplicationService
     {

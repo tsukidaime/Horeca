@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace FileActionsDemo
+namespace Horeca.Blob
 {
     public class SaveBlobInputDto
     {

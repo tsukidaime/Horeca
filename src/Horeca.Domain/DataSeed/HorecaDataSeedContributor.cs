@@ -47,27 +47,27 @@ namespace Horeca.DataSeed
             var categoriesToInsert = new List<Category>(){
                 new Category
                 {
-                    Name = "Овощи"
+                    Name = "Vegetables"
                 },
                 new Category
                 {
-                    Name = "Фрукты"
+                    Name = "Fruit"
                 },
                 new Category
                 {
-                    Name = "Мясо"
+                    Name = "Meat"
                 },
                 new Category
                 {
-                    Name = "Птица"
+                    Name = "Bird"
                 },
                 new Category
                 {
-                    Name = "Рыба и морепродукты"
+                    Name = "Fish and seafood"
                 },
                 new Category
                 {
-                    Name = "Молочная продукция"
+                    Name = "Milk products"
                 },
             };
             var categories = new List<Category>();
@@ -78,23 +78,23 @@ namespace Horeca.DataSeed
             {
                 new Category{
                     ParentId = categories[0].Id,
-                    Name = "Корнеплоды"
+                    Name = "Roots"
                 },
                 new Category{
                     ParentId = categories[0].Id,
-                    Name = "Помидоры"
+                    Name = "Tomatoes"
                 },
                 new Category{
                     ParentId = categories[0].Id,
-                    Name = "Грибы"
+                    Name = "Mushrooms"
                 },
                 new Category{
                     ParentId = categories[0].Id,
-                    Name = "Капуста"
+                    Name = "Cabbage"
                 },
                 new Category{
                     ParentId = categories[0].Id,
-                    Name = "Огурцы"
+                    Name = "Cucumbers"
                 },
             };
 
@@ -102,23 +102,23 @@ namespace Horeca.DataSeed
             {
                 new Category{
                     ParentId = categories[1].Id,
-                    Name = "Яблоки"
+                    Name = "Apples"
                 },
                 new Category{
                     ParentId = categories[1].Id,
-                    Name = "Виноград"
+                    Name = "Grape"
                 },
                 new Category{
                     ParentId = categories[1].Id,
-                    Name = "Ягоды"
+                    Name = "Berries"
                 },
                 new Category{
                     ParentId = categories[1].Id,
-                    Name = "Экзотические"
+                    Name = "Exotic"
                 },
                 new Category{
                     ParentId = categories[1].Id,
-                    Name = "Цитрусы"
+                    Name = "Citruses"
                 },
             };
 
@@ -126,23 +126,23 @@ namespace Horeca.DataSeed
             {
                 new Category{
                     ParentId = categories[2].Id,
-                    Name = "Говядина замороженная"
+                    Name = "Frozen beef"
                 },
                 new Category{
                     ParentId = categories[2].Id,
-                    Name = "Говядина охлажденная"
+                    Name = "Chilled beef"
                 },
                 new Category{
                     ParentId = categories[2].Id,
-                    Name = "Баранина"
+                    Name = "Mutton"
                 },
                 new Category{
                     ParentId = categories[2].Id,
-                    Name = "Конина"
+                    Name = "Horsemeat"
                 },
                 new Category{
                     ParentId = categories[2].Id,
-                    Name = "Свинина"
+                    Name = "Pork"
                 },
             };
 
@@ -150,19 +150,19 @@ namespace Horeca.DataSeed
             {
                 new Category{
                     ParentId = categories[3].Id,
-                    Name = "Курица"
+                    Name = "Chicken"
                 },
                 new Category{
                     ParentId = categories[3].Id,
-                    Name = "Индейка"
+                    Name = "Turkey"
                 },
                 new Category{
                     ParentId = categories[3].Id,
-                    Name = "Утка, гусь"
+                    Name = "Duck, goose"
                 },
                 new Category{
                     ParentId = categories[3].Id,
-                    Name = "Перепелка"
+                    Name = "Quail"
                 }
             };
 
@@ -170,11 +170,11 @@ namespace Horeca.DataSeed
             {
                 new Category{
                     ParentId = categories[4].Id,
-                    Name = "Рыба"
+                    Name = "Fish"
                 },
                 new Category{
                     ParentId = categories[4].Id,
-                    Name = "Морепродукты"
+                    Name = "Seafood"
                 },
             };
 
@@ -182,23 +182,23 @@ namespace Horeca.DataSeed
             {
                 new Category{
                     ParentId = categories[5].Id,
-                    Name = "Молоко"
+                    Name = "Milk"
                 },
                 new Category{
                     ParentId = categories[5].Id,
-                    Name = "Сметана"
+                    Name = "Sour cream"
                 },
                 new Category{
                     ParentId = categories[5].Id,
-                    Name = "Масло"
+                    Name = "Butter"
                 },
                 new Category{
                     ParentId = categories[5].Id,
-                    Name = "Сыр"
+                    Name = "Cheese"
                 },
                 new Category{
                     ParentId = categories[5].Id,
-                    Name = "Яйца"
+                    Name = "Eggs"
                 },
             };
 

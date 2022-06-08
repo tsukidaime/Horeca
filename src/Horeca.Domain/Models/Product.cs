@@ -1,6 +1,7 @@
 ﻿using Horeca.Products;
 using System;
 using System.Collections.Generic;
+using Volo.Abp.Domain.Entities;
 using Volo.Abp.Domain.Entities.Auditing;
 
 namespace Horeca.Models
@@ -14,5 +15,16 @@ namespace Horeca.Models
         public Category Category { get; set; }
         public Guid CategoryId { get; set; }
         public List<ProductBid> ProductBids { get; set; }
+    }
+
+    public class ProductPicture : Entity
+    {
+        public Guid ProductId { get; set; }
+        public string BlobHash { get; set; }
+
+        public override object[] GetKeys()
+        {
+            return new object[] { ProductId, BlobHash };
+        }
     }
 }

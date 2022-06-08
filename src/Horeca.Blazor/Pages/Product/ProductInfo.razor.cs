@@ -1,9 +1,11 @@
 ﻿using Blazorise;
 using Blazorise.DataGrid;
+using Horeca.Blob;
 using Horeca.OrderLines;
 using Horeca.Orders;
 using Horeca.Permissions;
 using Horeca.ProductBids;
+using Horeca.ProductPictures;
 using Horeca.Products;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Components;
@@ -29,10 +31,14 @@ namespace Horeca.Blazor.Pages.Product
         private string CurrentSorting { get; set; }
         private int TotalCount { get; set; }
         private ProductDto Product { get; set; } = new ProductDto();
+        private List<ProductPictureDto> ProductPictures { get; set; }  = new List<ProductPictureDto>();
         private IReadOnlyList<ProductBidDto> ProductBidList { get; set; } = new List<ProductBidDto>();
         private Dictionary<Guid, int> OrderCounts { get;set; } = new Dictionary<Guid, int>();
         private OrderDto Order { get; set; }
+        private string selectedSlide;
         private CreateUpdateOrderLineDto OrderLine { get; set; } = new CreateUpdateOrderLineDto();
+        [Inject]
+        public IProductPictureAppService ProductPictureAppService { get; set; }
 
         protected override async Task OnInitializedAsync()
         {
@@ -47,6 +53,8 @@ namespace Horeca.Blazor.Pages.Product
         private async Task GetProductAsync()
         {
             Product = await ProductAppService.GetAsync(ProductId);
+            ProductPictures = await ProductPictureAppService.GetPicturesByProductId(ProductId);
+
             await InvokeAsync(StateHasChanged);
         }
 

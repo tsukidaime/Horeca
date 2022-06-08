@@ -3,7 +3,7 @@
   <Class Name="Horeca.Models.Address">
     <Position X="7.5" Y="1.25" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAAAABAEgAAAAAAIAAAAAAgAAAAAAAAAAAIAAAAAAAA=</HashCode>
+      <HashCode>AAAEABAEgAAAAAAIAAAAAAwAAAAAAAAAAAIAAAAAAAA=</HashCode>
       <FileName>Models\Address.cs</FileName>
     </TypeIdentifier>
   </Class>
@@ -24,21 +24,21 @@
   <Class Name="Horeca.Models.ProductBid">
     <Position X="7.5" Y="4" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>EAACAAAEAQAAAAQAAAAAAAgAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <HashCode>EAAAAAAEAQAAAAQAAAAAAAgAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>Models\ProductBid.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="Horeca.Models.Order">
     <Position X="11.5" Y="1.25" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAABACAAAAAAAAAAA=</HashCode>
+      <HashCode>QAAAAAAAAAAAAAAAAAAEAAgAAAAAAAACAAAAAAAAAAA=</HashCode>
       <FileName>Models\Order.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="Horeca.Models.OrderLine">
-    <Position X="11.5" Y="3.25" Width="1.5" />
+    <Position X="11.5" Y="3.75" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>MAECAAAAAAAAAAAAAAAAAAQAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <HashCode>MAEAAAAAAAAAAAAAAAAAAAQAAAACAAAAAAAAAABgAAA=</HashCode>
       <FileName>Models\Order.cs</FileName>
     </TypeIdentifier>
   </Class>

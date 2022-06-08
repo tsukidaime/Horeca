@@ -7,6 +7,7 @@ using Volo.Abp.AutoMapper;
 using Horeca.Addresses;
 using Horeca.Orders;
 using Horeca.OrderLines;
+using Horeca.ProductPictures;
 
 namespace Horeca;
 
@@ -34,5 +35,6 @@ public class HorecaApplicationAutoMapperProfile : Profile
         CreateMap<CreateUpdateOrderLineDto, OrderLine>();
         CreateMap<OrderLineDto, CreateUpdateOrderLineDto>();
         CreateMap<OrderLine, OrderLineDto>();
+        CreateMap<ProductPicture, CreateProductPictureDto>();
     }
 }

@@ -20,24 +20,10 @@ namespace Horeca.Blazor.Pages.Address
         private int CurrentPage { get; set; }
         private string CurrentSorting { get; set; }
         private int TotalCount { get; set; }
-        private bool CanCreateAddress { get; set; }
-        private bool CanEditAddress { get; set; }
-        private bool CanDeleteAddress { get; set; }
 
         protected override async Task OnInitializedAsync()
         {
-            await SetPermissionsAsync();
             await GetAddressListsync();
-        }
-
-        private async Task SetPermissionsAsync()
-        {
-            CanCreateAddress = await AuthorizationService
-                .IsGrantedAsync(HorecaPermissions.AddressCreate);
-            CanEditAddress = await AuthorizationService
-                .IsGrantedAsync(HorecaPermissions.AddressEdit);
-            CanDeleteAddress = await AuthorizationService
-                .IsGrantedAsync(HorecaPermissions.AddressDelete);
         }
 
         private async Task GetAddressListsync()

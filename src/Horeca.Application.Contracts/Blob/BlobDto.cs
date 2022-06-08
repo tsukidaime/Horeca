@@ -1,4 +1,4 @@
-﻿namespace FileActionsDemo
+﻿namespace Horeca.Blob
 {
     public class BlobDto
     {
