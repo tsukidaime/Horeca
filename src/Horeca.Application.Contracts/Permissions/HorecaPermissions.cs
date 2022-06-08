@@ -17,11 +17,8 @@ public static class HorecaPermissions
     public const string ProductManagementAdmin = ProductManagement + Admin;
 
     public const string AddressManagement = "AddressManagement";
-
-    public const string AddressCreate = AddressManagement + Create;
-    public const string AddressEdit = AddressManagement + Edit;
-    public const string AddressDelete = AddressManagement + Delete;
-    public const string AddressRead = AddressManagement + Read;
+    public const string AddressManagementSupplier = AddressManagement + Supplier;
+    public const string AddressManagementCustomer = AddressManagement + Customer;
 
     public const string Order = "Order";
 

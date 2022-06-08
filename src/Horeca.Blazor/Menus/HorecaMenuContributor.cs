@@ -46,11 +46,14 @@ public class HorecaMenuContributor : IMenuContributor
                 icon: "fas fa-home"
             )
         );
-        context.Menu.AddItem(new ApplicationMenuItem(
+        if (await context.IsGrantedAsync(HorecaPermissions.OrderManagement))
+        {
+            context.Menu.AddItem(new ApplicationMenuItem(
                 "Horeca.Products",
                 l["Menu:Products"],
                 url: "/products"
             ));
+        }
         if (await context.IsGrantedAsync(HorecaPermissions.Order))
         {
             context.Menu.AddItem(new ApplicationMenuItem(
@@ -67,7 +70,7 @@ public class HorecaMenuContributor : IMenuContributor
                 url: "/order/management"
             ));
         }
-        if (await context.IsGrantedAsync(HorecaPermissions.AddressManagement))
+        if (await context.IsGrantedAsync(HorecaPermissions.AddressManagementCustomer))
         {
             context.Menu.AddItem(new ApplicationMenuItem(
                 "Horeca.Addresses",
