@@ -52,6 +52,7 @@
                     <Category @bind-SelectedStep="SelectedStep" @bind-ProductDetails="ProductDetails" @bind-IsExistingProduct="IsExistingProduct"></Category>
                 </StepPanel>
                 <StepPanel Name="productInfo">
+                    <InputFile class="custom-file-input" multiple OnChange="@OnChange" accept="image/png, image/jpeg, image/gif" id="inputFile" />
                     <Details @bind-SelectedStep="SelectedStep" @bind-ProductDetails="ProductDetails" IsExistingProduct="@IsExistingProduct"></Details>
                 </StepPanel>
                 <StepPanel Name="productBid">

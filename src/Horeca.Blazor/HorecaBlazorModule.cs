@@ -18,6 +18,7 @@ using Volo.Abp.Identity.Blazor.WebAssembly;
 using Volo.Abp.SettingManagement.Blazor.WebAssembly;
 using Volo.Abp.TenantManagement.Blazor.WebAssembly;
 using Horeca.Blazor.State;
+using Horeca.Extension;
 
 namespace Horeca.Blazor;
 
@@ -44,6 +45,8 @@ public class HorecaBlazorModule : AbpModule
         ConfigureMenu(context);
         ConfigureAutoMapper(context);
         ConfigureState(builder);
+        
+        context.Services.AddSameSiteCookiePolicy();
     }
 
     private void ConfigureState(WebAssemblyHostBuilder builder)

@@ -1,0 +1,18 @@
+version: "3.4"
+
+services:
+  web:
+    image: horecablazor
+    ports:
+      - 9005:80
+    build:
+      context: .
+      dockerfile: src/Horeca.Blazor/Dockerfile
+
+  httpapi:
+    image: horecahttpapihost
+    ports:
+      - 9007:80
+    build:
+      context: .
+      dockerfile: src/Horeca.HttpApi.Host/Dockerfile

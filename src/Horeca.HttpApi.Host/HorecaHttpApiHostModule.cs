@@ -28,6 +28,7 @@ using Volo.Abp.Modularity;
 using Volo.Abp.Swashbuckle;
 using Volo.Abp.UI.Navigation.Urls;
 using Volo.Abp.VirtualFileSystem;
+using Horeca.Extension;
 
 namespace Horeca;
 
@@ -58,6 +59,7 @@ public class HorecaHttpApiHostModule : AbpModule
         ConfigureVirtualFileSystem(context);
         ConfigureCors(context, configuration);
         ConfigureSwaggerServices(context, configuration);
+        context.Services.AddSameSiteCookiePolicy();
     }
 
     private void ConfigureBundles()
@@ -211,7 +213,7 @@ public class HorecaHttpApiHostModule : AbpModule
         {
             app.UseErrorPage();
         }
-
+        app.UseCookiePolicy();
         app.UseCorrelationId();
         app.UseStaticFiles();
         app.UseRouting();
