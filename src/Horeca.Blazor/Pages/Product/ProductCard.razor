@@ -8,7 +8,7 @@
 @inject AbpBlazorMessageLocalizerHelper<HorecaResource> LH
 
 <Card>
-    <CardImage Source="https://dummyimage.com/284x206/000/fff"></CardImage>
+    <CardImage Source="@GetImgPath(Product.CategoryId)"></CardImage>
     <CardBody>
         <Rating Color="Color.Primary" />
         <CardTitle Size="5">@Product.Name</CardTitle>
