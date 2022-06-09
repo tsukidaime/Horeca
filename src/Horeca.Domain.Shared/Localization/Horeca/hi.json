@@ -3,6 +3,7 @@
   "texts": {
     "Menu:Home": "घर",
     "Menu:Products": "उत्पादों",
+    "Menu:Order": "आदेश",
     "Menu:Product:Management": "उत्पाद प्रबंधन",
     "Menu:Address:Management": "पता प्रबंधन",
     "Menu:Order:Management": "आदेश का प्रबंधन",

@@ -3,6 +3,7 @@
   "texts": {
     "Menu:Home": "Koti",
     "Menu:Products": "Tuotteet",
+    "Menu:Order": "Ordenar",
     "Menu:Product:Management": "Tuotehallinta",
     "Menu:Address:Management": "Osoitteenhallinta",
     "Menu:Order:Management": "Tilaustenhallinta",

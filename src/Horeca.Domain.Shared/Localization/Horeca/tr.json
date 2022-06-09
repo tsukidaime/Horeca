@@ -3,6 +3,7 @@
   "texts": {
     "Menu:Home": "Ev",
     "Menu:Products": "Ürün",
+    "Menu:Order": "Emir",
     "Menu:Product:Management": "Ürün Yönetimi",
     "Menu:Address:Management": "Adres Yönetimi",
     "Menu:Order:Management": "Sipariş yönetimi",

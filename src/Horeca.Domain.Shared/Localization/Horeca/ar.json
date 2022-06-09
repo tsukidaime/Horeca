@@ -3,6 +3,7 @@
   "texts": {
     "Menu:Home": "مسكن",
     "Menu:Products": "منتجات",
+    "Menu:Order": "ترتيب",
     "Menu:Product:Management": "ادارة المنتج",
     "Menu:Address:Management": "إدارة العناوين",
     "Menu:Order:Management": "إدارة الطلبات",

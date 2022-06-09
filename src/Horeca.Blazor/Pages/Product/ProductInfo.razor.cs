@@ -114,5 +114,10 @@ namespace Horeca.Blazor.Pages.Product
             await Message.Success(L["SuccesfullyAdded"]);
             NavigationManager.NavigateTo("/products");
         }
+
+        private string GetImgPath(Guid categoryId)
+        {
+            return $"img/{categoryId}.jpg";
+        }
     }
 }

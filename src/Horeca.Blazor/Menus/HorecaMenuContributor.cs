@@ -66,7 +66,7 @@ public class HorecaMenuContributor : IMenuContributor
         {
             context.Menu.AddItem(new ApplicationMenuItem(
                 "Horeca.OrderManagement",
-                l["Menu:OrderManagement"],
+                l["Menu:Order:Management"],
                 url: "/order/management"
             ));
         }
