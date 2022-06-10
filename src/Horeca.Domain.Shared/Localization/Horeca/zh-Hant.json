@@ -3,6 +3,7 @@
   "texts": {
     "Menu:Home": "家",
     "Menu:Products": "产品",
+    "Menu:Order": "命令",
     "Menu:Product:Management": "产品管理",
     "Menu:Address:Management": "地址管理",
     "Menu:Order:Management": "订单管理",

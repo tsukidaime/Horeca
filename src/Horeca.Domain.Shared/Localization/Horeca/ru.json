@@ -3,6 +3,7 @@
   "texts": {
     "Menu:Home": "Главная",
     "Menu:Products": "Товары",
+    "Menu:Order": "Заказы",
     "Menu:Product:Management": "Управление товарами",
     "Menu:Address:Management": "Управление адресами",
     "Menu:Order:Management": "Управление заказами",

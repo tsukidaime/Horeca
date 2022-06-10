@@ -3,6 +3,7 @@
   "texts": {
     "Menu:Home": "Casa",
     "Menu:Products": "Produse",
+    "Menu:Order": "Ordin",
     "Menu:Product:Management": "Management de produs",
     "Menu:Address:Management": "Managementul adresei",
     "Menu:Order:Management": "Managementul comenzilor",

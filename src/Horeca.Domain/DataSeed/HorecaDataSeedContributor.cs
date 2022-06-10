@@ -59,7 +59,7 @@ namespace Horeca.DataSeed
                 },
                 new Category
                 {
-                    Name = "Bird"
+                    Name = "Poultry meat"
                 },
                 new Category
                 {

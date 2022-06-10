@@ -3,6 +3,7 @@
   "texts": {
     "Menu:Home": "Heim",
     "Menu:Products": "Produkte",
+    "Menu:Order": "Befehl",
     "Menu:Product:Management": "Produkt Management",
     "Menu:Address:Management": "Adressverwaltung",
     "Menu:Order:Management": "Bestellverwaltung",

@@ -3,6 +3,7 @@
   "texts": {
     "Menu:Home": "Domov",
     "Menu:Products": "Produkty",
+    "Menu:Order": "Ordin",
     "Menu:Product:Management": "Manažment produktu",
     "Menu:Address:Management": "Správa adries",
     "Menu:Order:Management": "Riadenie objednávok",
